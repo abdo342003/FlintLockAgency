@@ -97,6 +97,7 @@ const navItems = [
       <button
         id="mobile-menu-btn"
         class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-1.5 sm:p-2 transition-transform duration-200 active:scale-90"
+        style="touch-action: manipulation;"
         aria-label={lang === "en" ? "Open menu" : "Ouvrir le menu"}
         aria-controls="mobile-menu"
         aria-expanded="false"
@@ -125,6 +126,7 @@ const navItems = [
   <button
     id="mobile-menu-close"
     class="absolute top-4 right-4 text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-2 z-10"
+    style="touch-action: manipulation;"
     aria-label={lang === "en" ? "Close menu" : "Fermer le menu"}
   >
     <Icon name="lucide:x" class="w-6 h-6" />
@@ -323,175 +325,194 @@ const navItems = [
 
 <script>
   (function () {
-    var navbar = document.getElementById("navbar");
-    var menuBtn = document.getElementById("mobile-menu-btn");
-    var menuClose = document.getElementById("mobile-menu-close");
-    var menu = document.getElementById("mobile-menu");
-    var langToggles = document.querySelectorAll(".lang-toggle");
-    var mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+    function initHeader() {
+      var navbar = document.getElementById("navbar");
+      var menuBtn = document.getElementById("mobile-menu-btn");
+      var menuClose = document.getElementById("mobile-menu-close");
+      var menu = document.getElementById("mobile-menu");
+      var langToggles = document.querySelectorAll(".lang-toggle");
+      var mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
 
-    if (!navbar) return;
+      if (!navbar) return;
 
-    var scrollProgress = document.getElementById("scroll-progress");
-    var ticking = false;
-    var lastScroll = 0;
-    var scrollThreshold = 50;
-    var hideThreshold = 100;
-    var isScrolled = false;
+      var scrollProgress = document.getElementById("scroll-progress");
+      var ticking = false;
+      var lastScroll = 0;
+      var scrollThreshold = 50;
+      var hideThreshold = 100;
+      var isScrolled = false;
 
-    /* ─── Scroll handler ─── */
-    function onScroll() {
-      var scrollY = window.scrollY;
+      /* ─── Scroll handler ─── */
+      function onScroll() {
+        var scrollY = window.scrollY;
 
-      /* Morph to capsule at threshold */
-      if (scrollY > scrollThreshold && !isScrolled) {
-        navbar.classList.add("scrolled");
-        isScrolled = true;
-      } else if (scrollY <= scrollThreshold && isScrolled) {
-        navbar.classList.remove("scrolled");
-        navbar.classList.remove("hidden-nav");
-        isScrolled = false;
-      }
+        /* Morph to capsule at threshold */
+        if (scrollY > scrollThreshold && !isScrolled) {
+          navbar.classList.add("scrolled");
+          isScrolled = true;
+        } else if (scrollY <= scrollThreshold && isScrolled) {
+          navbar.classList.remove("scrolled");
+          navbar.classList.remove("hidden-nav");
+          isScrolled = false;
+        }
 
-      /* Hide on scroll down / show on scroll up */
-      if (scrollY > hideThreshold) {
-        if (scrollY > lastScroll) {
-          navbar.classList.add("hidden-nav");
+        /* Hide on scroll down / show on scroll up */
+        if (scrollY > hideThreshold) {
+          if (scrollY > lastScroll) {
+            navbar.classList.add("hidden-nav");
+          } else {
+            navbar.classList.remove("hidden-nav");
+          }
         } else {
           navbar.classList.remove("hidden-nav");
         }
-      } else {
-        navbar.classList.remove("hidden-nav");
+
+        /* Update scroll progress bar */
+        if (scrollProgress) {
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+          scrollProgress.style.width = pct + "%";
+        }
+
+        lastScroll = scrollY;
+        ticking = false;
       }
 
-      /* Update scroll progress bar */
-      if (scrollProgress) {
-        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
-        scrollProgress.style.width = pct + "%";
+      /* ─── Active nav section on scroll ─── */
+      var sections = document.querySelectorAll("section[id]");
+      var navLinks = document.querySelectorAll(".nav-link");
+      if (sections.length && navLinks.length) {
+        var sectionObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var id = entry.target.id;
+              navLinks.forEach(function (link) {
+                link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+              });
+            }
+          });
+        }, { rootMargin: "-40% 0px -55% 0px" });
+        sections.forEach(function (s) { sectionObs.observe(s); });
       }
 
-      lastScroll = scrollY;
-      ticking = false;
-    }
+      window.addEventListener("scroll", function () {
+        if (!ticking) {
+          requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      });
 
-    /* ─── Active nav section on scroll ─── */
-    var sections = document.querySelectorAll("section[id]");
-    var navLinks = document.querySelectorAll(".nav-link");
-    if (sections.length && navLinks.length) {
-      var sectionObs = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            var id = entry.target.id;
-            navLinks.forEach(function (link) {
-              link.classList.toggle("active", link.getAttribute("href") === "#" + id);
-            });
+      /* ─── Lang toggle — physical switch ─── */
+      langToggles.forEach(function (toggle) {
+        toggle.addEventListener("click", function () {
+          var href = this.getAttribute("data-other-href");
+          if (href) {
+            localStorage.setItem("flintlock-lang", href === "/fr/" ? "fr" : "en");
+            window.location.href = href;
           }
         });
-      }, { rootMargin: "-40% 0px -55% 0px" });
-      sections.forEach(function (s) { sectionObs.observe(s); });
-    }
 
-    window.addEventListener("scroll", function () {
-      if (!ticking) {
-        requestAnimationFrame(onScroll);
-        ticking = true;
+        /* Keyboard: Enter/Space toggles */
+        toggle.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+
+      /* ─── Mobile menu ─── */
+      var lastFocused = null;
+
+      function openMenu() {
+        if (!menu || !menuBtn) return;
+        lastFocused = document.activeElement;
+        menu.removeAttribute("hidden");
+        /* Force reflow then add open class for clip-path animation */
+        void menu.offsetHeight;
+        menu.classList.add("open");
+        menuBtn.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+        if (menuClose) menuClose.focus();
       }
-    });
 
-    /* ─── Lang toggle — physical switch ─── */
-    langToggles.forEach(function (toggle) {
-      toggle.addEventListener("click", function () {
-        var href = this.getAttribute("data-other-href");
-        if (href) {
-          localStorage.setItem("flintlock-lang", href === "/fr/" ? "fr" : "en");
-          window.location.href = href;
-        }
-      });
+      function closeMenu() {
+        if (!menu || !menuBtn) return;
+        menu.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+        setTimeout(function () {
+          menu.setAttribute("hidden", "");
+          if (lastFocused) lastFocused.focus();
+        }, 450);
+      }
 
-      /* Keyboard: Enter/Space toggles */
-      toggle.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
+      if (menuBtn && menu) {
+        menuBtn.addEventListener("click", openMenu);
+        menuBtn.addEventListener("touchend", function (e) {
           e.preventDefault();
-          this.click();
-        }
-      });
-    });
-
-    /* ─── Mobile menu ─── */
-    var lastFocused = null;
-
-    function openMenu() {
-      if (!menu || !menuBtn) return;
-      lastFocused = document.activeElement;
-      menu.removeAttribute("hidden");
-      /* Force reflow then add open class for clip-path animation */
-      void menu.offsetHeight;
-      menu.classList.add("open");
-      menuBtn.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden";
-      if (menuClose) menuClose.focus();
-    }
-
-    function closeMenu() {
-      if (!menu || !menuBtn) return;
-      menu.classList.remove("open");
-      menuBtn.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-      setTimeout(function () {
-        menu.setAttribute("hidden", "");
-        if (lastFocused) lastFocused.focus();
-      }, 450);
-    }
-
-    if (menuBtn && menu) {
-      menuBtn.addEventListener("click", openMenu);
-      if (menuClose) menuClose.addEventListener("click", closeMenu);
-
-      mobileNavLinks.forEach(function (link) {
-        link.addEventListener("click", closeMenu);
-      });
-
-      /* Escape to close */
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && menu.classList.contains("open")) {
-          closeMenu();
-        }
-      });
-
-      /* Focus trap */
-      menu.addEventListener("keydown", function (e) {
-        if (e.key !== "Tab") return;
-        var focusable = menu.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
-        if (focusable.length === 0) return;
-        var first = focusable[0];
-        var last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      });
-    }
-
-    /* ─── Reduced motion: disable magnetic ─── */
-    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!prefersReduced) {
-      /* Magnetic pull on nav links */
-      var navLinks = document.querySelectorAll(".nav-link");
-      navLinks.forEach(function (link) {
-        link.addEventListener("mousemove", function (e) {
-          var rect = link.getBoundingClientRect();
-          var x = e.clientX - rect.left - rect.width / 2;
-          var y = e.clientY - rect.top - rect.height / 2;
-          link.style.transform = "translate(" + (x * 0.12) + "px, " + (y * 0.12) + "px)";
+          openMenu();
         });
-        link.addEventListener("mouseleave", function () {
-          link.style.transform = "translate(0px, 0px)";
+
+        if (menuClose) {
+          menuClose.addEventListener("click", closeMenu);
+          menuClose.addEventListener("touchend", function (e) {
+            e.preventDefault();
+            closeMenu();
+          });
+        }
+
+        mobileNavLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
         });
-      });
+
+        /* Escape to close */
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && menu.classList.contains("open")) {
+            closeMenu();
+          }
+        });
+
+        /* Focus trap */
+        menu.addEventListener("keydown", function (e) {
+          if (e.key !== "Tab") return;
+          var focusable = menu.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
+          if (focusable.length === 0) return;
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        });
+      }
+
+      /* ─── Reduced motion: disable magnetic ─── */
+      var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!prefersReduced) {
+        /* Magnetic pull on nav links */
+        var navLinksMagnetic = document.querySelectorAll(".nav-link");
+        navLinksMagnetic.forEach(function (link) {
+          link.addEventListener("mousemove", function (e) {
+            var rect = link.getBoundingClientRect();
+            var x = e.clientX - rect.left - rect.width / 2;
+            var y = e.clientY - rect.top - rect.height / 2;
+            link.style.transform = "translate(" + (x * 0.12) + "px, " + (y * 0.12) + "px)";
+          });
+          link.addEventListener("mouseleave", function () {
+            link.style.transform = "translate(0px, 0px)";
+          });
+        });
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initHeader);
+    } else {
+      initHeader();
     }
   })();
 </script>
