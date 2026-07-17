@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://flintlock.io',
+  site: 'https://flintlockagency.com',
   output: 'static',
   adapter: cloudflare(),
   integrations: [icon(), sitemap({
