@@ -175,6 +175,28 @@ const structuredData = {
         "Digital studio: web, AI, automation, security — built by two engineers.",
       inLanguage: "en",
       publisher: { "@id": `${siteUrl}/#organization` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteUrl}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/#webpage`,
+      url: siteUrl,
+      name: "Flintlock — Web Development, AI Automation & Cybersecurity Studio",
+      description:
+        "Morocco-based digital studio: high-performance web development, AI integration, automation & cybersecurity. Two engineers, one partner.",
+      inLanguage: "en",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      about: { "@id": `${siteUrl}/#organization` },
+      mainEntity: { "@id": `${siteUrl}/#organization` },
+      datePublished: "2025-01-01T00:00:00Z",
+      dateModified: "2026-07-17T12:00:00Z",
     },
     {
       "@type": "BreadcrumbList",

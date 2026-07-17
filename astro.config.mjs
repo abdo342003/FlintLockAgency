@@ -18,6 +18,15 @@ export default defineConfig({
         fr: 'fr',
       },
     },
+    lastmod: new Date('2026-07-17'),
+    changefreq: 'weekly',
+    priority: 0.7,
+    serialize(item) {
+      item.changefreq = 'weekly';
+      item.priority = item.url.endsWith('/fr/') ? 0.6 : 0.7;
+      item.lastmod = new Date('2026-07-17');
+      return item;
+    },
   })],
   vite: {
     plugins: [tailwindcss()]

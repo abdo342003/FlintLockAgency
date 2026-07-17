@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web3forms.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://web3forms.com; font-src 'self'; connect-src 'self' https://api.web3forms.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; form-action 'self' https://api.web3forms.com
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web3forms.com https://challenges.cloudflare.com https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://web3forms.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://plausible.io; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; form-action 'self' https://api.web3forms.com
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
