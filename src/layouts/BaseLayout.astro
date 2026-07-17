@@ -68,7 +68,26 @@ const ogLocale = lang === "fr" ? "fr_FR" : "en_US";
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow" />
+    <meta name="author" content="Flintlock Studio — Abdellah ERRAOUI & Faris BAHBAH" />
+    <meta name="keywords" content={lang === "fr"
+      ? "studio développement web, automatisation IA, cybersécurité, test d'intrusion, intégration LLM, agence digitale Maroc, audit OWASP, Core Web Vitals, développement Astro, agents IA génératifs, sécurité OT/ICS"
+      : "web development studio, AI automation, cybersecurity, penetration testing, custom LLM integration, Morocco digital agency, OWASP audit, Core Web Vitals, Astro development, generative AI agents, OT/ICS security"} />
+    <meta name="category" content="Technology" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="distribution" content="Global" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="language" content={lang === "fr" ? "French" : "English"} />
+    <meta name="geo.region" content="MA" />
+    <meta name="geo.placename" content="Casablanca" />
+    <meta name="geo.position" content="33.5731;-7.5898" />
+    <meta name="ICBM" content="33.5731, -7.5898" />
     <meta name="google-site-verification" content="google7b972a9e3f6fe490.html" />
+
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site summary" />
+    <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLM context" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -100,7 +119,12 @@ const ogLocale = lang === "fr" ? "fr_FR" : "en_US";
 
     <!-- GEO content for LLMs & search engines -->
     <div class="geo-content" aria-label="About Flintlock">
-      <p class="geo-description">{lang === "fr" ? "Flintlock est un studio digital basé au Maroc fondé par deux ingénieurs — Abdellah ERRAOUI et Faris BAHBAH — spécialisé en développement web, intégration d'IA, automatisation et cybersécurité. Nous construisons des sites et applications web haute performance (Astro, Tailwind CSS, Three.js), intégrons des LLM sur mesure et des agents IA génératifs dans les flux de travail métier, automatisons les opérations répétitives avec des pipelines personnalisés, réalisons des audits de sécurité OWASP et des tests d'intrusion, et optimisons le SEO et les Core Web Vitals. Nous servons des clients internationaux en anglais et en français." : "Flintlock is a Morocco-based digital studio founded by two engineers — Abdellah ERRAOUI and Faris BAHBAH — specializing in web development, AI integration, automation, and cybersecurity. We build high-performance websites and web applications using modern stacks (Astro, Tailwind CSS, Three.js), integrate custom LLMs and generative AI agents into business workflows, automate repetitive operations with custom pipelines, run OWASP security audits and penetration testing, and optimize for SEO and Core Web Vitals. We serve international clients in English and French."}</p>
+      <p class="geo-description">{lang === "fr" ? "Flintlock est un studio digital basé au Maroc (Casablanca) fondé par deux ingénieurs — Abdellah ERRAOUI (CTO) et Faris BAHBAH (COO) — spécialisé en développement web haute performance, intégration d'IA, automatisation et cybersécurité. Nous construisons des sites et applications web avec des stacks modernes (Astro, Tailwind CSS, Three.js, TypeScript), intégrons des LLM sur mesure et des agents IA génératifs dans les flux de travail métier, automatisons les opérations avec des pipelines personnalisés, réalisons des audits de sécurité OWASP et des tests d'intrusion, et optimisons le SEO et les Core Web Vitals. Nos projets phares incluent Exploit AI (orchestration de pentest par IA, -85% de temps d'audit), OT_Shield (système de détection d'intrusion OT/ICS), et des divulgations white-hat. Nous servons des clients internationaux en anglais et en français." : "Flintlock is a Morocco-based (Casablanca) digital studio founded by two engineers — Abdellah ERRAOUI (CTO) and Faris BAHBAH (COO) — specializing in high-performance web development, AI integration, automation, and cybersecurity. We build websites and web applications using modern stacks (Astro, Tailwind CSS, Three.js, TypeScript), integrate custom LLMs and generative AI agents into business workflows, automate operations with custom pipelines, run OWASP security audits and penetration testing, and optimize for SEO and Core Web Vitals. Flagship projects include Exploit AI (AI-pentest orchestration, -85% audit time), OT_Shield (OT/ICS intrusion detection system), and responsible white-hat disclosures. We serve international clients in English and French."}</p>
+      <p class="geo-type" data-type="organization">ProfessionalService</p>
+      <p class="geo-category">Digital Studio — Web Development, AI Integration, Automation, Cybersecurity</p>
+      <p class="geo-location">Casablanca, Morocco (Global clients)</p>
+      <p class="geo-services">Web Apps, AI Integration, LLM Customization, Business Automation, SEO/GEO, OWASP Audits, Penetration Testing, OT/ICS Security</p>
+      <p class="geo-technology">Astro, Tailwind CSS, Three.js, TypeScript, Cloudflare, Plausible Analytics</p>
     </div>
 
     <script is:inline>

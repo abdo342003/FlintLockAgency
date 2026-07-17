@@ -33,19 +33,30 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "ProfessionalService",
       "@id": `${siteUrl}/#organization`,
       name: "Flintlock",
       url: siteUrl,
       logo: `${siteUrl}/logo.png`,
+      image: `${siteUrl}/img/og-image.svg`,
       description:
-        "Digital studio: web, AI, automation, security — built by two engineers.",
+        "Digital studio: web development, AI integration, automation, and cybersecurity. Built by two engineers. Based in Morocco, global clients.",
       foundingDate: "2025",
       founders: [
-        { "@type": "Person", name: "Abdellah ERRAOUI" },
-        { "@type": "Person", name: "Faris BAHBAH" },
+        { "@type": "Person", name: "Abdellah ERRAOUI", jobTitle: "CTO & Founder" },
+        { "@type": "Person", name: "Faris BAHBAH", jobTitle: "COO & Founder" },
       ],
-      address: { "@type": "PostalAddress", addressCountry: "MA" },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Casablanca",
+        addressRegion: "Casablanca-Settat",
+        addressCountry: "MA",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 33.5731,
+        longitude: -7.5898,
+      },
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+212-706-570686",
@@ -54,17 +65,106 @@ const structuredData = {
         availableLanguage: ["English", "French"],
       },
       sameAs: [
-        "https://linkedin.com/company/flintlock",
+        "https://www.linkedin.com/company/flint-lock/",
+        "https://www.instagram.com/flint___lock/",
         "https://github.com/flintlock",
       ],
       knowsAbout: [
         "Web Development",
         "Artificial Intelligence",
+        "Machine Learning",
+        "Large Language Models",
         "Automation",
         "Cybersecurity",
         "SEO",
+        "GEO",
         "Penetration Testing",
+        "OWASP",
+        "OT/ICS Security",
+        "Astro Framework",
+        "Tailwind CSS",
+        "Three.js",
       ],
+      areaServed: {
+        "@type": "Place",
+        name: "Worldwide",
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Flintlock Services",
+        itemListElement: [
+          {
+            "@type": "OfferCatalog",
+            name: "Web & Apps",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "High-Performance Web Development",
+                  description: "Custom websites and web apps built with Astro, Tailwind CSS, Three.js. Core Web Vitals compliant, top Lighthouse scores.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "AI Integration",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Custom LLM & AI Agent Integration",
+                  description: "Custom LLMs and generative AI agents embedded into business workflows. RAG pipelines, content automation, predictive analytics.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Automation",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Business Process Automation",
+                  description: "Custom automation pipelines for operations on autopilot. API integrations, data pipelines, workflow automation.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Acquisition & Leads",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "SEO & Lead Generation",
+                  description: "Technical SEO, GEO (Generative Engine Optimisation), content strategy, conversion optimisation. Sites that rank and convert.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Security",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Cybersecurity & Penetration Testing",
+                  description: "OWASP audits, infrastructure hardening, penetration testing, OT/ICS security. Built in from the first line of code.",
+                },
+              },
+            ],
+          },
+        ],
+      },
     },
     {
       "@type": "WebSite",

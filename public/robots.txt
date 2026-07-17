@@ -1,0 +1,128 @@
+# ===========================================
+# Robots.txt — Flintlock.io
+# AI-first: all major AI crawlers explicitly allowed
+# ===========================================
+
+# --- Default ---
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# --- OpenAI / ChatGPT ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# --- Anthropic / Claude ---
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# --- Google AI ---
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Google-Site-Verification
+Allow: /
+
+# --- Perplexity ---
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Bing / Microsoft AI ---
+User-agent: Bingbot
+Allow: /
+
+User-agent: Bingbot-News
+Allow: /
+
+User-agent: MSnbot
+Allow: /
+
+# --- Meta / Facebook AI ---
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# --- You.com ---
+User-agent: YouBot
+Allow: /
+
+# --- Mistral ---
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: MistralAI-User-Agent
+Allow: /
+
+# --- Cohere ---
+User-agent: cohere-ai
+Allow: /
+
+# --- Common Crawl ---
+User-agent: CCBot
+Allow: /
+
+# --- ByteDance ---
+User-agent: Bytespider
+Allow: /
+
+# --- Apple ---
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Amazon ---
+User-agent: Amazonbot
+Allow: /
+
+# --- Bright Data ---
+User-agent: Brightbot
+Allow: /
+
+# --- Diffbot ---
+User-agent: Diffbot
+Allow: /
+
+# --- Brave ---
+User-agent: BraveBot
+Allow: /
+
+# --- Archive ---
+User-agent: ia_archiver
+Allow: /
+
+User-agent: archive.org_bot
+Allow: /
+
+# --- DuckDuckGo ---
+User-agent: DuckDuckBot
+Allow: /
+
+# --- Yahoo ---
+User-agent: Slurp
+Allow: /
+
+# --- Yandex ---
+User-agent: YandexBot
+Allow: /
+
+# --- Sitemap ---
+Sitemap: https://flintlock.io/sitemap-index.xml

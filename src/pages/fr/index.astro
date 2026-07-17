@@ -33,19 +33,30 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "ProfessionalService",
       "@id": `${siteUrl}/#organization`,
       name: "Flintlock",
       url: siteUrl,
       logo: `${siteUrl}/logo.png`,
+      image: `${siteUrl}/img/og-image.svg`,
       description:
-        "Studio digital : web, IA, automatisation, sécurité — construit par deux ingénieurs.",
+        "Studio digital : développement web, intégration IA, automatisation et cybersécurité. Construit par deux ingénieurs. Basé au Maroc, clients dans le monde.",
       foundingDate: "2025",
       founders: [
-        { "@type": "Person", name: "Abdellah ERRAOUI" },
-        { "@type": "Person", name: "Faris BAHBAH" },
+        { "@type": "Person", name: "Abdellah ERRAOUI", jobTitle: "CTO & Fondateur" },
+        { "@type": "Person", name: "Faris BAHBAH", jobTitle: "COO & Fondateur" },
       ],
-      address: { "@type": "PostalAddress", addressCountry: "MA" },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Casablanca",
+        addressRegion: "Casablanca-Settat",
+        addressCountry: "MA",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 33.5731,
+        longitude: -7.5898,
+      },
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+212-706-570686",
@@ -54,17 +65,106 @@ const structuredData = {
         availableLanguage: ["English", "French"],
       },
       sameAs: [
-        "https://linkedin.com/company/flintlock",
+        "https://www.linkedin.com/company/flint-lock/",
+        "https://www.instagram.com/flint___lock/",
         "https://github.com/flintlock",
       ],
       knowsAbout: [
         "Développement Web",
         "Intelligence Artificielle",
+        "Apprentissage Automatique",
+        "Grands Modèles de Langage",
         "Automatisation",
         "Cybersécurité",
         "SEO",
+        "GEO",
         "Tests d'Intrusion",
+        "OWASP",
+        "Sécurité OT/ICS",
+        "Framework Astro",
+        "Tailwind CSS",
+        "Three.js",
       ],
+      areaServed: {
+        "@type": "Place",
+        name: "International",
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Services Flintlock",
+        itemListElement: [
+          {
+            "@type": "OfferCatalog",
+            name: "Web & Applications",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Développement Web Haute Performance",
+                  description: "Sites et applications web sur mesure avec Astro, Tailwind CSS, Three.js. Conforme aux Core Web Vitals, scores Lighthouse optimaux.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Intégration IA",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Intégration LLM & Agents IA Sur Mesure",
+                  description: "LLM sur mesure et agents IA génératifs intégrés aux flux de travail métier. Pipelines RAG, automatisation de contenu, analytique prédictive.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Automatisation",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Automatisation des Processus Métier",
+                  description: "Pipelines d'automatisation sur mesure. Intégrations API, flux de données, automatisation de workflows.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Acquisition & Leads",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "SEO & Génération de Leads",
+                  description: "SEO technique, GEO (Optimisation pour les Moteurs IA), stratégie de contenu, optimisation de conversion. Des sites qui rankent et convertissent.",
+                },
+              },
+            ],
+          },
+          {
+            "@type": "OfferCatalog",
+            name: "Sécurité",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Cybersécurité & Tests d'Intrusion",
+                  description: "Audits OWASP, durcissement d'infrastructure, tests d'intrusion, sécurité OT/ICS. Intégrée dès la première ligne de code.",
+                },
+              },
+            ],
+          },
+        ],
+      },
     },
     {
       "@type": "WebSite",

@@ -1,0 +1,53 @@
+# Flintlock — Digital Studio
+
+> A Morocco-based digital studio by two engineers. Web development, AI integration, automation, and cybersecurity. Global clients. Bilingual EN/FR.
+
+## Mission
+
+Flintlock replaces the chain of middlemen with a single technical partner. We design, build, automate, and secure — end to end. Security is forged in from the first line of code, not bolted on after.
+
+## Services
+
+- **Web & Apps**: High-performance platforms (Astro, Tailwind CSS, Three.js). Top Lighthouse scores, Core Web Vitals compliant. Landing pages, web apps, interactive experiences.
+- **AI Integration**: Custom LLMs and generative AI agents embedded into business workflows. Decision-making automation, content generation, data analysis.
+- **Automation**: Custom pipelines for operations on autopilot. Eliminate repetitive tasks, wire automation into workflows.
+- **Acquisition & Leads**: SEO-optimised architecture + data-driven lead generation. Sites that rank, attract, and convert.
+- **Security**: OWASP audits, infrastructure hardening, penetration testing, OT/ICS security. Built in by default.
+
+## Founders
+
+- **Abdellah ERRAOUI** — CTO & Founder. Engineering lead: high-performance web, deep AI integration, systems security. Creator of Exploit AI (AI-pentest orchestration) and OT_Shield (OT/ICS intrusion detection).
+- **Faris BAHBAH** — COO & Founder. Drives product, automation, and acquisition. Turns technical capability into business impact.
+
+## Process
+
+1. Discovery & Audit — Learn your business, audit your stack, define the roadmap.
+2. Design & Build — Craft the experience with performance and accessibility baked in.
+3. Automate & Integrate AI — Wire automation and AI into your workflow.
+4. Secure, Launch & Grow — Hardening, launch, monitoring. Iterate to keep you ahead.
+
+## Key Projects
+
+- **Exploit AI**: AI-pentest orchestration platform. -85% audit time (45 days to 7 days).
+- **OT_Shield**: OT/ICS intrusion detection & prevention system (OPC UA, Suricata, Elastic).
+- **Prix Jardin Majorelle**: Full-stack dev + security audit for a 2026 architecture prize.
+- **OWASP audits**: Black-box security audits on production websites.
+
+## Tech Stack
+
+Astro, Tailwind CSS, Three.js, Cloudflare Pages, Plausible Analytics. Self-hosted fonts (Syne, Hanken Grotesk, JetBrains Mono). JSON-LD structured data. Bilingual i18n (EN/FR).
+
+## Contact
+
+- Website: https://flintlock.io
+- Email: addellaherraoui3@gmail.com
+- Phone: +212 706-570686
+- WhatsApp: https://wa.me/212706570686
+- LinkedIn: https://www.linkedin.com/company/flint-lock/
+- Instagram: https://www.instagram.com/flint___lock/
+- GitHub: https://github.com/flintlock
+
+## See Also
+
+- Full context: llms-full.txt
+- Sitemap: https://flintlock.io/sitemap-index.xml

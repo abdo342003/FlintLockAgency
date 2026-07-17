@@ -1,0 +1,209 @@
+# Flintlock — Complete Studio Reference
+
+> Digital studio by two engineers: web, AI, automation, cybersecurity. Based in Morocco (Casablanca). Global clients. Bilingual English/French. Founded 2025.
+
+## About Flintlock
+
+Flintlock is a digital studio founded in 2025 by two engineers — Abdellah ERRAOUI (CTO) and Faris BAHBAH (COO). Based in Morocco, serving global clients in English and French.
+
+Our core proposition: replace the chain of middlemen (developer + SEO agency + security expert + automation consultant) with a single technical partner. One team owns the full chain — design, build, automate, secure.
+
+**Security philosophy**: Not an add-on. Security is forged in from the first line of code. Every project ships with OWASP best practices, infrastructure hardening, and data protection built in.
+
+**Industry**: Digital services, web development, AI integration, cybersecurity consulting
+**Type**: Engineering studio (not an agency)
+**Size**: Two founders (no employees, no subcontractors — direct access to decision-makers)
+**Founded**: 2025
+**Headquarters**: Morocco (Casablanca)
+**Clients**: International (Europe, Africa, Middle East)
+**Languages**: English, French (fully bilingual)
+
+## Services (The Five Stations)
+
+### 1. Web & Apps
+High-performance digital platforms built with modern stacks. We specialise in:
+- Static & dynamic websites (Astro, React, Next.js)
+- Web applications with real-time features
+- Interactive 3D experiences (Three.js, WebGL)
+- Landing pages optimised for conversion
+- Core Web Vitals compliance (LCP, FID, CLS)
+- Top Lighthouse performance scores (90+ across all metrics)
+- Progressive Web Apps (PWA)
+- Responsive design (mobile-first)
+- Accessibility (WCAG 2.1 AA)
+
+**Stack**: Astro, Tailwind CSS, Three.js, TypeScript, Cloudflare Pages
+**Output**: Static-first, edge-deployed, globally cached
+
+### 2. AI Integration
+Custom LLMs and generative AI agents embedded into business workflows. Not chatbots — real productivity multipliers:
+- Custom LLM fine-tuning for domain-specific tasks
+- RAG (Retrieval-Augmented Generation) pipelines
+- AI-powered content generation and summarisation
+- Predictive analytics and data analysis
+- Customer interaction automation
+- Internal tool AI assistants
+- Multi-model orchestration
+- AI agent deployment (autonomous task execution)
+
+**Use cases we've built**: AI-pentest orchestration (Exploit AI), automated security analysis, content pipelines
+
+### 3. Automation
+Custom pipelines that eliminate repetitive tasks and run operations on autopilot:
+- Business process automation (BPA)
+- Data pipeline automation
+- API integrations and webhook orchestration
+- Scheduled task automation
+- Alert and notification systems
+- Document processing automation
+- CRM/ERP integration workflows
+
+**Philosophy**: Automate the repetitive, free humans for creative work.
+
+### 4. Acquisition & Leads
+SEO-optimised architecture combined with data-driven lead generation:
+- Technical SEO (site speed, Core Web Vitals, crawlability)
+- On-page SEO (structured data, meta tags, semantic HTML)
+- Content strategy and optimisation
+- GEO (Generative Engine Optimisation) — optimising for AI search
+- Conversion rate optimisation (CRO)
+- Analytics and tracking (Plausible, privacy-friendly)
+- Lead capture and funnel design
+
+**Key differentiator**: We build SEO into the architecture, not as a plugin.
+
+### 5. Security
+Built in by default, not bolted on after. Comprehensive security services:
+- OWASP Top 10 audits and remediation
+- Infrastructure hardening (Cloudflare, server config)
+- Penetration testing (black-box and grey-box)
+- OT/ICS security (OPC UA, Suricata, Elastic)
+- Vulnerability assessment and management
+- Security architecture review
+- Data protection and privacy compliance
+- Incident response planning
+
+**Tools & frameworks**: OWASP ZAP, Burp Suite, Suricata IDS/IPS, Elastic SIEM, custom OT/ICS monitoring
+
+## Process (Four Steps)
+
+### Step 1: Discovery & Audit
+- Stakeholder interviews and business analysis
+- Technical stack audit (performance, security, SEO)
+- Competitive landscape review
+- Roadmap definition with clear milestones
+- Deliverable: Project brief + technical specification
+
+### Step 2: Design & Build
+- UI/UX design with accessibility baked in
+- Component-based architecture (reusable, maintainable)
+- Performance-first development (static where possible)
+- Progressive enhancement
+- Deliverable: Production-ready codebase
+
+### Step 3: Automate & Integrate AI
+- Workflow automation mapping
+- AI agent configuration and deployment
+- API integrations
+- Data pipeline setup
+- Deliverable: Automated workflows + AI agents
+
+### Step 4: Secure, Launch & Grow
+- Security hardening and penetration testing
+- Infrastructure setup and deployment
+- Monitoring and alerting
+- Performance monitoring
+- Iterative improvement based on data
+- Deliverable: Live, secure, optimised system
+
+## Founders
+
+### Abdellah ERRAOUI — CTO & Founder
+- **Role**: Leads all engineering
+- **Expertise**: High-performance web development, deep AI integration, systems security
+- **Notable work**:
+  - **Exploit AI**: AI-powered penetration testing orchestration platform. Reduced audit time from 45 days to 7 days (-85%). Pitched to investors.
+  - **OT_Shield**: OT/ICS intrusion detection & prevention system (IDPS). Monitors OPC UA traffic, uses Suricata rules, Elastic SIEM for visualisation.
+  - **OWASP security audits**: Black-box audits on production websites for international clients.
+  - **White Hat (emsi.ma)**: Ethical offensive security — responsible disclosure of vulnerabilities.
+- **Recognition**: EMSI Inventors Cup 2026, Hack'Days @ UEMF
+
+### Faris BAHBAH — COO & Founder
+- **Role**: Leads product, automation, and acquisition
+- **Expertise**: Business automation, lead generation, product strategy, client relations
+- **Focus**: Translating technical capability into business impact. Turns complex solutions into marketable products.
+
+**Working style**: Both founders answer messages directly. No account managers, no filters, no bureaucracy.
+
+## Projects & Portfolio
+
+### Exploit AI (In-house)
+AI and automation tool for cybersecurity. Orchestrates penetration testing workflows using AI. Key metric: -85% audit time reduction (45 days to 7 days). Presented to investors.
+
+### OT_Shield (In-house)
+Industrial security solution. Intrusion detection & prevention system (IDPS) for OT/ICS environments. Monitors OPC UA protocols, uses Suricata for rule-based detection, Elastic for SIEM dashboards.
+
+### White Hat — emsi.ma
+Ethical offensive security practice. White-hat detection and responsible disclosure of security vulnerabilities on educational platforms.
+
+### Prix Jardin Majorelle (via Fifty Five Digital)
+Full-stack development + security audit for the official website of a 2026 architecture prize for a leading cultural institution.
+
+### RevetPro (via Fifty Five Digital)
+Web development for a construction & renovation company.
+
+### Security Audits (via Fifty Five Digital)
+OWASP-based black-box security audits on production websites for confidential clients (under NDA). Critical vulnerability discovery + remediation guidance.
+
+## FAQ
+
+**Q: How much does it cost?**
+A: Custom transparent quote after a discovery call. No one-size-fits-all pricing. Every project is scoped individually.
+
+**Q: How long does a website take?**
+A: Landing page: 2-3 weeks. Complex web apps or deep AI integrations: 4-8 weeks.
+
+**Q: Do you handle security?**
+A: Yes. Security is built in from day one — OWASP best practices, infrastructure hardening, data protection. No separate consultant needed.
+
+**Q: Do you work with international clients?**
+A: Absolutely. Fully bilingual English/French. Global operation, remote-first.
+
+**Q: What if I already have a site?**
+A: We audit your existing architecture, fix vulnerabilities, improve SEO/performance, or integrate new features. No need to start from scratch.
+
+## Technical Stack
+
+- **Framework**: Astro v7 (static site generation, islands architecture, i18n routing)
+- **Styling**: Tailwind CSS v4
+- **3D/Animation**: Three.js (custom particle shader background, interactive hero)
+- **Hosting**: Cloudflare Pages (global CDN, edge functions)
+- **Analytics**: Plausible (privacy-friendly, no cookies, GDPR compliant)
+- **Fonts**: Syne (headings), Hanken Grotesk (body), JetBrains Mono (labels) — self-hosted woff2
+- **i18n**: JSON-based translations (English, French) with URL-based routing
+- **Structured Data**: JSON-LD (Organization, WebSite, BreadcrumbList, FAQPage, HowTo, Service, ItemList, ProfessionalService)
+- **Security Headers**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
+- **Contact Form**: Web3Forms + Cloudflare Turnstile CAPTCHA
+- **Email Protection**: Base64 obfuscation to prevent scraping
+- **GEO**: Optimised for AI crawlers (GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, etc.)
+- **llms.txt**: Full site context available for LLMs
+
+## Site Structure
+
+- `/` — English homepage (main landing page)
+- `/fr/` — French homepage
+- `/sitemap-index.xml` — XML sitemap (auto-generated)
+- `/llms.txt` — LLM-friendly site summary
+- `/llms-full.txt` — Full context document (this file)
+- `/robots.txt` — Crawler permissions (all AI bots allowed)
+
+## Contact
+
+- **Website**: https://flintlock.io
+- **Email**: addellaherraoui3@gmail.com
+- **Phone**: +212 706-570686 (Morocco)
+- **WhatsApp**: https://wa.me/212706570686
+- **LinkedIn**: https://www.linkedin.com/company/flint-lock/
+- **Instagram**: https://www.instagram.com/flint___lock/
+- **GitHub**: https://github.com/flintlock
+- **Location**: Casablanca, Morocco
