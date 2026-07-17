@@ -34,11 +34,11 @@ const navItems = [
   <!-- Inner container -->
   <div class="flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto;">
     <!-- Left: Logo emblem + tag -->
-    <a href="/" class="flex items-center gap-3 no-underline group">
-      <img src="/logo.png?v=2" alt="Flintlock" class="h-12 w-auto object-contain flex-shrink-0" />
-      <div class="flex flex-col leading-tight">
-        <span class="font-display text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)]">FLINTLOCK</span>
-        <span class="font-mono text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)]">Studio &middot; Est. 2026</span>
+    <a href="/" class="flex items-center gap-2 sm:gap-3 no-underline group min-w-0">
+      <img src="/logo.png?v=2" alt="Flintlock" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0" />
+      <div class="flex flex-col leading-tight min-w-0">
+        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] truncate">FLINTLOCK</span>
+        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] hidden sm:block">Studio &middot; Est. 2026</span>
       </div>
     </a>
 
@@ -56,7 +56,7 @@ const navItems = [
     </nav>
 
     <!-- Right: Status + Lang switch + CTA -->
-    <div class="flex items-center gap-3 lg:gap-4">
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
       <!-- Status pill (desktop) -->
       <div class="status-pill hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--color-accent)]/10 bg-[var(--color-accent)]/3">
         <span class="status-dot relative w-1.5 h-1.5 rounded-full" style="background: var(--color-accent);"></span>
@@ -71,8 +71,8 @@ const navItems = [
         aria-label={lang === "en" ? "Switch to French" : "Passer en anglais"}
         data-other-href={otherHref}
         data-persist="true"
-        class="lang-toggle relative flex items-center gap-1 px-3 py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-onyx)]/60 cursor-pointer transition-colors duration-300 hover:border-[var(--color-accent)]/30 focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
-        style="min-width: 62px;"
+        class="lang-toggle relative flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-onyx)]/60 cursor-pointer transition-colors duration-300 hover:border-[var(--color-accent)]/30 focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
+        style="min-width: 56px;"
       >
         <span class={`font-mono text-[10px] font-bold tracking-wider transition-colors duration-300 ${lang === "en" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>EN</span>
         <span class="lang-knob relative w-4 h-4 rounded-full transition-transform duration-300" style="background: var(--color-accent); transform: translateX(0);"></span>
@@ -96,12 +96,12 @@ const navItems = [
       <!-- Hamburger (mobile) -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-2 transition-transform duration-200 active:scale-90"
+        class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-1.5 sm:p-2 transition-transform duration-200 active:scale-90"
         aria-label={lang === "en" ? "Open menu" : "Ouvrir le menu"}
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
-        <Icon name="lucide:menu" class="w-6 h-6" />
+        <Icon name="lucide:menu" class="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
     </div>
   </div>
