@@ -1,0 +1,647 @@
+---
+---
+
+<div id="core-fallback" class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true" style="perspective: 600px;">
+  <div class="relative scale-[0.7] md:scale-[1] origin-center" style="transform-style: preserve-3d;">
+    <div class="w-[260px] h-[260px] md:w-[360px] md:h-[360px]" style="transform-style: preserve-3d;">
+      <div class="absolute inset-0 border border-[var(--color-accent)]/12 rounded-full" style="transform: rotateX(75deg); animation: fallback-spin 8s linear infinite;"></div>
+      <div class="absolute inset-0 border border-[var(--color-accent)]/10 rounded-full" style="transform: rotateY(75deg); animation: fallback-spin 12s linear infinite reverse;"></div>
+      <div class="absolute inset-0 border border-[var(--color-accent)]/8 rounded-full" style="transform: rotateZ(45deg); animation: fallback-spin 6s linear infinite;"></div>
+    </div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="w-28 h-28 md:w-40 md:h-40 rounded-full" style="background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.18) 0%, rgba(var(--color-accent-rgb), 0.05) 30%, transparent 70%); box-shadow: 0 0 60px rgba(var(--color-accent-rgb), 0.08), 0 0 100px rgba(var(--color-accent-rgb), 0.03) inset; animation: fallback-pulse 3s ease-in-out infinite;"></div>
+      <div class="absolute w-14 h-14 md:w-20 md:h-20 rounded-full" style="background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.35) 0%, transparent 65%); box-shadow: 0 0 40px rgba(var(--color-accent-rgb), 0.2);"></div>
+    </div>
+    <div class="absolute w-2.5 h-2.5 bg-[var(--color-cta)]/80 rounded-full shadow-[0_0_14px_var(--color-cta)]" style="top: 6%; right: 10%; animation: fallback-drift 4s ease-in-out infinite;"></div>
+    <div class="absolute w-2 h-2 bg-[var(--color-cta)]/80 rounded-full shadow-[0_0_10px_var(--color-cta)]" style="bottom: 12%; left: 8%; animation: fallback-drift 5s ease-in-out infinite reverse;"></div>
+    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-48 h-10 rounded-full" style="background: radial-gradient(ellipse, rgba(var(--color-cta-rgb), 0.1) 0%, transparent 70%); filter: blur(14px);"></div>
+  </div>
+</div>
+
+<canvas id="core-canvas" aria-hidden="true" class="absolute inset-0 w-full h-full"></canvas>
+
+<style>
+  @keyframes fallback-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes fallback-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes fallback-drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(4px, -4px); }
+  }
+  #core-canvas {
+    display: none;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #core-canvas { display: none; }
+    #core-fallback { display: flex; }
+    #core-fallback * { animation: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    var canvas = document.getElementById("core-canvas");
+    var fallback = document.getElementById("core-fallback");
+    if (!canvas || !fallback) return;
+
+    var isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isTouch || prefersReduced) return;
+
+    var container = canvas.parentElement;
+    if (!container) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            initCore();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(container);
+
+    async function initCore() {
+      var THREE = await import("three");
+
+      var accentRgb = [25, 227, 240];
+      var emberRgb = [255, 122, 26];
+      try {
+        var tmp = getComputedStyle(document.documentElement);
+        var accentMatch = tmp.getPropertyValue("--color-accent-rgb").trim();
+        if (accentMatch) {
+          var parsed = accentMatch.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+          if (parsed) accentRgb = [Number(parsed[1]), Number(parsed[2]), Number(parsed[3])];
+        }
+        var emberMatch = tmp.getPropertyValue("--color-cta-rgb").trim();
+        if (emberMatch) {
+          var parsedE = emberMatch.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+          if (parsedE) emberRgb = [Number(parsedE[1]), Number(parsedE[2]), Number(parsedE[3])];
+        }
+      } catch (_) {}
+
+      var accentColor = new THREE.Color("rgb(" + accentRgb.join(",") + ")");
+      var emberColor = new THREE.Color("rgb(" + emberRgb.join(",") + ")");
+
+      fallback.style.display = "none";
+      canvas.style.display = "block";
+
+      /* ─── Scene ─── */
+      var scene = new THREE.Scene();
+
+      var renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
+
+      var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      camera.position.set(0, -0.25, 6);
+
+      var group = new THREE.Group();
+      scene.add(group);
+
+      /* ─── Star field background ─── */
+      var starCount = 300;
+      var starPos = new Float32Array(starCount * 3);
+      var starSizes = new Float32Array(starCount);
+      for (var si = 0; si < starCount; si++) {
+        var r = 8 + Math.random() * 22;
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(2 * Math.random() - 1);
+        starPos[si * 3] = r * Math.sin(phi) * Math.cos(theta);
+        starPos[si * 3 + 1] = r * Math.cos(phi);
+        starPos[si * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+        starSizes[si] = 0.005 + Math.random() * 0.025;
+      }
+      var starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+      starGeo.setAttribute("size", new THREE.BufferAttribute(starSizes, 1));
+      var starMat = new THREE.PointsMaterial({
+        color: emberColor,
+        transparent: true,
+        opacity: 0.12,
+        size: 0.02,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var stars = new THREE.Points(starGeo, starMat);
+      scene.add(stars);
+
+      /* ─── Soft glow particle texture ─── */
+      var ptCanvas = document.createElement("canvas");
+      ptCanvas.width = 64;
+      ptCanvas.height = 64;
+      var ptCtx = ptCanvas.getContext("2d");
+      var ptGrad = ptCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      ptGrad.addColorStop(0, "rgba(255,255,255,1)");
+      ptGrad.addColorStop(0.15, "rgba(255,255,255,0.8)");
+      ptGrad.addColorStop(0.4, "rgba(255,255,255,0.25)");
+      ptGrad.addColorStop(1, "rgba(255,255,255,0)");
+      ptCtx.fillStyle = ptGrad;
+      ptCtx.fillRect(0, 0, 64, 64);
+      var particleTex = new THREE.CanvasTexture(ptCanvas);
+
+      /* ─── Cage layers ─── */
+      var cage1 = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.OctahedronGeometry(0.9)),
+        new THREE.LineBasicMaterial({ color: accentColor, transparent: true, opacity: 0.25 })
+      );
+      group.add(cage1);
+
+      var cage2 = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.OctahedronGeometry(0.65)),
+        new THREE.LineBasicMaterial({ color: emberColor, transparent: true, opacity: 0.18 })
+      );
+      cage2.rotation.x = 0.3;
+      cage2.rotation.y = 0.5;
+      group.add(cage2);
+
+      /* Outer cage (larger, slower, faint) */
+      var cage3 = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.2)),
+        new THREE.LineBasicMaterial({ color: emberColor, transparent: true, opacity: 0.08 })
+      );
+      cage3.rotation.z = 0.4;
+      group.add(cage3);
+
+      /* ─── Orbiting torus rings ─── */
+      var ringMat1 = new THREE.MeshBasicMaterial({
+        color: accentColor, transparent: true, opacity: 0.15,
+        blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+      });
+      var ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.015, 12, 64), ringMat1);
+      ring1.rotation.x = Math.PI * 0.35;
+      ring1.rotation.z = 0.3;
+      group.add(ring1);
+
+      var ringMat2 = new THREE.MeshBasicMaterial({
+        color: emberColor, transparent: true, opacity: 0.1,
+        blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+      });
+      var ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.015, 12, 64), ringMat2);
+      ring2.rotation.y = Math.PI * 0.4;
+      ring2.rotation.x = Math.PI * 0.7;
+      group.add(ring2);
+
+      /* ─── Expanding pulse ring ─── */
+      var pulseGeo = new THREE.RingGeometry(0.05, 0.15, 48);
+      var pulseMat = new THREE.MeshBasicMaterial({
+        color: emberColor, transparent: true, opacity: 0,
+        side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false,
+      });
+      var pulseRing = new THREE.Mesh(pulseGeo, pulseMat);
+      pulseRing.rotation.x = Math.PI * 0.5;
+      group.add(pulseRing);
+      var pulseTimer = 0;
+
+      /* ─── Core glow sprite ─── */
+      var sCanvas = document.createElement("canvas");
+      sCanvas.width = 128;
+      sCanvas.height = 128;
+      var sCtx = sCanvas.getContext("2d");
+      var grad = sCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+      grad.addColorStop(0, "rgba(" + accentRgb.join(",") + ", 0.5)");
+      grad.addColorStop(0.2, "rgba(" + emberRgb.join(",") + ", 0.25)");
+      grad.addColorStop(0.4, "rgba(" + accentRgb.join(",") + ", 0.08)");
+      grad.addColorStop(1, "rgba(" + accentRgb.join(",") + ", 0)");
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 128, 128);
+
+      var glowTexture = new THREE.CanvasTexture(sCanvas);
+      var spriteMat = new THREE.SpriteMaterial({
+        map: glowTexture,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.85,
+      });
+      var glowSprite = new THREE.Sprite(spriteMat);
+      glowSprite.scale.set(2.8, 2.8, 1);
+      group.add(glowSprite);
+
+      /* ─── Inner bright sprite ─── */
+      var iCanvas = document.createElement("canvas");
+      iCanvas.width = 64;
+      iCanvas.height = 64;
+      var iCtx = iCanvas.getContext("2d");
+      var iGrad = iCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      iGrad.addColorStop(0, "rgba(" + emberRgb.join(",") + ", 0.8)");
+      iGrad.addColorStop(0.2, "rgba(" + accentRgb.join(",") + ", 0.35)");
+      iGrad.addColorStop(1, "rgba(" + emberRgb.join(",") + ", 0)");
+      iCtx.fillStyle = iGrad;
+      iCtx.fillRect(0, 0, 64, 64);
+
+      var innerTexture = new THREE.CanvasTexture(iCanvas);
+      var innerSpriteMat = new THREE.SpriteMaterial({
+        map: innerTexture,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.6,
+      });
+      var innerSprite = new THREE.Sprite(innerSpriteMat);
+      innerSprite.scale.set(1.2, 1.2, 1);
+      group.add(innerSprite);
+
+      /* ─── Core glow particles (dense center, calm outer) ─── */
+      var particleCount = 600;
+      var posArray = new Float32Array(particleCount * 3);
+      var sizeArray = new Float32Array(particleCount);
+      var opArray = new Float32Array(particleCount);
+      var colArray = new Float32Array(particleCount * 3);
+      for (var i = 0; i < particleCount; i++) {
+        var dist = Math.pow(Math.random(), 0.5) * 0.85;
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(2 * Math.random() - 1);
+        posArray[i * 3] = dist * Math.sin(phi) * Math.cos(theta);
+        posArray[i * 3 + 1] = dist * Math.cos(phi);
+        posArray[i * 3 + 2] = dist * Math.sin(phi) * Math.sin(theta);
+        var alpha = 1 - dist / 0.85;
+        sizeArray[i] = 0.02 + alpha * 0.1;
+        opArray[i] = 0.06 + alpha * 0.4;
+
+        var mix = Math.random();
+        var c = accentColor.clone().lerp(emberColor, 0.3 + mix * 0.5);
+        colArray[i * 3] = c.r;
+        colArray[i * 3 + 1] = c.g;
+        colArray[i * 3 + 2] = c.b;
+      }
+
+      var particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute("position", new THREE.BufferAttribute(posArray, 3));
+      particleGeo.setAttribute("size", new THREE.BufferAttribute(sizeArray, 1));
+      particleGeo.setAttribute("opacity", new THREE.BufferAttribute(opArray, 1));
+      particleGeo.setAttribute("color", new THREE.BufferAttribute(colArray, 3));
+
+      var particleMat = new THREE.PointsMaterial({
+        map: particleTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        size: 0.06,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var particles = new THREE.Points(particleGeo, particleMat);
+      group.add(particles);
+
+      /* ─── Ember orbit ring particles (tight around core) ─── */
+      var emberCount = 50;
+      var emPos = new Float32Array(emberCount * 3);
+      var emSize = new Float32Array(emberCount);
+      var emSpeed = new Float32Array(emberCount);
+      for (var i2 = 0; i2 < emberCount; i2++) {
+        var angle = (i2 / emberCount) * Math.PI * 2;
+        var radius = 0.85 + Math.sin(i2 * 0.7) * 0.2;
+        emPos[i2 * 3] = Math.cos(angle) * radius;
+        emPos[i2 * 3 + 1] = Math.sin(angle * 2.5) * 0.2;
+        emPos[i2 * 3 + 2] = Math.sin(angle) * radius;
+        emSize[i2] = 0.02 + Math.random() * 0.04;
+        emSpeed[i2] = 0.001 + Math.random() * 0.004;
+      }
+
+      var emberGeo = new THREE.BufferGeometry();
+      emberGeo.setAttribute("position", new THREE.BufferAttribute(emPos, 3));
+      emberGeo.setAttribute("size", new THREE.BufferAttribute(emSize, 1));
+
+      var emberMat = new THREE.PointsMaterial({
+        map: particleTex,
+        color: emberColor,
+        transparent: true,
+        opacity: 0.5,
+        size: 0.04,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var emberRing = new THREE.Points(emberGeo, emberMat);
+      group.add(emberRing);
+
+      /* ─── Ember heat glow sprite ─── */
+      var hCanvas = document.createElement("canvas");
+      hCanvas.width = 64;
+      hCanvas.height = 64;
+      var hCtx = hCanvas.getContext("2d");
+      var hGrad = hCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      hGrad.addColorStop(0, "rgba(" + emberRgb.join(",") + ", 0.25)");
+      hGrad.addColorStop(0.3, "rgba(" + emberRgb.join(",") + ", 0.08)");
+      hGrad.addColorStop(1, "rgba(" + emberRgb.join(",") + ", 0)");
+      hCtx.fillStyle = hGrad;
+      hCtx.fillRect(0, 0, 64, 64);
+
+      var heatTexture = new THREE.CanvasTexture(hCanvas);
+      var heatSpriteMat = new THREE.SpriteMaterial({
+        map: heatTexture,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.55,
+      });
+      var heatSprite = new THREE.Sprite(heatSpriteMat);
+      heatSprite.scale.set(2.0, 1.0, 1);
+      heatSprite.position.set(0, -0.6, 0);
+      group.add(heatSprite);
+
+      /* ─── Scattered ember flecks near core ─── */
+      var emberScatterCount = 20;
+      var scPos = new Float32Array(emberScatterCount * 3);
+      var scOp = new Float32Array(emberScatterCount);
+      var scPhases = new Float32Array(emberScatterCount);
+      for (var i3 = 0; i3 < emberScatterCount; i3++) {
+        var a = Math.random() * Math.PI * 2;
+        var r = 0.2 + Math.random() * 0.6;
+        scPos[i3 * 3] = Math.cos(a) * r;
+        scPos[i3 * 3 + 1] = -0.3 + Math.random() * 0.6;
+        scPos[i3 * 3 + 2] = Math.sin(a) * r;
+        scOp[i3] = 0.1 + Math.random() * 0.25;
+        scPhases[i3] = Math.random() * Math.PI * 2;
+      }
+      var scGeo = new THREE.BufferGeometry();
+      scGeo.setAttribute("position", new THREE.BufferAttribute(scPos, 3));
+      var scMat = new THREE.PointsMaterial({
+        map: particleTex,
+        color: emberColor,
+        transparent: true,
+        opacity: 0.4,
+        size: 0.05,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var scEmbers = new THREE.Points(scGeo, scMat);
+      group.add(scEmbers);
+
+      /* ─── Ember burst on click ─── */
+      var burstCount = 80;
+      var burstPos = new Float32Array(burstCount * 3);
+      var burstVel = new Float32Array(burstCount * 3);
+      var burstLife = new Float32Array(burstCount);
+      var burstMaxLife = new Float32Array(burstCount);
+      var burstActive = false;
+
+      var burstGeo = new THREE.BufferGeometry();
+      burstGeo.setAttribute("position", new THREE.BufferAttribute(burstPos, 3));
+      var burstMat = new THREE.PointsMaterial({
+        map: particleTex,
+        color: emberColor,
+        transparent: true,
+        opacity: 0,
+        size: 0.04,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var burstPoints = new THREE.Points(burstGeo, burstMat);
+      group.add(burstPoints);
+
+      /* ─── Floating ember fountain (continuous) ─── */
+      var fountainCount = 30;
+      var fountPos = new Float32Array(fountainCount * 3);
+      var fountVel = new Float32Array(fountainCount * 3);
+      var fountLife = new Float32Array(fountainCount);
+      var fountMaxLife = new Float32Array(fountainCount);
+      for (var i4 = 0; i4 < fountainCount; i4++) {
+        fountLife[i4] = Math.random();
+        fountMaxLife[i4] = 1 + Math.random() * 2;
+        fountPos[i4 * 3] = (Math.random() - 0.5) * 0.4;
+        fountPos[i4 * 3 + 1] = -0.5 - Math.random() * 0.3;
+        fountPos[i4 * 3 + 2] = (Math.random() - 0.5) * 0.4;
+        fountVel[i4 * 3] = (Math.random() - 0.5) * 0.003;
+        fountVel[i4 * 3 + 1] = 0.008 + Math.random() * 0.015;
+        fountVel[i4 * 3 + 2] = (Math.random() - 0.5) * 0.003;
+      }
+      var fountGeo = new THREE.BufferGeometry();
+      fountGeo.setAttribute("position", new THREE.BufferAttribute(fountPos, 3));
+      var fountMat = new THREE.PointsMaterial({
+        map: particleTex,
+        color: emberColor,
+        transparent: true,
+        opacity: 0.25,
+        size: 0.035,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      var fountPoints = new THREE.Points(fountGeo, fountMat);
+      group.add(fountPoints);
+
+      /* ─── Cursor tracking (spring-damped) ─── */
+      var mouseX = 0, mouseY = 0;
+      var smoothMX = 0, smoothMY = 0;
+      window.addEventListener("mousemove", function (e) {
+        var rect = canvas.getBoundingClientRect();
+        if (rect.width && rect.height) {
+          mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+          mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+        }
+      });
+
+      /* ─── Click pulse + ember burst ─── */
+      var clickPulse = 0;
+      document.addEventListener("click", function () {
+        clickPulse = 1;
+        spawnBurst();
+      });
+
+      function spawnBurst() {
+        burstActive = true;
+        for (var i = 0; i < burstCount; i++) {
+          var theta = Math.random() * Math.PI * 2;
+          var phi = Math.acos(2 * Math.random() - 1);
+          var speed = 0.03 + Math.random() * 0.07;
+          burstPos[i * 3] = (Math.random() - 0.5) * 0.15;
+          burstPos[i * 3 + 1] = (Math.random() - 0.5) * 0.15;
+          burstPos[i * 3 + 2] = (Math.random() - 0.5) * 0.15;
+          burstVel[i * 3] = Math.sin(phi) * Math.cos(theta) * speed;
+          burstVel[i * 3 + 1] = Math.cos(phi) * speed * 0.5 + 0.02;
+          burstVel[i * 3 + 2] = Math.sin(phi) * Math.sin(theta) * speed;
+          burstMaxLife[i] = 0.6 + Math.random() * 1.4;
+          burstLife[i] = burstMaxLife[i];
+        }
+        burstPoints.geometry.attributes.position.needsUpdate = true;
+      }
+
+      /* ─── Resize ─── */
+      function resize() {
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(resize).observe(container);
+      }
+      resize();
+
+      /* ─── Animation ─── */
+      var rotX = 0.4, rotY = 0.6;
+      var targetRotX = 0, targetRotY = 0;
+      var time = 0;
+      var lastFrame = 0;
+      var rafId = null;
+      var isPaused = false;
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          isPaused = true;
+        } else if (isPaused) {
+          isPaused = false;
+          lastFrame = 0;
+          rafId = requestAnimationFrame(animate);
+        }
+      });
+
+      function animate(t) {
+        rafId = requestAnimationFrame(animate);
+        var dt = lastFrame ? Math.min((t - lastFrame) * 0.001, 0.05) : 0.016;
+        lastFrame = t;
+        resize();
+        time = t * 0.001;
+
+        smoothMX += (mouseX - smoothMX) * 0.04;
+        smoothMY += (mouseY - smoothMY) * 0.04;
+
+        targetRotX += (smoothMY * 0.3 - targetRotX) * 0.03;
+        targetRotY += (smoothMX * 0.4 - targetRotY) * 0.03;
+
+        rotX += 0.003 + targetRotX * 0.01;
+        rotY += 0.005 + targetRotY * 0.01;
+
+        group.rotation.x = rotX;
+        group.rotation.y = rotY;
+
+        /* Click flash decay */
+        if (clickPulse > 0.01) {
+          clickPulse *= 1 - dt * 8;
+        } else {
+          clickPulse = 0;
+        }
+
+        /* Pulse glow sprites */
+        var pulse = 0.6 + Math.sin(time * 0.6) * 0.15;
+        spriteMat.opacity = Math.min(1, pulse * (1 + clickPulse * 0.6));
+        innerSpriteMat.opacity = Math.min(1, (0.35 + Math.sin(time * 0.8 + 0.5) * 0.15) * (1 + clickPulse * 0.8));
+
+        /* Slowly rotate ember ring */
+        emberRing.rotation.y += 0.002;
+        emberRing.rotation.x = Math.sin(time * 0.1) * 0.05;
+
+        /* Flicker ember scatter opacity */
+        scMat.opacity = 0.3 + Math.sin(time * 0.5 + 1) * 0.12;
+
+        /* Slow outer cage rotation */
+        cage3.rotation.x += 0.001;
+        cage3.rotation.y += 0.002;
+        cage3.rotation.z += 0.0005;
+
+        /* Orbiting ring rotation */
+        ring1.rotation.y += 0.004;
+        ring1.rotation.z += 0.001;
+        ring2.rotation.x += 0.002;
+        ring2.rotation.y += 0.003;
+
+        /* Expanding pulse ring */
+        pulseTimer += dt;
+        if (pulseTimer > 0 && pulseTimer < 2) {
+          var p = pulseTimer / 2;
+          var pulseScale = 0.3 + p * 5;
+          pulseRing.scale.set(pulseScale, pulseScale, 1);
+          pulseMat.opacity = Math.max(0, (1 - p) * 0.3);
+        }
+        if (pulseTimer >= 3.5) {
+          pulseTimer = 0;
+          pulseRing.scale.set(1, 1, 1);
+          pulseMat.opacity = 0;
+        }
+
+        /* Color breathing (cycling between accent and ember) */
+        var colorMix = 0.5 + 0.5 * Math.sin(time * 0.06);
+        var breathe1 = accentColor.clone().lerp(emberColor, colorMix * 0.3);
+        var breathe2 = emberColor.clone().lerp(accentColor, colorMix * 0.2);
+        cage1.material.color.copy(breathe1);
+        ringMat1.color.copy(breathe1);
+        cage2.material.color.copy(breathe2);
+        ringMat2.color.copy(breathe2);
+
+        /* Star twinkle */
+        starMat.opacity = 0.08 + Math.sin(time * 0.3) * 0.05;
+        var starShift = new THREE.Color().setHSL(0.07 + 0.03 * Math.sin(time * 0.2), 0.8, 0.5);
+        starMat.color.copy(starShift);
+
+        /* ─── Ember burst animation ─── */
+        if (burstActive) {
+          var anyAlive = false;
+          var totalLife = 0;
+          var aliveCount = 0;
+          for (var bi = 0; bi < burstCount; bi++) {
+            burstLife[bi] -= dt;
+            if (burstLife[bi] > 0) {
+              anyAlive = true;
+              aliveCount++;
+              totalLife += burstLife[bi];
+              var lr = burstLife[bi] / burstMaxLife[bi];
+              burstPos[bi * 3] += burstVel[bi * 3] * dt;
+              burstPos[bi * 3 + 1] += burstVel[bi * 3 + 1] * dt - 0.003 * dt * 60;
+              burstPos[bi * 3 + 2] += burstVel[bi * 3 + 2] * dt;
+              burstVel[bi * 3] *= 1 - dt * 0.5;
+              burstVel[bi * 3 + 2] *= 1 - dt * 0.5;
+            }
+          }
+          burstPoints.geometry.attributes.position.needsUpdate = true;
+
+          if (anyAlive) {
+            var avgLife = totalLife / (aliveCount || 1);
+            burstMat.opacity = avgLife * 0.7;
+            burstMat.size = 0.02 + avgLife * 0.04;
+          } else {
+            burstActive = false;
+            burstMat.opacity = 0;
+          }
+        }
+
+        /* ─── Fountain animation ─── */
+        for (var fi = 0; fi < fountainCount; fi++) {
+          fountLife[fi] += dt;
+          if (fountLife[fi] >= fountMaxLife[fi]) {
+            fountLife[fi] = 0;
+            fountPos[fi * 3] = (Math.random() - 0.5) * 0.5;
+            fountPos[fi * 3 + 1] = -0.6 - Math.random() * 0.2;
+            fountPos[fi * 3 + 2] = (Math.random() - 0.5) * 0.5;
+            fountVel[fi * 3] = (Math.random() - 0.5) * 0.004;
+            fountVel[fi * 3 + 1] = 0.01 + Math.random() * 0.02;
+            fountVel[fi * 3 + 2] = (Math.random() - 0.5) * 0.004;
+          }
+          fountPos[fi * 3] += fountVel[fi * 3] * dt;
+          fountPos[fi * 3 + 1] += fountVel[fi * 3 + 1] * dt;
+          fountPos[fi * 3 + 2] += fountVel[fi * 3 + 2] * dt;
+          fountVel[fi * 3 + 1] -= 0.005 * dt * 60;
+        }
+        fountPoints.geometry.attributes.position.needsUpdate = true;
+        var fountPulse = 0.2 + Math.sin(time * 1.2) * 0.08;
+        fountMat.opacity = fountPulse;
+        fountMat.size = 0.025 + Math.sin(time * 0.7 + 1) * 0.01;
+
+        renderer.render(scene, camera);
+      }
+
+      rafId = requestAnimationFrame(animate);
+    }
+  })();
+</script>

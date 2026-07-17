@@ -1,0 +1,190 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ForgeBackground from "../../components/ForgeBackground.astro";
+import Cursor from "../../components/Cursor.astro";
+
+import Header from "../../sections/Header.astro";
+import Hero from "../../sections/Hero.astro";
+import Problem from "../../sections/Problem.astro";
+import Solution from "../../sections/Solution.astro";
+import Services from "../../sections/Services.astro";
+import Process from "../../sections/Process.astro";
+import Proof from "../../sections/Proof.astro";
+import Why from "../../sections/Why.astro";
+import Team from "../../sections/Team.astro";
+import FAQ from "../../sections/FAQ.astro";
+import CTA from "../../sections/CTA.astro";
+import Footer from "../../sections/Footer.astro";
+import { useTranslations } from "../../i18n/util";
+
+const t = useTranslations("fr");
+const siteUrl = "https://flintlock.io";
+
+const faqEntries = ["1", "2", "3", "4", "5"].map((id) => ({
+  "@type": "Question",
+  name: t(`faq.${id}.q`),
+  acceptedAnswer: {
+    "@type": "Answer",
+    text: t(`faq.${id}.a`),
+  },
+}));
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Flintlock",
+      url: siteUrl,
+      logo: `${siteUrl}/logo.png`,
+      description:
+        "Studio digital : web, IA, automatisation, sécurité — construit par deux ingénieurs.",
+      foundingDate: "2025",
+      founders: [
+        { "@type": "Person", name: "Abdellah ERRAOUI" },
+        { "@type": "Person", name: "Faris BAHBAH" },
+      ],
+      address: { "@type": "PostalAddress", addressCountry: "MA" },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+212-706-570686",
+        email: "addellaherraoui3@gmail.com",
+        contactType: "sales",
+        availableLanguage: ["English", "French"],
+      },
+      sameAs: [
+        "https://linkedin.com/company/flintlock",
+        "https://github.com/flintlock",
+      ],
+      knowsAbout: [
+        "Développement Web",
+        "Intelligence Artificielle",
+        "Automatisation",
+        "Cybersécurité",
+        "SEO",
+        "Tests d'Intrusion",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "Flintlock",
+      url: siteUrl,
+      description:
+        "Studio digital : web, IA, automatisation, sécurité — construit par deux ingénieurs.",
+      inLanguage: "fr",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: siteUrl + "/fr/" },
+      ],
+    },
+    {
+      "@type": "HowTo",
+      name: "Comment Flintlock fonctionne",
+      description: "Notre processus en quatre étapes pour mener votre projet du diagnostic au lancement.",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "Diagnostic & Audit",
+          text: "Nous étudions votre activité, auditions votre stack et définissons la feuille de route.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "Conception & Construction",
+          text: "Nous concevons l'expérience et la construisons avec performance et accessibilité intégrées.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "Automatisation & IA",
+          text: "Nous intégrons l'automatisation et l'IA dans votre flux de travail pour qu'il tourne sans vous.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 4,
+          name: "Sécurisation, Lancement & Croissance",
+          text: "Durcissement, lancement, monitoring. Puis nous itérons pour vous garder en avance.",
+        },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      name: "Services Flintlock",
+      description: "Cinq stations de service clés pour la réussite numérique.",
+      itemListElement: [
+        {
+          "@type": "Service",
+          position: 1,
+          name: "Web & Applications",
+          description: "Plateformes numériques haute performance construites avec des stacks modernes. Rapides, animées, optimisées pour la conversion.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 2,
+          name: "Intégration IA",
+          description: "LLM sur mesure et agents génératifs intégrés à votre workflow. Pas un chatbot — un vrai multiplicateur de productivité.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 3,
+          name: "Automatisation",
+          description: "Éliminez les tâches répétitives. Des pipelines sur mesure qui font tourner vos opérations en pilotage automatique.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 4,
+          name: "Acquisition & Leads",
+          description: "Architecture optimisée SEO + génération de leads data-driven. Un trafic qui convertit.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 5,
+          name: "Sécurité",
+          description: "Intégrée par défaut. Audits OWASP, durcissement, expertise OT. Chaque ligne de code protégée.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqEntries,
+    },
+  ],
+};
+---
+
+<BaseLayout lang="fr">
+  <ForgeBackground slot="background" />
+  <Cursor />
+
+  <Header slot="header" lang="fr" />
+
+  <Hero lang="fr" />
+
+  <Problem lang="fr" />
+  <Solution lang="fr" />
+
+  <Services lang="fr" />
+  <Process lang="fr" />
+
+  <Proof lang="fr" />
+  <Why lang="fr" />
+  <Team lang="fr" />
+
+  <FAQ lang="fr" />
+  <CTA lang="fr" />
+
+  <Footer slot="footer" lang="fr" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</BaseLayout>

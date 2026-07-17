@@ -1,0 +1,41 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const reasons = [
+  { key: "1", icon: "lucide:users" },
+  { key: "2", icon: "lucide:shield" },
+  { key: "3", icon: "lucide:gauge" },
+  { key: "4", icon: "lucide:brain-circuit" },
+  { key: "5", icon: "lucide:eye" },
+  { key: "6", icon: "lucide:globe" },
+];
+---
+
+<section id="why" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface">
+  <div class="mx-auto" style="max-width: var(--container-max);">
+    <div class="reveal">
+      <p class="section-kicker">{t("why.kicker")}</p>
+      <h2 class="section-title">{t("why.title")}</h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
+      {reasons.map((r, i) => (
+        <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)]/60 border-l-2 border-l-[var(--color-accent)]/25 bg-[var(--color-surface-2)] p-5 md:p-6 text-center hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.06 * i}s`}>
+          <div class="icon-cyan w-12 h-12 mx-auto mb-3 group-hover:bg-[var(--color-accent)]/15 transition-colors">
+            <Icon name={r.icon} class="w-5 h-5" />
+          </div>
+          <h3 class="font-bold text-base md:text-lg text-[var(--color-text-primary)] mb-1.5">{t(`why.${r.key}.title`)}</h3>
+          <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`why.${r.key}.desc`)}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

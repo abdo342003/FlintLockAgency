@@ -1,0 +1,340 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import HeroCore from "../components/HeroCore.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const headlineRaw = t("hero.title");
+const lines = headlineRaw.split("<br/>");
+
+const taglineWords = [t("hero.tagline.1"), t("hero.tagline.2"), t("hero.tagline.3")];
+
+function renderChars(text: string, lineOffset: number): string {
+  const forgePos = text.toLowerCase().indexOf("forge");
+  const words = text.split(" ");
+  let result = "";
+  let idx = lineOffset;
+  words.forEach(function (word, wi) {
+    if (wi > 0) {
+      result += `<span class="char" style="--char-delay: ${idx * 0.035}s">&nbsp;</span>`;
+      idx++;
+    }
+    result += `<span class="word" style="white-space: nowrap;">`;
+    const chars = word.split("");
+    chars.forEach(function (ch, ci) {
+      const delay = idx * 0.035;
+      const inForge = forgePos >= 0 && (idx - lineOffset) >= forgePos && (idx - lineOffset) < forgePos + 5;
+      const cls = inForge ? "char forge-char" : "char";
+      result += `<span class="${cls}" style="--char-delay: ${delay}s">${ch}</span>`;
+      idx++;
+    });
+    result += `</span>`;
+  });
+  return result;
+}
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex flex-col justify-center overflow-hidden section-glow-cyan"
+>
+  <!-- Layer 1: Full-bleed 3D core background (z-0) -->
+  <div class="absolute inset-0 z-0">
+    <HeroCore />
+  </div>
+
+  <!-- Layer 2: Subtle blueprint grid (z-[1]) -->
+  <div class="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true" style="background-image: linear-gradient(rgba(25,227,240,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(25,227,240,0.012) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.6;"></div>
+
+  <!-- Layer 3: Legibility scrim — darker envelope around text, transparent toward core (z-[2]) -->
+  <div id="hero-scrim" class="absolute inset-0 z-[2] pointer-events-none" style="background: radial-gradient(ellipse 80% 70% at 22% 45%, rgba(13,15,18,0.95) 0%, rgba(13,15,18,0.68) 30%, rgba(13,15,18,0.3) 55%, rgba(13,15,18,0.05) 75%, transparent 90%);"></div>
+
+  <!-- Layer 3b: Mouse-reactive ambient glow (z-[2]) -->
+  <div id="hero-ambient-glow" class="absolute z-[2] pointer-events-none" aria-hidden="true" style="width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.045) 0%, transparent 55%); transform: translate(-50%, -50%);"></div>
+
+  <!-- Layer 3c: Ember glow beneath scrim (z-[2]) -->
+  <div class="absolute inset-0 z-[2] pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 60% 35% at 75% 65%, rgba(255,122,26,0.05) 0%, transparent 60%);"></div>
+
+  <!-- Layer 4: Content container (z-[3]) -->
+  <div class="relative z-[3] w-full px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-20 md:py-24 lg:py-28" style="max-width: var(--container-max); margin: 0 auto;">
+    <div class="max-w-2xl lg:max-w-3xl lg:pr-12">
+      <!-- Kicker -->
+      <span class="block font-mono text-xs md:text-sm tracking-[0.08em] uppercase text-[var(--color-accent)] reveal" style="transition-delay: 0.1s;">
+        {t("hero.kicker")}
+      </span>
+
+      <!-- Kinetic headline -->
+      <h1 class="kinetic-headline font-bold text-[var(--color-text-primary)] leading-[1.1] tracking-[-0.03em] mt-3 reveal" style="transition-delay: 0.15s;" set:html={lines.map(function (line, li) {
+        const offset = li === 0 ? 0 : lines[0].length + 1;
+        return li > 0
+          ? `<br/>` + renderChars(line, offset)
+          : renderChars(line, offset);
+        }).join("")}>
+      </h1>
+
+      <!-- Subtext -->
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mt-5 reveal" style="transition-delay: 0.25s;">
+        {t("hero.subtitle")}
+      </p>
+
+      <!-- Animated tagline -->
+      <div class="tagline-cycle flex items-center gap-3 text-base font-mono tracking-widest mt-8 reveal" style="transition-delay: 0.35s;" set:html={taglineWords.map(function (word, i) {
+        return `<span class="tagline-word" data-word="${i}">${word}</span>`;
+        }).join("")}>
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap items-center gap-3 md:gap-4 mt-9 reveal" style="transition-delay: 0.4s;">
+        <a
+          href="#contact"
+            class="hero-cta cta-forge inline-flex items-center gap-2 px-7 py-3 md:px-8 md:py-3.5 rounded-[var(--radius-md)] text-black font-bold text-xs md:text-sm uppercase tracking-widest no-underline transition-all duration-300 magnetic"
+        >
+          {t("hero.cta")}
+          <svg class="w-3.5 h-3.5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a
+          href="#proof"
+          class="hero-cta-secondary inline-flex items-center gap-2 px-7 py-3 md:px-8 md:py-3.5 rounded-[var(--radius-md)] border text-xs md:text-sm uppercase tracking-widest no-underline transition-all duration-300 magnetic"
+          style="border-color: var(--color-slate); color: var(--color-text-primary);"
+        >
+          {t("hero.cta.secondary")}
+        </a>
+      </div>
+
+      <!-- Blueprint annotation: "Start here" — arrow points up-right toward primary CTA -->
+      <div class="annotation-cta hidden md:flex items-center gap-1.5 mt-3 pointer-events-none reveal" style="transition-delay: 0.45s;">
+        <span class="font-hand text-base text-[var(--color-accent)]/65 -rotate-6 whitespace-nowrap">{t("hero.starthere")}</span>
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" style="color: var(--color-accent); opacity: 0.4;">
+          <path d="M5 15 L13 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M9 7 L13 7 L11 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- Trust line -->
+      <div class="flex items-center gap-3 pt-4 mt-10 reveal" style="transition-delay: 0.5s; border-top: 1px solid var(--color-border);">
+        <div class="flex -space-x-2">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-ember)] flex items-center justify-center text-[10px] font-bold text-black ring-2 ring-[var(--color-bg)]">
+            AE
+          </div>
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-ember)] to-[var(--color-accent)] flex items-center justify-center text-[10px] font-bold text-black ring-2 ring-[var(--color-bg)]">
+            FB
+          </div>
+        </div>
+        <span class="text-xs md:text-sm text-[var(--color-text-secondary)]">{t("hero.trust.label")}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation: "Le Cœur" / "The Core" -->
+  <div class="annotation-core hidden md:flex items-center gap-1.5 absolute bottom-[12%] right-[4%] z-[3] pointer-events-none reveal" style="transition-delay: 0.2s;">
+    <span class="font-hand text-sm text-[var(--color-slate)]/50 rotate-3">{t("hero.core")}</span>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style="color: var(--color-slate); opacity: 0.3;">
+      <path d="M16 9 L7 9 M10 6 L7 9 L10 12" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="5.5" cy="9" r="1" fill="currentColor"/>
+    </svg>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-cue absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-[3]">
+    <div class="w-px h-8 md:h-10" style="background: linear-gradient(to bottom, rgba(25,227,240,0.35), transparent);"></div>
+    <span class="font-mono text-[10px] md:text-[11px] tracking-[0.15em] uppercase" style="color: rgba(138,151,166,0.55);">{t("hero.scroll")}</span>
+  </div>
+</section>
+
+<style is:global>
+  /* ─── Kinetic headline: responsive size + no word break ─── */
+   .kinetic-headline {
+    font-size: clamp(1.85rem, 4.5vw + 0.5rem, 4.5rem);
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+  @media (min-width: 640px) {
+    .kinetic-headline {
+      font-size: clamp(2rem, 5vw + 0.5rem, 5rem);
+    }
+  }
+
+  /* ─── Kinetic headline: character stamp-in ─── */
+  .kinetic-headline .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    animation: stamp-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--char-delay, 0s);
+  }
+  @keyframes stamp-in {
+    0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ─── Forge char ember glow (after stamp settles) ─── */
+  .kinetic-headline .forge-char {
+    animation: stamp-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+               forge-glow 2.5s ease-in-out infinite;
+    animation-delay: var(--char-delay, 0s),
+                     calc(var(--char-delay, 0s) + 0.6s);
+  }
+  @keyframes forge-glow {
+    0%, 100% { color: var(--color-off-white); text-shadow: 0 0 0 transparent; }
+    50% { color: var(--color-ember); text-shadow: 0 0 8px rgba(255, 122, 26, 0.25), 0 0 20px rgba(255, 122, 26, 0.1); }
+  }
+
+  /* ─── Tagline cycle ─── */
+  .tagline-word {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.4;
+    color: var(--color-off-white);
+    transition: opacity 0.6s ease, color 0.6s ease;
+    text-shadow: 0 0 8px rgba(13,15,18,0.3);
+  }
+  .tagline-word::before {
+    content: '';
+    display: block;
+    width: 1.25rem;
+    height: 1px;
+    margin-bottom: 0.3rem;
+    background: var(--color-accent);
+    opacity: 0.12;
+    transition: opacity 0.6s ease, background 0.6s ease;
+  }
+  .tagline-word.active {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+  .tagline-word.active::before {
+    opacity: 0.7;
+  }
+  .tagline-word.active-emphasis {
+    opacity: 1;
+    color: var(--color-cta);
+  }
+  .tagline-word.active-emphasis::before {
+    opacity: 1;
+    background: var(--color-cta);
+  }
+
+  /* ─── Scroll cue pulse ─── */
+  .scroll-cue > div {
+    animation: scroll-pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.45; transform: scaleY(1); }
+    50% { opacity: 0.85; transform: scaleY(1.2); }
+  }
+  .scroll-cue span {
+    animation: scroll-fade 2.5s ease-in-out infinite;
+  }
+  @keyframes scroll-fade {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+  }
+
+  /* ─── Hero CTA hover ─── */
+  .hero-cta:hover {
+    box-shadow: 0 0 20px rgba(255, 122, 26, 0.5);
+  }
+  .hero-cta-secondary:hover {
+    border-color: var(--color-accent) !important;
+    color: var(--color-accent) !important;
+  }
+
+/* ─── Mobile: stronger scrim for legibility ─── */
+   @media (max-width: 768px) {
+     #hero {
+       min-height: 100dvh;
+     }
+     #hero-scrim {
+        background: radial-gradient(ellipse 100% 90% at 30% 25%, rgba(13,15,18,0.97) 0%, rgba(13,15,18,0.82) 35%, rgba(13,15,18,0.55) 60%, rgba(13,15,18,0.3) 80%, transparent 100%) !important;
+      }
+     /* Less vertical padding on mobile */
+     .kinetic-headline {
+       font-size: clamp(1.4rem, 5vw + 0.3rem, 1.75rem);
+     }
+   }
+
+  /* ─── Reduced motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .kinetic-headline .char,
+    .kinetic-headline .forge-char {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    .kinetic-headline .forge-char {
+      color: var(--color-off-white);
+      text-shadow: none;
+    }
+    .tagline-word {
+      opacity: 0.5 !important;
+      color: var(--color-text-secondary) !important;
+      transition: none !important;
+    }
+    .scroll-cue > div,
+    .scroll-cue span {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    /* ─── Tagline cycle ─── */
+    var words = document.querySelectorAll(".tagline-word");
+    if (words.length > 0) {
+      var current = 1;
+      var total = words.length;
+
+      function cycleTagline() {
+        words.forEach(function (w) {
+          w.classList.remove("active", "active-emphasis");
+        });
+
+        var word = words[current];
+        var isLast = current === total - 1;
+        word.classList.add(isLast ? "active-emphasis" : "active");
+
+        current = (current + 1) % total;
+      }
+
+      words[0].classList.add("active");
+      setInterval(cycleTagline, 3000);
+    }
+
+    /* ─── Ambient mouse glow ─── */
+    var glow = document.getElementById("hero-ambient-glow");
+    if (glow && !prefersReduced) {
+      var hero = document.getElementById("hero");
+      hero.addEventListener("mousemove", function (e) {
+        var rect = hero.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        glow.style.left = x + "px";
+        glow.style.top = y + "px";
+      });
+    }
+
+    /* ─── Reduced motion: disable magnetic ─── */
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReduced) {
+      var magnets = document.querySelectorAll(".magnetic");
+      magnets.forEach(function (el) {
+        el.addEventListener("mousemove", function (e) {
+          var rect = el.getBoundingClientRect();
+          var x = e.clientX - rect.left - rect.width / 2;
+          var y = e.clientY - rect.top - rect.height / 2;
+          el.style.transform = "translate(" + (x * 0.18) + "px, " + (y * 0.18) + "px)";
+        });
+        el.addEventListener("mouseleave", function () {
+          el.style.transform = "translate(0px, 0px)";
+        });
+      });
+    }
+  })();
+</script>

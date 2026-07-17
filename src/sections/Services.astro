@@ -1,0 +1,49 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const services = [
+  { key: "web", icon: "lucide:layout" },
+  { key: "ai", icon: "lucide:brain-circuit" },
+  { key: "automation", icon: "lucide:workflow" },
+  { key: "acquisition", icon: "lucide:trending-up" },
+  { key: "security", icon: "lucide:shield-check" },
+];
+---
+
+<section id="services" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface section-glow-cyan">
+  <div class="mx-auto" style="max-width: var(--container-max);">
+    <div class="reveal">
+      <p class="section-kicker">{t("services.kicker")}</p>
+      <h2 class="section-title">{t("services.title")}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--gutter)]">
+      {services.map((s, i) => {
+        const isFeatured = s.key === "ai";
+        const stn = (i + 1).toString().padStart(2, "0");
+        return (
+          <div class={`rounded-[var(--radius-lg)] ${isFeatured ? "card-luminous border-transparent" : "border border-[var(--color-border)]"} bg-[var(--color-surface-2)] p-6 md:p-7 lg:p-8 shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.15)] transition-all duration-300 group reveal`} style={`transition-delay: ${0.08 * i}s`}>
+            <div class="flex items-start justify-between mb-5">
+              <div class={`w-11 h-11 rounded-[var(--radius-md)] flex items-center justify-center ${isFeatured ? "bg-[var(--color-accent)]/15" : "bg-[var(--color-accent)]/8"} group-hover:bg-[var(--color-accent)]/15 transition-colors`}>
+                <Icon name={s.icon} class={`w-5 h-5 ${isFeatured ? "text-[var(--color-accent)]" : "text-[var(--color-accent)]"} group-hover:scale-110 transition-transform`} />
+              </div>
+              <span class={`tag-badge ${isFeatured ? "tag-badge-cyan" : ""}`}>
+                STN-{stn}
+              </span>
+            </div>
+            <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-2">{t(`service.${s.key}.title`)}</h3>
+            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`service.${s.key}.desc`)}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

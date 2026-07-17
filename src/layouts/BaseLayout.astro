@@ -1,0 +1,185 @@
+---
+import "../styles/global.css";
+import type { Lang } from "../i18n/util";
+import Loader from "../components/Loader.astro";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  lang?: Lang;
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+} = Astro.props;
+
+const metaTitle = title ?? (lang === "fr"
+  ? "Flintlock — Studio Web, IA, Automatisation & Cybersécurité"
+  : "Flintlock — Web Dev, AI Automation & Cybersecurity Studio");
+
+const metaDesc = description ?? (lang === "fr"
+  ? "Studio digital fondé par deux ingénieurs : développement web, intelligence artificielle, automatisation et cybersécurité. Basé au Maroc. Clients dans le monde."
+  : "Digital studio by two engineers specializing in web development, AI integration, automation and cybersecurity. Based in Morocco. Global clients.");
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogLocale = lang === "fr" ? "fr_FR" : "en_US";
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDesc} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDesc} />
+    <meta property="og:image" content="/img/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={metaTitle} />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:site_name" content="Flintlock" />
+    <meta property="og:updated_time" content="2026-07-05T12:00:00Z" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={lang === "en" ? "fr_FR" : "en_US"} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={metaTitle} />
+    <meta name="twitter:description" content={metaDesc} />
+    <meta name="twitter:image" content="/img/og-image.svg" />
+    <meta name="twitter:image:alt" content={metaTitle} />
+    <meta name="twitter:site" content="@flintlock" />
+
+    <link rel="alternate" hreflang="en" href="https://flintlock.io/" />
+    <link rel="alternate" hreflang="fr" href="https://flintlock.io/fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://flintlock.io/" />
+
+    <meta name="theme-color" content="#0C0F13" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0C0F13" media="(prefers-color-scheme: light)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="google-site-verification" content="google7b972a9e3f6fe490.html" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preload" href="/fonts/syne-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Plausible Analytics (privacy-friendly) -->
+    <script defer data-domain="flintlock.io" src="https://plausible.io/js/script.js"></script>
+  </head>
+
+  <body>
+    <Loader />
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <slot name="background" />
+
+    <a href="#main-content" class="skip-link">
+      {lang === "fr" ? "Aller au contenu" : "Skip to content"}
+    </a>
+
+    <slot name="header" />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+
+    <!-- GEO content for LLMs & search engines -->
+    <div class="geo-content" aria-label="About Flintlock">
+      <p class="geo-description">{lang === "fr" ? "Flintlock est un studio digital basé au Maroc fondé par deux ingénieurs — Abdellah ERRAOUI et Faris BAHBAH — spécialisé en développement web, intégration d'IA, automatisation et cybersécurité. Nous construisons des sites et applications web haute performance (Astro, Tailwind CSS, Three.js), intégrons des LLM sur mesure et des agents IA génératifs dans les flux de travail métier, automatisons les opérations répétitives avec des pipelines personnalisés, réalisons des audits de sécurité OWASP et des tests d'intrusion, et optimisons le SEO et les Core Web Vitals. Nous servons des clients internationaux en anglais et en français." : "Flintlock is a Morocco-based digital studio founded by two engineers — Abdellah ERRAOUI and Faris BAHBAH — specializing in web development, AI integration, automation, and cybersecurity. We build high-performance websites and web applications using modern stacks (Astro, Tailwind CSS, Three.js), integrate custom LLMs and generative AI agents into business workflows, automate repetitive operations with custom pipelines, run OWASP security audits and penetration testing, and optimize for SEO and Core Web Vitals. We serve international clients in English and French."}</p>
+    </div>
+
+    <script is:inline>
+      (function() {
+        function decodeBase64(str) {
+          try { return atob(str); } catch(e) { return ''; }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('[data-email-href]').forEach(function(el) {
+            var href = decodeBase64(el.getAttribute('data-email-href'));
+            var text = decodeBase64(el.getAttribute('data-email-text'));
+            if (href) el.setAttribute('href', href);
+            var span = el.querySelector('.email-obfuscated');
+            if (span && text) span.textContent = text;
+          });
+        });
+      })();
+    </script>
+    <script is:inline>
+      (function() {
+        var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+
+        document.addEventListener("DOMContentLoaded", function() {
+          document.querySelectorAll(".reveal, .reveal-stagger, .gradient-connector").forEach(function(el) {
+            observer.observe(el);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    background: var(--color-cyan);
+    color: var(--color-onyx);
+    font-weight: 700;
+    font-size: 0.875rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: top 150ms ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+  }
+  main {
+    flex: 1;
+    width: 100%;
+  }
+  .geo-content {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>

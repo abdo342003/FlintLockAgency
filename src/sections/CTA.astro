@@ -1,0 +1,134 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="contact" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative section-glow-ember overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255,122,26,0.06) 0%, transparent 70%);"></div>
+  <div class="mx-auto text-center relative" style="max-width: 640px;">
+    <div class="reveal">
+      <p class="section-kicker text-[var(--color-accent)]">{t("cta.kicker")}</p>
+      <h2 class="section-title mb-4">{t("cta.title")}</h2>
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] mb-10">{t("cta.desc")}</p>
+    </div>
+
+    <div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-border)]/50 bg-[var(--color-surface-2)] p-6 md:p-8 mb-8 shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] reveal">
+      <form id="contact-form" class="space-y-5" action="https://api.web3forms.com/submit" method="POST" data-lang={lang}>
+        <input type="hidden" name="access_key" value="9f697629-4041-4711-9ed9-5a542b5031a6" />
+        <input type="hidden" name="subject" value={lang === "fr" ? "Nouveau message depuis Flintlock" : "New message from Flintlock"} />
+        <input type="hidden" name="from_name" value="Flintlock Website" />
+        <div>
+          <input type="text" name="name" placeholder={lang === "fr" ? "Votre nom" : "Your name"} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
+        </div>
+        <div>
+          <input type="email" name="email" placeholder={lang === "fr" ? "Votre email" : "Your email"} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
+        </div>
+        <div>
+          <textarea name="message" placeholder={lang === "fr" ? "Parlez-nous de votre projet..." : "Tell us about your project..."} rows={4} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)] resize-none" required></textarea>
+        </div>
+        <div id="form-status" class="hidden font-mono text-xs tracking-wide text-center py-2 rounded-[var(--radius-md)]"></div>
+        <button type="submit" class="cta-forge w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer">
+          <span>{t("cta.button")}</span>
+          <Icon name="lucide:arrow-right" class="w-4 h-4" />
+        </button>
+      </form>
+    </div>
+
+    <!-- Web3Forms handles submission + Turnstile inline; our success/error layer -->
+    <div id="form-result" class="hidden"></div>
+
+    <div class="flex flex-col items-center gap-4 reveal">
+      <span class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/40">{t("cta.alt")}</span>
+      <div class="flex items-center gap-4">
+        <a href="#" class="flex items-center gap-2 text-[var(--color-accent)] no-underline hover:underline text-sm py-2" data-email-href="bWFpbHRvOmFkZGVsbGFoZXJyYW91aTNAZ21haWwuY29t" data-email-text="YWRkZWxsYWhlcnJhb3VpM0BnbWFpbC5jb20=">
+          <Icon name="lucide:mail" class="w-4 h-4" />
+          <span class="email-obfuscated">email</span>
+        </a>
+        <span class="text-[var(--color-off-white)]/15">|</span>
+        <a href="tel:+212706570686" class="flex items-center gap-2 text-[var(--color-off-white)]/60 no-underline hover:text-[var(--color-accent)] transition-colors text-sm py-2">
+          <Icon name="lucide:phone" class="w-4 h-4" />
+          +212 706-570686
+        </a>
+        <span class="text-[var(--color-off-white)]/15">|</span>
+        <a href="https://wa.me/212706570686" class="flex items-center gap-2 text-[var(--color-off-white)]/60 no-underline hover:text-[var(--color-accent)] transition-colors text-sm py-2" target="_blank" rel="noopener">
+          <Icon name="lucide:message-circle" class="w-4 h-4" />
+          {t("cta.whatsapp")}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .cta-card {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .cta-card:focus-within {
+    border-color: rgba(25, 227, 240, 0.2);
+    box-shadow: 0 0 24px rgba(25, 227, 240, 0.06), inset 1px 1px 0 0 rgba(25, 227, 240, 0.08);
+  }
+  .input-forge {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, border-left-color 0.2s ease;
+  }
+  .input-forge:focus {
+    border-color: rgba(25, 227, 240, 0.25);
+    border-left-color: var(--color-accent);
+    box-shadow: 0 0 0 1px rgba(25, 227, 240, 0.2);
+    outline: none;
+  }
+</style>
+
+<!-- Web3Forms client (handles Turnstile + AJAX submission) -->
+<script src="https://web3forms.com/client/script.js" async defer></script>
+
+<script>
+  (function () {
+    var form = document.getElementById("contact-form");
+    var result = document.getElementById("form-result");
+    if (!form) return;
+
+    /* Watch for success: Web3Forms clears the form on success */
+    var origSubmit = form.querySelector('[type="submit"]');
+    var inputs = form.querySelectorAll("input, textarea");
+
+    form.addEventListener("submit", function () {
+      /* On submit attempt, disable button briefly */
+      if (origSubmit) origSubmit.disabled = true;
+    });
+
+    /* Detect successful submission — Web3Forms clears form fields */
+    var checkCleared = setInterval(function () {
+      if (origSubmit && origSubmit.disabled) {
+        var allEmpty = true;
+        inputs.forEach(function (el) {
+          if (el.type !== "hidden" && el.value && el.value.trim() !== "") {
+            allEmpty = false;
+          }
+        });
+        if (allEmpty) {
+          clearInterval(checkCleared);
+          form.classList.add("hidden");
+          result.classList.remove("hidden");
+          result.innerHTML =
+            '<div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-accent)]/20 bg-[var(--color-surface-2)] p-8 mb-8 text-center">' +
+            '<div class="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mx-auto mb-4">' +
+            '<svg class="w-6 h-6 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+            '</div>' +
+            '<p class="font-bold text-lg text-[var(--color-off-white)] mb-1">' +
+            (form.getAttribute("data-lang") === "fr" ? "Message envoyé !" : "Message sent!") +
+            '</p>' +
+            '<p class="text-sm text-[var(--color-text-secondary)]">' +
+            (form.getAttribute("data-lang") === "fr" ? "Nous vous répondrons sous 24 à 48 heures." : "We'll get back to you within 24-48 hours.") +
+            '</p></div>';
+        }
+      }
+    }, 500);
+  })();
+</script>

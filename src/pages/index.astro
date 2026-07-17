@@ -1,0 +1,190 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ForgeBackground from "../components/ForgeBackground.astro";
+import Cursor from "../components/Cursor.astro";
+
+import Header from "../sections/Header.astro";
+import Hero from "../sections/Hero.astro";
+import Problem from "../sections/Problem.astro";
+import Solution from "../sections/Solution.astro";
+import Services from "../sections/Services.astro";
+import Process from "../sections/Process.astro";
+import Proof from "../sections/Proof.astro";
+import Why from "../sections/Why.astro";
+import Team from "../sections/Team.astro";
+import FAQ from "../sections/FAQ.astro";
+import CTA from "../sections/CTA.astro";
+import Footer from "../sections/Footer.astro";
+import { useTranslations } from "../i18n/util";
+
+const t = useTranslations("en");
+const siteUrl = "https://flintlock.io";
+
+const faqEntries = ["1", "2", "3", "4", "5"].map((id) => ({
+  "@type": "Question",
+  name: t(`faq.${id}.q`),
+  acceptedAnswer: {
+    "@type": "Answer",
+    text: t(`faq.${id}.a`),
+  },
+}));
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Flintlock",
+      url: siteUrl,
+      logo: `${siteUrl}/logo.png`,
+      description:
+        "Digital studio: web, AI, automation, security — built by two engineers.",
+      foundingDate: "2025",
+      founders: [
+        { "@type": "Person", name: "Abdellah ERRAOUI" },
+        { "@type": "Person", name: "Faris BAHBAH" },
+      ],
+      address: { "@type": "PostalAddress", addressCountry: "MA" },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+212-706-570686",
+        email: "addellaherraoui3@gmail.com",
+        contactType: "sales",
+        availableLanguage: ["English", "French"],
+      },
+      sameAs: [
+        "https://linkedin.com/company/flintlock",
+        "https://github.com/flintlock",
+      ],
+      knowsAbout: [
+        "Web Development",
+        "Artificial Intelligence",
+        "Automation",
+        "Cybersecurity",
+        "SEO",
+        "Penetration Testing",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "Flintlock",
+      url: siteUrl,
+      description:
+        "Digital studio: web, AI, automation, security — built by two engineers.",
+      inLanguage: "en",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      ],
+    },
+    {
+      "@type": "HowTo",
+      name: "How Flintlock Works",
+      description: "Our four-step process to take your project from discovery to launch.",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "Discovery & Audit",
+          text: "We learn your business, audit your current stack, and define the roadmap.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "Design & Build",
+          text: "We craft the experience and build it with performance and accessibility baked in.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "Automate & Integrate AI",
+          text: "We wire automation and AI into your workflow so it runs without you.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 4,
+          name: "Secure, Launch & Grow",
+          text: "Hardening, launch, monitoring. Then we iterate to keep you ahead.",
+        },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      name: "Flintlock Services",
+      description: "Five core service stations for digital success.",
+      itemListElement: [
+        {
+          "@type": "Service",
+          position: 1,
+          name: "Web & Apps",
+          description: "High-performance digital platforms built with modern stacks. Fast, animated, conversion-optimised.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 2,
+          name: "AI Integration",
+          description: "Custom LLMs and generative agents embedded into your workflow. Not a chatbot — a real productivity multiplier.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 3,
+          name: "Automation",
+          description: "Eliminate repetitive tasks. Custom pipelines that run your operations on autopilot.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 4,
+          name: "Acquisition & Leads",
+          description: "SEO-optimised architecture + data-driven lead generation. Traffic that converts.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Service",
+          position: 5,
+          name: "Security",
+          description: "Built in by default. OWASP audits, hardening, OT expertise. Every line of code protected.",
+          provider: { "@id": `${siteUrl}/#organization` },
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqEntries,
+    },
+  ],
+};
+---
+
+<BaseLayout lang="en">
+  <ForgeBackground slot="background" />
+  <Cursor />
+
+  <Header slot="header" lang="en" />
+
+  <Hero lang="en" />
+
+  <Problem lang="en" />
+  <Solution lang="en" />
+
+  <Services lang="en" />
+  <Process lang="en" />
+
+  <Proof lang="en" />
+  <Why lang="en" />
+  <Team lang="en" />
+
+  <FAQ lang="en" />
+  <CTA lang="en" />
+
+  <Footer slot="footer" lang="en" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</BaseLayout>

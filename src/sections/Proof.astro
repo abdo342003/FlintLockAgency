@@ -1,0 +1,138 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const block1 = [
+  { key: "exploit", tagClass: "tag-badge-cyan" },
+  { key: "otshield", tagClass: "tag-badge-cyan" },
+  { key: "whitehat", tagClass: "tag-badge-cyan" },
+];
+const block2 = [
+  { key: "jardin", tagClass: "" },
+  { key: "revetpro", tagClass: "" },
+  { key: "owasp", tagClass: "" },
+];
+
+const tagLabel = (key: string) => {
+  const labels: Record<string, string> = {
+    exploit: lang === "fr" ? "PROJET CRÉÉ" : "IN-HOUSE",
+    otshield: lang === "fr" ? "PROJET CRÉÉ" : "IN-HOUSE",
+    whitehat: lang === "fr" ? "DIVULGATION" : "DISCLOSURE",
+    jardin: "FIFTY FIVE DIGITAL",
+    revetpro: "FIFTY FIVE DIGITAL",
+    owasp: "FIFTY FIVE DIGITAL",
+  };
+  return labels[key] || "";
+};
+---
+
+<section id="proof" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 50% 30% at 50% 20%, rgba(25,227,240,0.03) 0%, transparent 70%);"></div>
+  <div class="mx-auto relative" style="max-width: var(--container-max);">
+    <div class="reveal">
+      <p class="section-kicker">{t("proof.kicker")}</p>
+      <h2 class="section-title mb-6">{t("proof.block1.title")}</h2>
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mb-16 border-l-2 border-[var(--color-accent)]/30 pl-5">
+        {t("proof.section.intro")}
+      </p>
+    </div>
+
+    <!-- Block 1 -->
+    <div class="mb-20">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
+        {block1.map((item, i) => (
+          <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 flex flex-col shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.08 * i}s`}>
+            <span class={`tag-badge ${item.tagClass} mb-3 w-fit`}>{tagLabel(item.key)}</span>
+            <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-3">{t(`proof.${item.key}.title`)}</h3>
+            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`proof.${item.key}.desc`)}</p>
+            {item.key === "exploit" && (
+              <div class="mt-auto pt-4 border-t border-[var(--color-border)] mt-4">
+                <div class="flex items-baseline gap-2">
+                  <span class="font-display text-3xl font-bold text-[var(--color-accent)]" data-counter-to="85" data-counter-prefix="-" data-counter-suffix="%">-85%</span>
+                  <span class="font-mono text-[11px] uppercase tracking-widest text-[var(--color-accent)]/60">MÉTRIQUE</span>
+                </div>
+                <span class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-secondary)]/70 block mt-1">{lang === "fr" ? "Réduction du temps d'audit" : "Audit time reduction"}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Block2 intro -->
+    <p class="text-sm md:text-base text-[var(--color-text-secondary)]/80 leading-relaxed max-w-3xl mb-2 reveal">{t("proof.block2.intro")}</p>
+    <div class="w-12 h-px bg-gradient-to-r from-[var(--color-cta)] to-transparent mb-8 reveal"></div>
+
+    <!-- Block 2: Notre expérience -->
+    <div class="mb-20 reveal">
+      <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-[var(--color-text-primary)] mb-8">{t("proof.block2.title")}</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
+        {block2.map((item, i) => (
+          <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 flex flex-col shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.08 * i}s`}>
+            <span class={`tag-badge ${item.tagClass} mb-3 w-fit`}>{tagLabel(item.key)}</span>
+            <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-3">{t(`proof.${item.key}.title`)}</h3>
+            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`proof.${item.key}.desc`)}</p>
+            <span class="mt-auto pt-3 font-mono text-[10px] tracking-widest uppercase text-[var(--color-slate)]/40 border-t border-[var(--color-border)]">via Fifty Five Digital</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="border-t border-[var(--color-border)] pt-6 reveal">
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <span class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-text-secondary)]/40">RECONNAISSANCES</span>
+        <span class="h-3 w-px bg-[var(--color-border)]"></span>
+        <span class="tag-badge tag-badge-cyan">EMSI Inventors Cup 2026</span>
+        <span class="tag-badge tag-badge-cyan">Hack'Days @ UEMF</span>
+        <span class="tag-badge tag-badge-cyan">Divulgation responsable emsi.ma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    var counters = document.querySelectorAll("[data-counter-to]");
+    if (!counters.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var target = parseInt(el.getAttribute("data-counter-to"), 10);
+          var prefix = el.getAttribute("data-counter-prefix") || "";
+          var suffix = el.getAttribute("data-counter-suffix") || "";
+          var duration = 1200;
+          var start = performance.now();
+
+          function animate(now) {
+            var elapsed = now - start;
+            var progress = Math.min(elapsed / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.round(eased * target);
+            el.textContent = prefix + current + suffix;
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
+          }
+          requestAnimationFrame(animate);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function(el) {
+      observer.observe(el);
+    });
+  })();
+</script>

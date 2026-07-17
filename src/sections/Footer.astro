@@ -1,0 +1,123 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="footer-root bg-[var(--color-surface-2)] relative overflow-hidden">
+  <!-- Forge glow at top -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 35% 50% at 0% 0%, rgba(255,122,26,0.04) 0%, transparent 60%), radial-gradient(ellipse 35% 50% at 100% 0%, rgba(25,227,240,0.03) 0%, transparent 60%);"></div>
+
+  <!-- Top border accent -->
+  <div class="absolute top-0 inset-x-[15%] h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/15 to-transparent pointer-events-none"></div>
+
+  <div class="mx-auto px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] pt-[var(--stack-lg)] pb-[var(--stack-md)] relative" style="max-width: var(--container-max);">
+
+    <!-- Main grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 mb-12">
+
+      <!-- Brand (5 cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-3">
+        <a href="/" class="flex items-center gap-3 text-[var(--color-text-primary)] no-underline mb-1 group">
+          <img src="/logo.png?v=2" alt="Flintlock" class="h-12 w-auto object-contain" />
+          <span class="font-display text-lg font-extrabold tracking-[0.15em] leading-none">FLINTLOCK</span>
+        </a>
+        <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed max-w-sm">
+          {t("footer.tagline")}
+        </p>
+        <p class="font-mono text-xs text-[var(--color-text-secondary)]/60 leading-relaxed max-w-xs">
+          {t("footer.founded")}
+        </p>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="relative flex w-2 h-2">
+            <span class="absolute inset-0 rounded-full bg-green-500/60 motion-safe:animate-ping motion-safe:animation-duration-2000"></span>
+            <span class="relative rounded-full w-2 h-2 bg-green-400"></span>
+          </span>
+          <span class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/50">{t("nav.status")}</span>
+        </div>
+        <p class="font-mono text-[10px] tracking-[0.12em] text-[var(--color-text-secondary)]/35 mt-0.5">
+          {t("hero.trust.label")}
+        </p>
+        <a href="#contact" class="cta-forge self-start mt-2 px-6 py-3 rounded-[var(--radius-md)] text-black font-bold text-xs uppercase tracking-[0.12em] no-underline inline-flex items-center gap-2">
+          {t("nav.book")}
+          <Icon name="lucide:arrow-right" class="w-3 h-3" />
+        </a>
+      </div>
+
+      <!-- Services (3 cols) -->
+      <div class="lg:col-span-3 flex flex-col gap-2.5">
+        <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5">{t("services.kicker")}</p>
+        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("service.web.title")}</a>
+        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("service.ai.title")}</a>
+        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("service.automation.title")}</a>
+        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("service.security.title")}</a>
+      </div>
+
+      <!-- Links + Connect (4 cols) -->
+      <div class="lg:col-span-4 lg:grid lg:grid-cols-2 gap-6">
+        <!-- Quick links -->
+        <div class="flex flex-col gap-2.5 mb-8 lg:mb-0">
+          <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5">{t("footer.links")}</p>
+          <a href="#process" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.services")}</a>
+          <a href="#proof" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.work")}</a>
+          <a href="#team" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.team")}</a>
+          <a href="#faq" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.faq")}</a>
+        </div>
+        <!-- Connect -->
+        <div class="flex flex-col gap-2.5">
+          <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5">{t("footer.social")}</p>
+          <a href="#" class="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2" data-email-href="bWFpbHRvOmFkZGVsbGFoZXJyYW91aTNAZ21haWwuY29t" data-email-text="YWRkZWxsYWhlcnJhb3VpM0BnbWFpbC5jb20=">
+            <Icon name="lucide:mail" class="w-4 h-4" />
+            <span class="email-obfuscated">email</span>
+          </a>
+          <a href="tel:+212706570686" class="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">
+            <Icon name="lucide:phone" class="w-4 h-4" />
+            +212 706-570686
+          </a>
+          <div class="flex items-center gap-1 mt-1">
+            <a href="https://linkedin.com/company/flintlock" class="p-2 text-[var(--color-text-secondary)]/60 hover:text-[var(--color-accent)] transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <Icon name="simple-icons:linkedin" class="w-5 h-5" />
+            </a>
+            <a href="https://github.com/flintlock" class="p-2 text-[var(--color-text-secondary)]/60 hover:text-[var(--color-accent)] transition-colors" aria-label="GitHub" target="_blank" rel="noopener">
+              <Icon name="simple-icons:github" class="w-5 h-5" />
+            </a>
+            <a href="https://wa.me/212706570686" class="p-2 text-[var(--color-text-secondary)]/60 hover:text-[var(--color-accent)] transition-colors" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <Icon name="simple-icons:whatsapp" class="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tagline separator -->
+    <div class="relative flex items-center justify-center py-8 mb-6">
+      <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/8 to-transparent pointer-events-none"></div>
+      <span class="relative px-6 bg-[var(--color-surface-2)] font-display text-sm md:text-base font-bold tracking-[0.3em] uppercase text-[var(--color-accent)]/30">
+        Build. <span class="text-[var(--color-cta)]/30">Automate</span>. Grow.
+      </span>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t border-[var(--color-border)]/40">
+      <p class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/35 text-center md:text-left">
+        &copy; 2026 Flintlock. {t("footer.rights")}
+      </p>
+      <div class="flex items-center gap-4">
+        <a href="#hero" class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors">
+          &uarr; Back to top
+        </a>
+        <p class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 text-center">
+          {t("footer.tagline")}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqs = ["1", "2", "3", "4", "5"];
+---
+
+<section id="faq" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface section-glow-cyan">
+  <div class="mx-auto" style="max-width: var(--container-max);">
+    <div class="reveal">
+      <p class="section-kicker">{t("faq.kicker")}</p>
+      <h2 class="section-title">{t("faq.title")}</h2>
+    </div>
+
+    <div class="max-w-2xl mx-auto space-y-3" id="faq-group">
+      {faqs.map((faq, i) => (
+        <details class="group rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] faq-item hover:border-[var(--color-accent)]/25 open:border-[var(--color-accent)]/30 open:border-l-[var(--color-accent)] transition-all duration-200" name="faq" style="border-left: 2px solid transparent;">
+          <summary class="flex items-center justify-between p-5 md:p-6 cursor-pointer font-bold text-sm md:text-base text-[var(--color-text-primary)] list-none">
+            {t(`faq.${faq}.q`)}
+            <Icon name="lucide:chevron-down" class="w-4 h-4 text-[var(--color-text-secondary)] group-open:rotate-180 transition-transform duration-200 flex-shrink-0 ml-4" />
+          </summary>
+          <div class="px-5 md:px-6 pb-5 md:pb-6">
+            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`faq.${faq}.a`)}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var items = document.querySelectorAll(".faq-item");
+    items.forEach(function(item) {
+      item.addEventListener("toggle", function() {
+        if (item.open) {
+          items.forEach(function(other) {
+            if (other !== item) other.removeAttribute("open");
+          });
+        }
+      });
+    });
+  })();
+</script>
+
+<style is:global>
+  details summary::-webkit-details-marker { display: none; }
+</style>

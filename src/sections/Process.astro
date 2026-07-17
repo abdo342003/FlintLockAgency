@@ -1,0 +1,55 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = ["step1", "step2", "step3", "step4"];
+const stepIcons = ["search", "pen-tool", "workflow", "shield-check"];
+---
+
+<section id="process" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 60% 40% at 70% 50%, rgba(25,227,240,0.03) 0%, transparent 70%);"></div>
+  <div class="mx-auto relative" style="max-width: var(--container-max);">
+    <div class="reveal">
+      <p class="section-kicker">{t("process.kicker")}</p>
+      <h2 class="section-title">{t("process.title")}</h2>
+    </div>
+
+    <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 md:gap-y-12 gap-x-[var(--gutter)]">
+      <!-- Horizontal connector (desktop) -->
+      <div class="hidden lg:block absolute top-[1.75rem] left-[calc(12.5%+1.75rem)] right-[calc(12.5%+1.75rem)] h-px gradient-connector reveal"></div>
+
+      {steps.map((step, i) => (
+        <div class="process-step relative reveal" style={`transition-delay: ${0.12 * i}s`}>
+          <!-- Mobile/tablet vertical connector -->
+          {i > 0 && <div class="block lg:hidden absolute left-[1.5rem] -top-[calc(var(--gutter)+0.5rem)] w-px h-[calc(var(--gutter)+0.5rem)] bg-gradient-to-b from-[var(--color-accent)] to-[var(--color-cta)] opacity-20"></div>}
+
+          <div class="flex flex-col items-start gap-4">
+            <div class="flex items-center gap-4">
+              <span class="process-node">{i + 1}</span>
+              <Icon name={`lucide:${stepIcons[i]}`} class="w-5 h-5 text-[var(--color-accent)]/80" />
+            </div>
+            <div>
+              <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-2">{t(`process.${step}`)}</h3>
+              <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`process.${step}.desc`)}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .process-step.revealed .process-node {
+    border-color: rgba(25, 227, 240, 0.5);
+    box-shadow: 0 0 14px rgba(25, 227, 240, 0.18), inset 0 0 8px rgba(25, 227, 240, 0.06);
+    transition: border-color 0.6s ease, box-shadow 0.6s ease;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../sections/Header.astro";
+import Footer from "../sections/Footer.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<BaseLayout
+  lang="en"
+  title="Page Not Found (404) — Flintlock Studio"
+  description="The page you are looking for does not exist. Return to Flintlock's homepage to learn about our web development, AI automation, and cybersecurity services."
+>
+  <Header slot="header" lang="en" />
+
+  <section class="min-h-[70vh] flex flex-col items-center justify-center text-center px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">
+    <div class="max-w-lg">
+      <span class="block font-mono text-8xl md:text-9xl font-bold text-[var(--color-accent)]/20 tracking-tight">404</span>
+      <h1 class="font-display text-2xl md:text-4xl font-bold text-[var(--color-text-primary)] mt-2 mb-4">
+        Page not found
+      </h1>
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8">
+        The page you are looking for does not exist or has been moved.<br/>
+        Let us get you back on track.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/" class="cta-forge inline-flex items-center gap-2 px-8 py-4 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest no-underline transition-all duration-300">
+          <Icon name="lucide:arrow-left" class="w-4 h-4" />
+          Back to home
+        </a>
+        <a href="/#contact" class="inline-flex items-center gap-2 px-8 py-4 rounded-[var(--radius-md)] border text-sm uppercase tracking-widest no-underline transition-all duration-300 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]" style="border-color: var(--color-slate); color: var(--color-text-primary);">
+          Contact us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="en" />
+</BaseLayout>
