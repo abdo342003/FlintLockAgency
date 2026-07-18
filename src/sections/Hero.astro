@@ -118,11 +118,11 @@ function renderChars(text: string, lineOffset: number): string {
       <!-- Trust line -->
       <div class="flex items-center gap-3 pt-4 mt-10 reveal" style="transition-delay: 0.5s; border-top: 1px solid var(--color-border);">
         <div class="flex -space-x-2">
-          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-ember)] flex items-center justify-center text-[10px] font-bold text-black ring-2 ring-[var(--color-bg)]">
-            AE
+          <div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-[var(--color-bg)]">
+            <img src="/Abdellah.jpeg" alt="Abdellah ERRAOUI" class="w-full h-full object-cover" width="36" height="36" loading="lazy" />
           </div>
-          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-ember)] to-[var(--color-accent)] flex items-center justify-center text-[10px] font-bold text-black ring-2 ring-[var(--color-bg)]">
-            FB
+          <div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-[var(--color-bg)]">
+            <img src="/Faris.jpeg" alt="Faris BAHBAH" class="w-full h-full object-cover" width="36" height="36" loading="lazy" />
           </div>
         </div>
         <span class="text-xs md:text-sm text-[var(--color-text-secondary)]">{t("hero.trust.label")}</span>
