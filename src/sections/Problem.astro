@@ -21,7 +21,7 @@ const items = ["item1", "item2", "item3"];
         {t("problem.desc")}
       </p>
       <p class="text-sm text-[var(--color-text-secondary)]/60 mb-12">
-        <a href="#solution" class="text-[var(--color-accent)] no-underline hover:underline">Discover our approach &rarr;</a>
+        <a href="#solution" class="text-[var(--color-accent)] no-underline hover:underline">{lang === "fr" ? "Découvrez notre approche" : "Discover our approach"} &rarr;</a>
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
         {items.map((key, i) => (

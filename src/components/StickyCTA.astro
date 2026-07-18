@@ -1,0 +1,67 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="sticky-cta" class="fixed bottom-0 left-0 right-0 z-40 md:hidden translate-y-full transition-transform duration-300" style="padding-bottom: env(safe-area-inset-bottom);">
+  <div class="mx-3 mb-3 rounded-[var(--radius-md)] border border-[var(--color-border)]/50 bg-[var(--color-onyx)]/95 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.4)] p-3">
+    <button data-booking-trigger class="cta-forge w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[var(--radius-md)] text-black font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer">
+      <Icon name="lucide:calendar" class="w-4 h-4" />
+      <span>{t("solution.cta")}</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var stickyBar = document.getElementById("sticky-cta");
+    if (!stickyBar) return;
+
+    var heroSection = document.getElementById("hero");
+    if (!heroSection) return;
+
+    var showThreshold = 400;
+    var lastScroll = 0;
+    var ticking = false;
+
+    function updateSticky() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      if (scrollY > showThreshold) {
+        stickyBar.classList.remove("translate-y-full");
+      } else {
+        stickyBar.classList.add("translate-y-full");
+      }
+      lastScroll = scrollY;
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", function() {
+      if (!ticking) {
+        requestAnimationFrame(updateSticky);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    /* Hide sticky CTA when Calendly modal is open */
+    var observer = new MutationObserver(function() {
+      var modal = document.getElementById("calendly-modal");
+      if (modal && !modal.classList.contains("hidden")) {
+        stickyBar.style.display = "none";
+      } else {
+        stickyBar.style.display = "";
+      }
+    });
+
+    var modal = document.getElementById("calendly-modal");
+    if (modal) {
+      observer.observe(modal, { attributes: true, attributeFilter: ["class"] });
+    }
+  })();
+</script>

@@ -15,7 +15,7 @@ const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
   <div class="absolute inset-4 md:inset-8 lg:inset-12 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-onyx)] overflow-hidden flex flex-col">
     <div class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-2)]">
       <span class="font-mono text-xs tracking-widest uppercase text-[var(--color-text-secondary)]/60">{lang === "fr" ? "Réserver un appel découverte" : "Book a discovery call"}</span>
-      <button id="calendly-close" class="p-2 rounded-full hover:bg-[var(--color-border)]/30 transition-colors cursor-pointer" aria-label="Close">
+        <button id="calendly-close" class="p-2 rounded-full hover:bg-[var(--color-border)]/30 transition-colors cursor-pointer" aria-label={lang === "fr" ? "Fermer" : "Close"}>
         <svg class="w-5 h-5 text-[var(--color-text-secondary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>

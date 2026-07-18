@@ -1,5 +1,11 @@
 ---
+import { type Lang } from "../i18n/util";
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
 ---
 
 <div id="forge-loader" aria-hidden="true">
@@ -30,7 +36,7 @@
     <div class="loader-spark loader-sp3" aria-hidden="true"></div>
     <div class="loader-spark loader-sp4" aria-hidden="true"></div>
     <!-- Label -->
-    <p class="loader-label" id="loader-label">Forging experience…</p>
+    <p class="loader-label" id="loader-label" data-lang={lang}>{lang === "fr" ? "Façonnage de l'expérience…" : "Forging experience…"}</p>
   </div>
 </div>
 
@@ -262,7 +268,14 @@
       var minDisplay = 600;
 
     /* Label cycling */
-    var phrases = [
+    var loaderLang = (label && label.getAttribute("data-lang")) || "en";
+    var phrases = loaderLang === "fr" ? [
+      "Façonnage de l'expérience…",
+      "Tempérage des arêtes…",
+      "On attise la forge…",
+      "Alignement des engrenages…",
+      "Polissage des surfaces…",
+    ] : [
       "Forging experience\u2026",
       "Tempering edges\u2026",
       "Stoking the forge\u2026",

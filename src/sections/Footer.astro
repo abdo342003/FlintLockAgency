@@ -105,7 +105,7 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
     <div class="relative flex items-center justify-center py-8 mb-6">
       <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/8 to-transparent pointer-events-none"></div>
       <span class="relative px-6 bg-[var(--color-surface-2)] font-display text-sm md:text-base font-bold tracking-[0.3em] uppercase text-[var(--color-accent)]/30">
-        Build. <span class="text-[var(--color-cta)]/30">Automate</span>. Grow.
+        {t("hero.tagline.1")} <span class="text-[var(--color-cta)]/30">{t("hero.tagline.2")}</span> {t("hero.tagline.3")}
       </span>
     </div>
 
@@ -114,13 +114,16 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
       <p class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/35 text-center md:text-left min-w-0">
         &copy; 2026 Flintlock. {t("footer.rights")}
       </p>
-      <div class="flex items-center gap-4 min-w-0">
-        <a href="#hero" class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors whitespace-nowrap">
-          &uarr; Back to top
+      <div class="flex items-center gap-3 flex-wrap justify-center min-w-0">
+        <a href={lang === "fr" ? "/fr/legal/privacy-policy" : "/legal/privacy-policy"} class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors whitespace-nowrap">{t("footer.privacy")}</a>
+        <span class="text-[var(--color-text-secondary)]/10">·</span>
+        <a href={lang === "fr" ? "/fr/legal/legal-notices" : "/legal/legal-notices"} class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors whitespace-nowrap">{t("footer.legal")}</a>
+        <span class="text-[var(--color-text-secondary)]/10">·</span>
+        <a href={lang === "fr" ? "/fr/legal/cookie-policy" : "/legal/cookie-policy"} class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors whitespace-nowrap">{t("footer.cookies")}</a>
+        <span class="text-[var(--color-text-secondary)]/10 hidden sm:inline">·</span>
+        <a href="#hero" class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors whitespace-nowrap hidden sm:inline">
+          &uarr; {lang === "fr" ? "Retour en haut" : "Back to top"}
         </a>
-        <p class="font-mono text-[10px] md:text-xs text-[var(--color-text-secondary)]/25 text-center min-w-0 truncate">
-          {t("footer.tagline")}
-        </p>
       </div>
     </div>
 

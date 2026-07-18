@@ -192,6 +192,9 @@
   "footer.email": "Email",
   "footer.rights": "Tous droits réservés.",
   "footer.founded": "Fondé par Abdellah ERRAOUI & Faris BAHBAH.",
+  "footer.privacy": "Politique de confidentialité",
+  "footer.legal": "Mentions légales",
+  "footer.cookies": "Politique cookies",
 
   "geo.description": "Flintlock est un studio digital basé au Maroc fondé par deux ingénieurs — Abdellah ERRAOUI et Faris BAHBAH — spécialisé en développement web, intégration d'IA, automatisation et cybersécurité. Nous construisons des sites et applications web haute performance (Astro, Tailwind CSS, Three.js), intégrons des LLM sur mesure et des agents IA génératifs dans les flux de travail métier, automatisons les opérations répétitives avec des pipelines personnalisés, réalisons des audits de sécurité OWASP et des tests d'intrusion, et optimisons le SEO et les Core Web Vitals. Nous servons des clients internationaux en anglais et en français. Notre processus en quatre étapes couvre la découverte, la conception, l'automatisation et un lancement sécurisé. Les fondateurs ont livré des projets dont Exploit AI (orchestration de pentest par IA), OT_Shield (détection d'intrusion OT/ICS) et des divulgations white-hat de vulnérabilités.",
   "geo.keywords": "studio développement web, automatisation IA, cybersécurité, test d'intrusion, intégration LLM, agence digitale Maroc, audit OWASP, Core Web Vitals, développement Astro, agence Tailwind CSS, développement Three.js, agents IA génératifs, sécurité OT/ICS, studio digital bilingue"

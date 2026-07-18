@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import type { Lang } from "../i18n/util";
 import Loader from "../components/Loader.astro";
+import StickyCTA from "../components/StickyCTA.astro";
 
 export interface Props {
   title?: string;
@@ -124,7 +125,7 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
   </head>
 
   <body>
-    <Loader />
+    <Loader lang={lang} />
     <div class="noise-overlay" aria-hidden="true"></div>
 
     <slot name="background" />
@@ -140,6 +141,8 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     </main>
 
     <slot name="footer" />
+
+    <StickyCTA lang={lang} />
 
     <!-- GEO content for LLMs & search engines -->
     <div class="geo-content" aria-label="About Flintlock">
