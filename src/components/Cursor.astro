@@ -12,24 +12,35 @@
   (function () {
     const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     if (isTouch || prefersReducedMotion) return;
 
     const dot = document.getElementById("cursor-dot");
     const ring = document.getElementById("cursor-ring");
     const trailContainer = document.getElementById("cursor-trail");
     const fireCanvas = document.getElementById("cursor-fire");
+    if (!dot || !ring || !trailContainer || !fireCanvas) return;
     const ctx = fireCanvas.getContext("2d");
-    if (!dot || !ring || !trailContainer || !ctx) return;
+    if (!ctx) return;
 
     document.body.style.cursor = "none";
 
-    function resizeCanvas() {
-      fireCanvas.width = window.innerWidth;
-      fireCanvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    /* ─── Canvas sizing (throttled) ─── */
+    let canvasW = window.innerWidth;
+    let canvasH = window.innerHeight;
+    fireCanvas.width = canvasW;
+    fireCanvas.height = canvasH;
+    let resizePending = false;
+    window.addEventListener("resize", () => {
+      if (resizePending) return;
+      resizePending = true;
+      requestAnimationFrame(() => {
+        canvasW = window.innerWidth;
+        canvasH = window.innerHeight;
+        fireCanvas.width = canvasW;
+        fireCanvas.height = canvasH;
+        resizePending = false;
+      });
+    });
 
     /* ─── Trail dots ─── */
     const TRAIL_COUNT = 8;
@@ -38,7 +49,7 @@
       const td = document.createElement("div");
       td.className = "trail-dot";
       trailContainer.appendChild(td);
-      trailDots.push(td);
+      trailDots.push({ el: td, x: 0, y: 0, opacity: 0, scale: 1 });
     }
 
     /* ─── Orbiting satellites ─── */
@@ -53,75 +64,69 @@
         angle: (i / SAT_COUNT) * Math.PI * 2,
         radius: 22 + Math.random() * 6,
         speed: 1 + Math.random() * 0.6,
+        x: 0,
+        y: 0,
       });
     }
 
     /* ─── Fire particle system ─── */
-    const particles = [];
     const MAX_PARTICLES = 120;
-    const colors = [
-      { r: 255, g: 200, b: 50 },   // bright yellow
-      { r: 255, g: 150, b: 30 },   // orange
-      { r: 255, g: 100, b: 20 },   // deep orange
-      { r: 230, g: 60, b: 15 },    // red-orange
-      { r: 180, g: 30, b: 10 },    // dark red
+    const particles = [];
+    const COLORS = [
+      [255, 200, 50],
+      [255, 150, 30],
+      [255, 100, 20],
+      [230, 60, 15],
+      [180, 30, 10],
     ];
+    const FIRE_DARK = [80, 20, 5];
+    const _rgbaBuf = new Array(5);
+
+    function rgba(r, g, b, a) {
+      return `rgba(${r},${g},${b},${a})`;
+    }
 
     function spawnParticle(x, y, burst) {
       if (particles.length >= MAX_PARTICLES) return;
       const angle = burst
         ? Math.random() * Math.PI * 2
         : -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
-      const speed = burst
-        ? 2 + Math.random() * 6
-        : 0.3 + Math.random() * 1.2;
-      const life = burst
-        ? 0.4 + Math.random() * 0.6
-        : 0.6 + Math.random() * 1.0;
-      const color = colors[Math.floor(Math.random() * colors.length)];
+      const speed = burst ? 2 + Math.random() * 6 : 0.3 + Math.random() * 1.2;
+      const life = burst ? 0.4 + Math.random() * 0.6 : 0.6 + Math.random() * 1.0;
+      const c = COLORS[Math.floor(Math.random() * 5)];
       particles.push({
-        x,
-        y,
+        x, y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed - (burst ? 0 : 0.5 + Math.random() * 0.8),
-        life,
-        maxLife: life,
+        life, maxLife: life,
         size: burst ? 2 + Math.random() * 3 : 1.5 + Math.random() * 2.5,
-        r: color.r,
-        g: color.g,
-        b: color.b,
+        r: c[0], g: c[1], b: c[2],
         drift: (Math.random() - 0.5) * 0.3,
       });
     }
 
     function fireBurst(x, y) {
-      for (let i = 0; i < 35; i++) {
-        spawnParticle(x, y, true);
-      }
+      for (let i = 0; i < 35; i++) spawnParticle(x, y, true);
     }
 
     /* ─── State ─── */
     const history = [];
     let mouseX = 0;
     let mouseY = 0;
-    let prevX = 0;
-    let prevY = 0;
     let ringX = 0;
     let ringY = 0;
     let ringVX = 0;
     let ringVY = 0;
     let hovering = false;
+    let prevHovering = false;
     let hasMoved = false;
+    let needsRingStyleUpdate = true;
 
     const interactive = 'a, button, [role="button"], input, select, textarea, .card-base, .magnetic, [class*="magnetic"], .clickable, .tag-badge, .process-node, .nav-link';
 
-    dot.style.opacity = "0";
-    ring.style.opacity = "0";
-    trailContainer.style.opacity = "0";
-
+    /* ─── Mouse move: only store coordinates + element check (throttled) ─── */
+    let hoverCheckPending = false;
     document.addEventListener("mousemove", (e) => {
-      prevX = mouseX;
-      prevY = mouseY;
       mouseX = e.clientX;
       mouseY = e.clientY;
 
@@ -129,21 +134,23 @@
         hasMoved = true;
         ringX = mouseX;
         ringY = mouseY;
-        ring.style.left = ringX + "px";
-        ring.style.top = ringY + "px";
         dot.style.opacity = "1";
         ring.style.opacity = "1";
         trailContainer.style.opacity = "1";
       }
 
-      dot.style.left = mouseX + "px";
-      dot.style.top = mouseY + "px";
+      /* Debounce elementFromPoint — max once per 16ms */
+      if (!hoverCheckPending) {
+        hoverCheckPending = true;
+        requestAnimationFrame(() => {
+          const target = document.elementFromPoint(mouseX, mouseY);
+          hovering = !!(target && target.closest(interactive));
+          hoverCheckPending = false;
+        });
+      }
 
       history.unshift({ x: mouseX, y: mouseY });
       if (history.length > TRAIL_COUNT + 1) history.pop();
-
-      const target = document.elementFromPoint(mouseX, mouseY);
-      hovering = target && target.closest(interactive);
     });
 
     document.addEventListener("mouseleave", () => {
@@ -161,18 +168,20 @@
       }
     });
 
-    function lerpColor(c1, c2, t) {
-      return {
-        r: Math.round(c1.r + (c2.r - c1.r) * t),
-        g: Math.round(c1.g + (c2.g - c1.g) * t),
-        b: Math.round(c1.b + (c2.b - c1.b) * t),
-      };
-    }
+    /* ─── Animation loop ─── */
+    let lastTime = 0;
+    let prevMX = 0;
+    let prevMY = 0;
 
     function animate(now) {
-      const dt = Math.min((now - (animate._last || now)) * 0.001, 0.05);
-      animate._last = now;
-      const speed = Math.hypot(mouseX - prevX, mouseY - prevY);
+      const dt = Math.min((now - lastTime) * 0.001, 0.05);
+      lastTime = now;
+
+      const dx_mouse = mouseX - prevMX;
+      const dy_mouse = mouseY - prevMY;
+      const speed = Math.hypot(dx_mouse, dy_mouse);
+      prevMX = mouseX;
+      prevMY = mouseY;
 
       /* ─── Spawn fire particles ─── */
       if (hasMoved && speed > 0.5) {
@@ -186,136 +195,147 @@
         }
       }
 
-      /* ─── Update particles ─── */
-      for (let i = particles.length - 1; i >= 0; i--) {
+      /* ─── Update particles (in-place, no splice) ─── */
+      let writeIdx = 0;
+      for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.vx += p.drift;
-        p.vy += 0.15; // slight downward gravity
+        p.vy += 0.15;
         p.life -= dt;
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
+        if (p.life > 0) {
+          if (writeIdx !== i) particles[writeIdx] = p;
+          writeIdx++;
         }
       }
+      particles.length = writeIdx;
 
-      /* ─── Draw fire particles ─── */
-      ctx.clearRect(0, 0, fireCanvas.width, fireCanvas.height);
-      for (const p of particles) {
+      /* ─── Draw fire canvas ─── */
+      ctx.clearRect(0, 0, canvasW, canvasH);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         const progress = 1 - p.life / p.maxLife;
         const alpha = (1 - progress) * 0.85;
-        const size = p.size * (1 - progress * 0.6);
-
-        const fadeColor = lerpColor(
-          { r: p.r, g: p.g, b: p.b },
-          { r: 80, g: 20, b: 5 },
-          progress
-        );
+        const sz = p.size * (1 - progress * 0.6);
+        const fr = p.r + ((FIRE_DARK[0] - p.r) * progress) | 0;
+        const fg = p.g + ((FIRE_DARK[1] - p.g) * progress) | 0;
+        const fb = p.b + ((FIRE_DARK[2] - p.b) * progress) | 0;
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${fadeColor.r}, ${fadeColor.g}, ${fadeColor.b}, ${alpha})`;
+        ctx.arc(p.x, p.y, sz, 0, 6.2832);
+        ctx.fillStyle = rgba(fr, fg, fb, alpha);
         ctx.fill();
 
-        // soft glow
         if (progress < 0.3) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, size * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${p.r}, ${p.g}, ${p.b}, ${alpha * 0.15})`;
+          ctx.arc(p.x, p.y, sz * 2.5, 0, 6.2832);
+          ctx.fillStyle = rgba(p.r, p.g, p.b, alpha * 0.15);
           ctx.fill();
         }
       }
 
-      /* ─── Trail dots (ember drift) ─── */
+      /* ─── Trail dots — use transform instead of left/top ─── */
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const pos = history[i + 1];
+        const td = trailDots[i];
         if (pos) {
-          const td = trailDots[i];
           const p = 1 - i / TRAIL_COUNT;
-          const driftY = i * 1.2; // upward drift for ember feel
-          td.style.left = pos.x + "px";
-          td.style.top = (pos.y - driftY) + "px";
-          td.style.opacity = p * 0.55;
-          td.style.transform = `translate(-50%, -50%) scale(${0.2 + p * 0.8})`;
-          td.style.backgroundColor = hovering
-            ? "var(--color-accent)"
-            : i < 3
-              ? "rgba(255, 200, 50, 1)"
-              : i < 6
-                ? "rgba(255, 120, 30, 1)"
-                : "rgba(180, 40, 10, 1)";
+          const driftY = i * 1.2;
+          td.x = pos.x;
+          td.y = pos.y - driftY;
+          td.opacity = p * 0.55;
+          td.scale = 0.2 + p * 0.8;
+        } else {
+          td.opacity = 0;
         }
+        td.el.style.transform = `translate(${td.x - 4}px,${td.y - 4}px) scale(${td.scale})`;
+        td.el.style.opacity = td.opacity;
+        td.el.style.backgroundColor = hovering
+          ? "var(--color-accent)"
+          : i < 3 ? "rgba(255,200,50,1)"
+          : i < 6 ? "rgba(255,120,30,1)"
+          : "rgba(180,40,10,1)";
       }
 
-      /* ─── Ring spring physics ─── */
-      const dx = mouseX - ringX;
-      const dy = mouseY - ringY;
-      ringVX += dx * 0.1;
-      ringVY += dy * 0.1;
+      /* ─── Ring spring physics (only write when changed) ─── */
+      const rdx = mouseX - ringX;
+      const rdy = mouseY - ringY;
+      ringVX += rdx * 0.1;
+      ringVY += rdy * 0.1;
       ringVX *= 0.72;
       ringVY *= 0.72;
       ringX += ringVX;
       ringY += ringVY;
-      ring.style.left = ringX + "px";
-      ring.style.top = ringY + "px";
 
-      /* ─── Orbiting satellites ─── */
+      /* ─── Satellites (use transform) ─── */
       const satBaseRadius = hovering ? 34 : 22;
-      for (const sat of satellites) {
+      for (let i = 0; i < satellites.length; i++) {
+        const sat = satellites[i];
         sat.angle += sat.speed * dt;
-        const wobble = 1 + Math.sin(sat.angle * 2 + satellites.indexOf(sat)) * 0.12;
+        const wobble = 1 + Math.sin(sat.angle * 2 + i) * 0.12;
         const r = satBaseRadius * wobble;
-        const sx = ringX + Math.cos(sat.angle) * r;
-        const sy = ringY + Math.sin(sat.angle) * r;
-        sat.el.style.left = sx + "px";
-        sat.el.style.top = sy + "px";
-        sat.el.style.opacity = hovering ? "0.8" : "0.5";
-        sat.el.style.backgroundColor = hovering
-          ? "var(--color-accent)"
-          : "var(--color-ember)";
+        sat.x = ringX + Math.cos(sat.angle) * r;
+        sat.y = ringY + Math.sin(sat.angle) * r;
         const satScale = 0.6 + Math.sin(sat.angle * 3 + sat.speed) * 0.2;
-        sat.el.style.transform = `translate(-50%, -50%) scale(${satScale})`;
+        sat.el.style.transform = `translate(${sat.x - 2.5}px,${sat.y - 2.5}px) scale(${satScale})`;
       }
 
-      /* ─── Hover state ─── */
-      if (hovering) {
-        ring.style.width = "48px";
-        ring.style.height = "48px";
-        ring.style.borderColor = "var(--color-ember)";
-        ring.style.borderWidth = "2px";
-        ring.style.backgroundColor = "rgba(255, 122, 26, 0.06)";
-        ring.style.boxShadow = "0 0 25px rgba(255, 150, 30, 0.2), 0 0 50px rgba(255, 100, 20, 0.1)";
-        dot.style.width = "4px";
-        dot.style.height = "4px";
-        dot.style.backgroundColor = "var(--color-ember)";
-      } else {
-        ring.style.width = "32px";
-        ring.style.height = "32px";
-        ring.style.borderColor = "rgba(255, 122, 26, 0.35)";
-        ring.style.borderWidth = "1px";
-        ring.style.backgroundColor = "transparent";
-        ring.style.boxShadow = "0 0 12px rgba(255, 122, 26, 0.08), 0 0 30px rgba(255, 80, 10, 0.04)";
-        dot.style.width = "8px";
-        dot.style.height = "8px";
-        dot.style.backgroundColor = "var(--color-ember)";
+      /* ─── Ring + dot — only update styles when hover state changes ─── */
+      if (hovering !== prevHovering || needsRingStyleUpdate) {
+        prevHovering = hovering;
+        needsRingStyleUpdate = false;
+
+        if (hovering) {
+          ring.style.width = "48px";
+          ring.style.height = "48px";
+          ring.style.borderColor = "var(--color-ember)";
+          ring.style.borderWidth = "2px";
+          ring.style.backgroundColor = "rgba(255, 122, 26, 0.06)";
+          ring.style.boxShadow = "0 0 25px rgba(255, 150, 30, 0.2), 0 0 50px rgba(255, 100, 20, 0.1)";
+          dot.style.width = "4px";
+          dot.style.height = "4px";
+          dot.style.backgroundColor = "var(--color-ember)";
+          for (const sat of satellites) {
+            sat.el.style.opacity = "0.8";
+            sat.el.style.backgroundColor = "var(--color-accent)";
+          }
+        } else {
+          ring.style.width = "32px";
+          ring.style.height = "32px";
+          ring.style.borderColor = "rgba(255, 122, 26, 0.35)";
+          ring.style.borderWidth = "1px";
+          ring.style.backgroundColor = "transparent";
+          ring.style.boxShadow = "0 0 12px rgba(255, 122, 26, 0.08), 0 0 30px rgba(255, 80, 10, 0.04)";
+          dot.style.width = "8px";
+          dot.style.height = "8px";
+          dot.style.backgroundColor = "var(--color-ember)";
+          for (const sat of satellites) {
+            sat.el.style.opacity = "0.5";
+            sat.el.style.backgroundColor = "var(--color-ember)";
+          }
+        }
       }
+
+      /* Ring + dot position: single transform write */
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
 
       requestAnimationFrame(animate);
     }
 
+    /* ─── Click burst ─── */
     document.addEventListener("mousedown", () => {
       ring.classList.add("spark-burst");
       setTimeout(() => ring.classList.remove("spark-burst"), 400);
-
       for (const sat of satellites) {
         sat.radius *= 1.5;
         setTimeout(() => { sat.radius = 22 + Math.random() * 6; }, 200);
       }
-
       fireBurst(mouseX, mouseY);
     });
 
+    /* ─── Visibility ─── */
     document.addEventListener("visibilitychange", () => {
       const v = document.hidden ? "0" : "1";
       ring.style.opacity = v;
@@ -375,7 +395,7 @@
     height: 8px;
     background-color: var(--color-ember);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    will-change: transform;
     z-index: 3;
     transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 0 8px rgba(255, 122, 26, 0.4);
@@ -388,7 +408,7 @@
     height: 32px;
     border: 1px solid rgba(255, 122, 26, 0.35);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    will-change: transform;
     z-index: 3;
     transition:
       width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
@@ -400,25 +420,13 @@
     animation: fire-breath 2s ease-in-out infinite;
   }
   @keyframes spark {
-    0% {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(255, 122, 26, 0.25);
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(2.5);
-      opacity: 0;
-    }
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { box-shadow: 0 0 40px rgba(255, 122, 26, 0.25); }
+    100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
   }
   @keyframes fire-breath {
-    0%, 100% {
-      box-shadow: 0 0 10px rgba(255, 122, 26, 0.08), 0 0 30px rgba(255, 80, 10, 0.03);
-    }
-    50% {
-      box-shadow: 0 0 16px rgba(255, 150, 30, 0.12), 0 0 40px rgba(255, 100, 20, 0.06);
-    }
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 122, 26, 0.08), 0 0 30px rgba(255, 80, 10, 0.03); }
+    50% { box-shadow: 0 0 16px rgba(255, 150, 30, 0.12), 0 0 40px rgba(255, 100, 20, 0.06); }
   }
   .spark-burst {
     animation: spark 0.4s ease-out forwards;
