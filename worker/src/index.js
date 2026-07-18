@@ -93,7 +93,7 @@ export default {
     if (!res.ok) {
       const err = await res.text();
       console.error("Resend error:", err);
-      return new Response(JSON.stringify({ ok: false, error: "Email send failed" }), {
+      return new Response(JSON.stringify({ ok: false, error: err }), {
         status: 502,
         headers: corsHeaders,
       });
