@@ -96,8 +96,8 @@ const navItems = [
       <!-- Hamburger (mobile) -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-1.5 sm:p-2 transition-transform duration-200 active:scale-90"
-        style="touch-action: manipulation;"
+        class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-2 sm:p-2.5 transition-transform duration-200 active:scale-90"
+        style="touch-action: manipulation; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;"
         aria-label={lang === "en" ? "Open menu" : "Ouvrir le menu"}
         aria-controls="mobile-menu"
         aria-expanded="false"
@@ -112,7 +112,7 @@ const navItems = [
 <!-- Mobile full-screen overlay -->
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-40 flex flex-col items-center justify-center md:hidden transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
+  class="fixed inset-0 z-[60] flex flex-col items-center justify-center md:hidden transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
   style="background: color-mix(in srgb, var(--onyx) 97%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); clip-path: circle(0% at calc(100% - 40px) 32px);"
   aria-label={lang === "en" ? "Mobile navigation" : "Navigation mobile"}
   role="dialog"
@@ -125,8 +125,8 @@ const navItems = [
   <!-- Close button -->
   <button
     id="mobile-menu-close"
-    class="absolute top-4 right-4 text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-2 z-10"
-    style="touch-action: manipulation;"
+    class="absolute top-5 right-5 text-[var(--color-off-white)] bg-[var(--color-surface-2)]/50 border border-[var(--color-border)] rounded-full cursor-pointer p-3 z-10"
+    style="touch-action: manipulation; min-width: 44px; min-height: 44px;"
     aria-label={lang === "en" ? "Close menu" : "Fermer le menu"}
   >
     <Icon name="lucide:x" class="w-6 h-6" />
@@ -449,17 +449,9 @@ const navItems = [
 
       if (menuBtn && menu) {
         menuBtn.addEventListener("click", openMenu);
-        menuBtn.addEventListener("touchend", function (e) {
-          e.preventDefault();
-          openMenu();
-        });
 
         if (menuClose) {
           menuClose.addEventListener("click", closeMenu);
-          menuClose.addEventListener("touchend", function (e) {
-            e.preventDefault();
-            closeMenu();
-          });
         }
 
         mobileNavLinks.forEach(function (link) {
