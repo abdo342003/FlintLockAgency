@@ -110,10 +110,10 @@ const t = useTranslations(lang);
           : "Download started. Check your inbox for a copy.";
         status.className = "font-mono text-xs mt-3 text-[var(--color-accent)]";
         status.classList.remove("hidden");
-      }).catch(function(e) {
+      }).catch(function() {
         btn.removeAttribute("disabled");
         btn.textContent = location.pathname.startsWith("/fr") ? "Télécharger" : "Download";
-        status.textContent = location.pathname.startsWith("/fr") ? "Erreur: " + e.message : "Error: " + e.message;
+        status.textContent = location.pathname.startsWith("/fr") ? "Une erreur est survenue. Réessayez." : "Something went wrong. Try again.";
         status.className = "font-mono text-xs mt-3 text-red-400";
         status.classList.remove("hidden");
       });
