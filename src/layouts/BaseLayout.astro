@@ -116,9 +116,8 @@ const ogImageURL = `${siteUrl}/img/og-image.svg`;
 
     <!-- Critical LCP: hero text must be visible immediately -->
     <style is:inline>
-      #hero .reveal, #hero .reveal .char, #hero .reveal .word {
-        opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important;
-      }
+      #hero .reveal { opacity: 1 !important; transform: none !important; }
+      #hero .reveal .char, #hero .reveal .word { opacity: 1 !important; transform: none !important; }
     </style>
 
     <!-- Plausible Analytics (privacy-friendly) -->
