@@ -114,6 +114,13 @@ const ogImageURL = `${siteUrl}/img/og-image.svg`;
     <link rel="preload" href="/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/logo-96.png" as="image" />
 
+    <!-- Critical LCP: hero text must be visible immediately -->
+    <style is:inline>
+      #hero .reveal, #hero .reveal .char, #hero .reveal .word {
+        opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important;
+      }
+    </style>
+
     <!-- Plausible Analytics (privacy-friendly) -->
     <script defer data-domain="flintlockagency.com" src="https://plausible.io/js/script.js"></script>
   </head>
