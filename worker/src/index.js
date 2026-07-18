@@ -1,9 +1,8 @@
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    const allowed = ["https://flintlockagency.com", "http://localhost:4321"];
     const corsHeaders = {
-      "Access-Control-Allow-Origin": allowed.includes(origin) ? origin : "",
+      "Access-Control-Allow-Origin": origin || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Content-Type": "application/json",
@@ -16,13 +15,6 @@ export default {
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ ok: false, error: "Method not allowed" }), {
         status: 405,
-        headers: corsHeaders,
-      });
-    }
-
-    if (!allowed.includes(origin)) {
-      return new Response(JSON.stringify({ ok: false, error: "Origin not allowed" }), {
-        status: 403,
         headers: corsHeaders,
       });
     }
