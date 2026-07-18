@@ -1,8 +1,13 @@
 export default {
   async fetch(request, env) {
+    const ALLOWED_ORIGINS = [
+      "https://flintlockagency.com",
+      "https://www.flintlockagency.com",
+    ];
     const origin = request.headers.get("Origin") || "";
+    const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
     const corsHeaders = {
-      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Origin": allowedOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Content-Type": "application/json",

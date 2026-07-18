@@ -183,8 +183,8 @@ A: We audit your existing architecture, fix vulnerabilities, improve SEO/perform
 - **i18n**: JSON-based translations (English, French) with URL-based routing
 - **Structured Data**: JSON-LD (Organization, WebSite, BreadcrumbList, FAQPage, HowTo, Service, ItemList, ProfessionalService)
 - **Security Headers**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
-- **Contact Form**: Web3Forms + Cloudflare Turnstile CAPTCHA
-- **Email Protection**: Base64 obfuscation to prevent scraping
+- **Contact Form**: Cloudflare Worker + Resend (server-side, no CAPTCHA)
+- **Email Protection**: Server-side form processing (no public email exposure)
 - **GEO**: Optimised for AI crawlers (GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, etc.)
 - **llms.txt**: Full site context available for LLMs
 

@@ -22,6 +22,7 @@ const t = useTranslations(lang);
           {t("leadmag.desc")}
         </p>
         <div id="leadmag-form" class="flex flex-col sm:flex-row gap-3">
+          <label for="leadmag-email" class="sr-only">{t("leadmag.email.placeholder")}</label>
           <input
             type="email"
             id="leadmag-email"
@@ -37,7 +38,7 @@ const t = useTranslations(lang);
             <span>{t("leadmag.cta")}</span>
           </button>
         </div>
-        <p id="leadmag-status" class="hidden font-mono text-xs mt-3"></p>
+        <p id="leadmag-status" class="hidden font-mono text-xs mt-3" role="status" aria-live="polite"></p>
         <p class="font-mono text-[10px] text-[var(--color-text-secondary)]/40 mt-3">{t("leadmag.note")}</p>
       </div>
 

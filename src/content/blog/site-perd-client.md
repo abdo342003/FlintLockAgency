@@ -54,4 +54,4 @@ Nous avons audité des dizaines de sites. Voici les 5 problèmes qu'on retrouve 
 
 Vous n'avez pas besoin d'un refonte complète. La plupart de ces corrections peuvent être implémentées en 1-2 semaines et amélioreront immédiatement votre taux de conversion, votre classement SEO et la satisfaction utilisateur.
 
-**Vous voulez qu'on audite votre site ?** [Réservez un appel découverte gratuit](#contact) et on vous donnera une feuille de route priorisée — sans engagement.
+**Vous voulez qu'on audite votre site ?** [Réservez un appel découverte gratuit](https://calendly.com/flintlock/discovery) et on vous donnera une feuille de route priorisée — sans engagement.

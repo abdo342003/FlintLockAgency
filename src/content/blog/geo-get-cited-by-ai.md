@@ -110,4 +110,4 @@ This is **GEO — Generative Engine Optimisation**. Here's how to get it right.
 
 GEO is not a replacement for SEO — it's an extension. The same fundamentals (fast site, good content, structured data, clean code) serve both. But GEO adds a layer of machine-readability that traditional SEO doesn't require.
 
-**Want us to optimize your site for AI visibility?** We offer a complete GEO audit including llms.txt creation, structured data implementation, and content strategy. [Book a discovery call](#contact) to get started.
+**Want us to optimize your site for AI visibility?** We offer a complete GEO audit including llms.txt creation, structured data implementation, and content strategy. [Book a discovery call](https://calendly.com/flintlock/discovery) to get started.

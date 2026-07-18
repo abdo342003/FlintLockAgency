@@ -58,4 +58,4 @@ Remarquez ce que les 4 solutions ont en commun :
 
 Vous n'avez pas besoin de tout construire d'un coup. Commencez par la tâche répétitive qui gaspille le plus de temps dans votre organisation. Mappez-la. Puis on construit un pipeline IA qui la gère.
 
-**Prêt à explorer ce que l'IA peut automatiser dans votre business ?** [Réservez un appel découverte](#contact) et on auditera vos workflows pour des opportunités d'automatisation.
+**Prêt à explorer ce que l'IA peut automatiser dans votre business ?** [Réservez un appel découverte](https://calendly.com/flintlock/discovery) et on auditera vos workflows pour des opportunités d'automatisation.

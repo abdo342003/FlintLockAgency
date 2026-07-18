@@ -63,4 +63,4 @@ C'est le **GEO — Generative Engine Optimisation**. Voici comment bien le faire
 
 Le GEO n'est pas un remplacement du SEO — c'est une extension. Les mêmes fondamentaux (site rapide, bon contenu, données structurées, code propre) servent les deux. Mais le GEO ajoute une couche de lisibilité machine que le SEO traditionnel ne nécessite pas.
 
-**Vous voulez qu'on optimise votre site pour la visibilité IA ?** On offre un audit GEO complet. [Réservez un appel découverte](#contact) pour commencer.
+**Vous voulez qu'on optimise votre site pour la visibilité IA ?** On offre un audit GEO complet. [Réservez un appel découverte](https://calendly.com/flintlock/discovery) pour commencer.

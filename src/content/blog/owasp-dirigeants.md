@@ -80,4 +80,4 @@ Vous n'avez pas tout à corriger d'un coup. Voici notre priorité recommandée :
 2. **Ce trimestre :** Implémenter la MFA, mettre en place le logging, auditer les dépendances
 3. **Cette année :** Threat modeling, audit de sécurité complet, monitoring continu
 
-**Vous voulez un audit sécurité professionnel ?** On réalise des tests de pénétration alignés OWASP. [Réservez un appel découverte](#contact) pour commencer.
+**Vous voulez un audit sécurité professionnel ?** On réalise des tests de pénétration alignés OWASP. [Réservez un appel découverte](https://calendly.com/flintlock/discovery) pour commencer.

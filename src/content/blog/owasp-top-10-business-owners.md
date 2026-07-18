@@ -100,4 +100,4 @@ You don't need to fix everything at once. Here's our recommended priority:
 2. **This quarter:** Implement MFA, set up logging, audit dependencies
 3. **This year:** Threat modeling, comprehensive security audit, ongoing monitoring
 
-**Want a professional security audit?** We run OWASP-aligned penetration tests and provide a prioritized remediation roadmap. [Book a discovery call](#contact) to get started.
+**Want a professional security audit?** We run OWASP-aligned penetration tests and provide a prioritized remediation roadmap. [Book a discovery call](https://calendly.com/flintlock/discovery) to get started.

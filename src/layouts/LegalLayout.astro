@@ -14,7 +14,7 @@ const { lang, title, lastUpdated } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<BaseLayout lang={lang} metaTitle={`${title} — Flintlock`} metaDesc={title}>
+<BaseLayout lang={lang} title={`${title} — Flintlock`} description={title}>
   <Header slot="header" lang={lang} />
 
   <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">

@@ -68,4 +68,4 @@ We've audited dozens of sites. Here are the 5 issues we see over and over:
 
 You don't need a complete redesign. Most of these fixes can be implemented in 1-2 weeks and will immediately improve your conversion rate, SEO ranking, and user satisfaction.
 
-**Want us to audit your site?** [Book a free discovery call](#contact) and we'll give you a prioritized roadmap — no strings attached.
+**Want us to audit your site?** [Book a free discovery call](https://calendly.com/flintlock/discovery) and we'll give you a prioritized roadmap — no strings attached.

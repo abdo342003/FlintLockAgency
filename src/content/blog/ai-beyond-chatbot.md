@@ -62,4 +62,4 @@ Notice what all 4 solutions have in common:
 
 You don't need to build everything at once. Start with the one repetitive task that wastes the most time in your organization. Map it out. Then we build an AI pipeline that handles it.
 
-**Ready to explore what AI can automate in your business?** [Book a discovery call](#contact) and we'll audit your workflows for automation opportunities.
+**Ready to explore what AI can automate in your business?** [Book a discovery call](https://calendly.com/flintlock/discovery) and we'll audit your workflows for automation opportunities.
