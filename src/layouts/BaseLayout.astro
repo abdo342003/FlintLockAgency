@@ -29,7 +29,7 @@ const metaDesc = description ?? (lang === "fr"
 
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 const ogLocale = lang === "fr" ? "fr_FR" : "en_US";
-const ogImageURL = `${siteUrl}/img/og-image.svg`;
+const ogImageURL = `${siteUrl}/img/og-image.png`;
 ---
 
 <!doctype html>
@@ -60,7 +60,7 @@ const ogImageURL = `${siteUrl}/img/og-image.svg`;
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={metaTitle} />
-    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:secure_url" content={ogImageURL} />
     <meta property="og:site_name" content="Flintlock" />
     <meta property="og:updated_time" content="2026-07-17T12:00:00Z" />

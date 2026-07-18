@@ -1,0 +1,75 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
+---
+
+<div id="calendly-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label={lang === "fr" ? "Réserver un appel" : "Book a call"}>
+  <div id="calendly-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+  <div class="absolute inset-4 md:inset-8 lg:inset-12 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-onyx)] overflow-hidden flex flex-col">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-2)]">
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--color-text-secondary)]/60">{lang === "fr" ? "Réserver un appel découverte" : "Book a discovery call"}</span>
+      <button id="calendly-close" class="p-2 rounded-full hover:bg-[var(--color-border)]/30 transition-colors cursor-pointer" aria-label="Close">
+        <svg class="w-5 h-5 text-[var(--color-text-secondary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex-1 relative min-h-0">
+      <iframe id="calendly-iframe" src="" class="absolute inset-0 w-full h-full border-0" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var modal = document.getElementById("calendly-modal");
+    var backdrop = document.getElementById("calendly-backdrop");
+    var closeBtn = document.getElementById("calendly-close");
+    var iframe = document.getElementById("calendly-iframe") as HTMLIFrameElement;
+    var CALENDLY_URL = "https://calendly.com/flintlock/discovery";
+
+    if (!modal || !closeBtn || !iframe) return;
+
+    function openModal() {
+      if (!iframe.src || iframe.src === "about:blank") {
+        iframe.src = CALENDLY_URL + "?embed_domain=" + location.hostname;
+      }
+      modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll("[data-booking-trigger]").forEach(function(btn) {
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+    if (backdrop) backdrop.addEventListener("click", closeModal);
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    });
+  })();
+</script>
+
+<style>
+  #calendly-modal {
+    animation: calendly-fade-in 0.2s ease;
+  }
+  @keyframes calendly-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>

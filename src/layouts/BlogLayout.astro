@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../sections/Header.astro";
+import Footer from "../sections/Footer.astro";
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  date: string;
+  readTime: string;
+}
+
+const { lang, title, description, date, readTime } = Astro.props;
+const t = useTranslations(lang);
+const siteUrl = "https://flintlockagency.com";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: description,
+  datePublished: date,
+  author: {
+    "@type": "Organization",
+    name: "Flintlock",
+    url: siteUrl,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Flintlock",
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/logo-96.png`,
+    },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalURL,
+  },
+};
+---
+
+<BaseLayout lang={lang} metaTitle={`${title} — Flintlock`} metaDesc={description}>
+  <Header slot="header" lang={lang} />
+
+  <article class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">
+    <div class="mx-auto" style="max-width: 720px;">
+      <a href={lang === "fr" ? "/fr/blog" : "/blog"} class="inline-flex items-center gap-1 text-sm text-[var(--color-accent)] no-underline hover:underline mb-8">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        {t("blog.back")}
+      </a>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <time class="font-mono text-xs text-[var(--color-text-secondary)]/50" datetime={date}>{date}</time>
+          <span class="font-mono text-xs text-[var(--color-text-secondary)]/30">·</span>
+          <span class="font-mono text-xs text-[var(--color-text-secondary)]/50">{readTime}</span>
+        </div>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] leading-tight mb-4">{title}</h1>
+        <p class="text-lg text-[var(--color-text-secondary)] leading-relaxed">{description}</p>
+      </div>
+
+      <div class="w-full h-px bg-gradient-to-r from-[var(--color-accent)]/30 via-[var(--color-accent)]/10 to-transparent mb-10"></div>
+
+      <div class="prose-content">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+  <Footer slot="footer" lang={lang} />
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+</BaseLayout>
+
+<style is:global>
+  .prose-content h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: var(--color-text-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-content h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+  .prose-content strong {
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+  .prose-content ul, .prose-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .prose-content li {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .prose-content code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: rgba(25,227,240,0.08);
+    color: var(--color-accent);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+  }
+  .prose-content pre {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  .prose-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+  .prose-content blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+  .prose-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose-content a:hover {
+    color: var(--color-cta);
+  }
+</style>

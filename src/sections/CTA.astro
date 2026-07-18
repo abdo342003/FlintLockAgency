@@ -19,6 +19,16 @@ const t = useTranslations(lang);
       <p class="text-base md:text-lg text-[var(--color-text-secondary)] mb-10">{t("cta.desc")}</p>
     </div>
 
+    <div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-border)]/50 bg-[var(--color-surface-2)] p-6 md:p-8 mb-6 shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] reveal">
+      <a href="#" data-booking-trigger class="cta-forge w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer no-underline">
+        <Icon name="lucide:calendar" class="w-4 h-4" />
+        <span>{t("cta.button")}</span>
+        <Icon name="lucide:arrow-right" class="w-4 h-4" />
+      </a>
+    </div>
+
+    <p class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/30 mb-4 reveal">— {lang === "fr" ? "ou" : "or"} —</p>
+
     <div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-border)]/50 bg-[var(--color-surface-2)] p-6 md:p-8 mb-8 shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] reveal">
       <form id="contact-form" class="space-y-5" action="https://api.web3forms.com/submit" method="POST" data-lang={lang}>
         <input type="hidden" name="access_key" value="9f697629-4041-4711-9ed9-5a542b5031a6" />
@@ -34,9 +44,9 @@ const t = useTranslations(lang);
           <textarea name="message" placeholder={lang === "fr" ? "Parlez-nous de votre projet..." : "Tell us about your project..."} rows={4} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)] resize-none" required></textarea>
         </div>
         <div id="form-status" class="hidden font-mono text-xs tracking-wide text-center py-2 rounded-[var(--radius-md)]"></div>
-        <button type="submit" class="cta-forge w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer">
-          <span>{t("cta.button")}</span>
-          <Icon name="lucide:arrow-right" class="w-4 h-4" />
+        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[var(--radius-md)] border border-[var(--color-accent)]/30 bg-transparent text-[var(--color-accent)] font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer hover:bg-[var(--color-accent)]/10">
+          <Icon name="lucide:send" class="w-4 h-4" />
+          <span>{lang === "fr" ? "Envoyer un message" : "Send a message"}</span>
         </button>
       </form>
     </div>

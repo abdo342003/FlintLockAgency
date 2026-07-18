@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../sections/Header.astro";
+import Footer from "../../sections/Footer.astro";
+import { getCollection } from "astro:content";
+import { useTranslations } from "../../i18n/util";
+
+const t = useTranslations("en");
+const posts = (await getCollection("blog"))
+  .filter((p) => p.data.lang === "en")
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const siteUrl = "https://flintlockagency.com";
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Flintlock Blog",
+  description: "Practical guides on web performance, AI, security, and automation.",
+  url: `${siteUrl}/blog`,
+  publisher: {
+    "@type": "Organization",
+    name: "Flintlock",
+    logo: { "@type": "ImageObject", url: `${siteUrl}/logo-96.png` },
+  },
+};
+---
+
+<BaseLayout lang="en" metaTitle="Blog — Flintlock" metaDesc="Practical guides on web performance, AI, security, and automation.">
+  <Header slot="header" lang="en" />
+
+  <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="reveal">
+        <p class="section-kicker">{t("blog.kicker")}</p>
+        <h1 class="section-title mb-4">{t("blog.title")}</h1>
+        <p class="text-base md:text-lg text-[var(--color-text-secondary)] mb-12">{t("blog.desc")}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[var(--gutter)]">
+        {posts.map((post, i) => (
+          <a href={`/blog/${post.id}`} class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 flex flex-col no-underline shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 reveal" style={`transition-delay: ${0.08 * i}s`}>
+            <div class="flex items-center gap-3 mb-3">
+              <time class="font-mono text-[10px] text-[var(--color-text-secondary)]/50" datetime={post.data.date}>{post.data.date}</time>
+              <span class="font-mono text-[10px] text-[var(--color-text-secondary)]/30">·</span>
+              <span class="font-mono text-[10px] text-[var(--color-text-secondary)]/50">{post.data.readTime}</span>
+            </div>
+            <h2 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-3 leading-snug">{post.data.title}</h2>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{post.data.description}</p>
+            <span class="mt-auto text-xs text-[var(--color-accent)] font-mono tracking-wider uppercase">{t("blog.readmore")} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="en" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+</BaseLayout>

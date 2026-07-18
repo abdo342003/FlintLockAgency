@@ -11,12 +11,15 @@ const t = useTranslations(lang);
 const otherLang: Lang = lang === "en" ? "fr" : "en";
 const otherHref = otherLang === "fr" ? "/fr/" : "/";
 
+const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
+
 const navItems = [
   { index: "01", key: "services", href: "#services" },
   { index: "02", key: "work", href: "#proof" },
   { index: "03", key: "team", href: "#team" },
   { index: "04", key: "faq", href: "#faq" },
-  { index: "05", key: "contact", href: "#contact" },
+  { index: "05", key: "blog", href: blogHref },
+  { index: "06", key: "contact", href: "#contact" },
 ] as const;
 ---
 

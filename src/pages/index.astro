@@ -14,7 +14,9 @@ import Why from "../sections/Why.astro";
 import Team from "../sections/Team.astro";
 import FAQ from "../sections/FAQ.astro";
 import CTA from "../sections/CTA.astro";
+import LeadMagnet from "../sections/LeadMagnet.astro";
 import Footer from "../sections/Footer.astro";
+import CalendlyModal from "../components/CalendlyModal.astro";
 import { useTranslations } from "../i18n/util";
 
 const t = useTranslations("en");
@@ -281,6 +283,45 @@ const structuredData = {
       "@type": "FAQPage",
       mainEntity: faqEntries,
     },
+    {
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#localbusiness`,
+      name: "Flintlock",
+      image: `${siteUrl}/img/og-image.png`,
+      url: siteUrl,
+      telephone: "+212-706-570686",
+      email: "contact@flintlockagency.com",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Casablanca",
+        addressLocality: "Casablanca",
+        addressRegion: "Casablanca-Settat",
+        postalCode: "20000",
+        addressCountry: "MA",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 33.5731,
+        longitude: -7.5898,
+      },
+      openingHoursSpecification: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
+      priceRange: "$$",
+      areaServed: { "@type": "Place", name: "Worldwide" },
+    },
+    {
+      "@type": "AggregateRating",
+      "@id": `${siteUrl}/#rating`,
+      itemReviewed: { "@id": `${siteUrl}/#organization` },
+      ratingValue: "5.0",
+      bestRating: "5",
+      reviewCount: "12",
+      ratingCount: "12",
+    },
   ],
 };
 ---
@@ -305,8 +346,10 @@ const structuredData = {
 
   <FAQ lang="en" />
   <CTA lang="en" />
+  <LeadMagnet lang="en" />
 
   <Footer slot="footer" lang="en" />
+  <CalendlyModal lang="en" />
 
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 </BaseLayout>

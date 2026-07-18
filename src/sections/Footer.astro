@@ -8,6 +8,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
 ---
 
 <footer class="footer-root bg-[var(--color-surface-2)] relative overflow-hidden">
@@ -68,6 +69,7 @@ const t = useTranslations(lang);
           <a href="#proof" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.work")}</a>
           <a href="#team" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.team")}</a>
           <a href="#faq" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.faq")}</a>
+          <a href={blogHref} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-2">{t("nav.blog")}</a>
         </div>
         <!-- Connect -->
         <div class="flex flex-col gap-2.5">
