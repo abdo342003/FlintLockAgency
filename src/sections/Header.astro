@@ -35,13 +35,13 @@ const navItems = [
   <div id="nav-bottom-glow" class="absolute bottom-0 left-0 right-0 h-[1px] opacity-0 transition-opacity duration-400" style="background: linear-gradient(90deg, transparent, rgba(25,227,240,0.1), rgba(255,122,26,0.08), transparent);"></div>
 
   <!-- Inner container -->
-  <div class="flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto;">
+  <div class="header-inner flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto; transition: padding 0.4s cubic-bezier(0.22,1,0.36,1);">
     <!-- Left: Logo -->
     <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-2 sm:gap-3 no-underline group flex-shrink-0">
-      <img src="/logo-96.png" alt="Flintlock" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0" width="96" height="96" fetchpriority="high" />
+      <img src="/logo-96.png" alt="Flintlock" class="header-logo h-10 sm:h-12 w-auto object-contain flex-shrink-0 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]" width="96" height="96" fetchpriority="high" />
       <div class="flex flex-col leading-tight min-w-0">
-        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] whitespace-nowrap">FLINTLOCK</span>
-        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] whitespace-nowrap header-baseline hidden sm:block">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
+        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] whitespace-nowrap header-wordmark transition-all duration-400">FLINTLOCK</span>
+        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] whitespace-nowrap header-baseline hidden sm:block transition-all duration-400">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
       </div>
     </a>
 
@@ -148,14 +148,15 @@ const navItems = [
     </div>
 
     <!-- Mobile nav links -->
-    <nav class="flex flex-col items-center gap-5" aria-label={lang === "en" ? "Mobile navigation" : "Navigation mobile"}>
+    <nav class="flex flex-col items-center gap-1" aria-label={lang === "en" ? "Mobile navigation" : "Navigation mobile"}>
       {navItems.map((item, i) => (
         <a
           href={item.href}
-          class="mobile-nav-link flex items-center gap-3 no-underline font-mono text-lg tracking-[0.15em] uppercase py-3 mobile-stagger"
+          class="mobile-nav-link flex items-center gap-4 no-underline py-3 px-4 w-full max-w-xs rounded-lg hover:bg-white/5 transition-colors duration-200 mobile-stagger"
           style={`transition-delay: ${0.08 * i}s`}
         >
-          <span class="font-medium text-[var(--color-off-white)] hover:text-[var(--color-accent)] transition-colors duration-300">{t(`nav.${item.key}`)}</span>
+          <span class="font-mono text-[10px] tracking-wider text-[var(--color-accent)]/50 w-5 text-right flex-shrink-0">{item.index}</span>
+          <span class="font-mono text-base tracking-[0.15em] uppercase text-[var(--color-off-white)] hover:text-[var(--color-accent)] transition-colors duration-300">{t(`nav.${item.key}`)}</span>
         </a>
       ))}
     </nav>
@@ -292,6 +293,17 @@ const navItems = [
 
   /* ─── Scrolled capsule state (desktop only) ─── */
   @media (min-width: 768px) {
+    #navbar.scrolled .header-inner {
+      padding-top: var(--unit-sm, 0.5rem);
+      padding-bottom: var(--unit-sm, 0.5rem);
+    }
+    #navbar.scrolled .header-logo {
+      height: 2rem;
+    }
+    #navbar.scrolled .header-wordmark {
+      font-size: 0.875rem;
+      letter-spacing: 0.12em;
+    }
     #navbar.scrolled {
       width: 90%;
       max-width: 1000px;
@@ -301,8 +313,30 @@ const navItems = [
       background: color-mix(in srgb, var(--onyx) 85%, transparent);
       backdrop-filter: blur(20px) saturate(1.4);
       -webkit-backdrop-filter: blur(20px) saturate(1.4);
-      border: 1px solid rgba(255,255,255,0.05);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid transparent;
+      background-clip: padding-box;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.3),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+      position: relative;
+    }
+    #navbar.scrolled::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 17px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(25,227,240,0.15), rgba(255,122,26,0.08), rgba(25,227,240,0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    #navbar.scrolled:hover::before {
+      opacity: 1;
     }
     #navbar.scrolled .header-baseline {
       opacity: 0;
