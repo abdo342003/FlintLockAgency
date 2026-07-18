@@ -37,16 +37,16 @@ const navItems = [
   <!-- Inner container -->
   <div class="flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto;">
     <!-- Left: Logo -->
-    <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-2 sm:gap-3 no-underline group min-w-0">
+    <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-2 sm:gap-3 no-underline group flex-shrink-0">
       <img src="/logo-96.png" alt="Flintlock" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0" width="96" height="96" fetchpriority="high" />
       <div class="flex flex-col leading-tight min-w-0">
-        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] truncate">FLINTLOCK</span>
-        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] hidden sm:block">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
+        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] whitespace-nowrap">FLINTLOCK</span>
+        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] whitespace-nowrap header-baseline hidden sm:block">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
       </div>
     </a>
 
     <!-- Center: Desktop nav -->
-    <nav class="hidden md:flex items-center gap-5 lg:gap-7" aria-label="Main navigation">
+    <nav class="hidden md:flex items-center gap-5 lg:gap-7 ml-auto mr-4 lg:mr-6" aria-label="Main navigation">
       {navItems.map((item) => (
         <a
           href={item.href}
@@ -297,11 +297,18 @@ const navItems = [
       max-width: 1000px;
       left: 50%;
       transform: translateX(-50%);
-      border-radius: 0;
-      clip-path: polygon(16px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 16px);
-      background: color-mix(in srgb, var(--onyx) 92%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--onyx) 85%, transparent);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    #navbar.scrolled .header-baseline {
+      opacity: 0;
+      height: 0;
+      margin: 0;
+      overflow: hidden;
     }
     #navbar.scrolled.hidden-nav {
       transform: translateX(-50%) translateY(-120%) !important;
