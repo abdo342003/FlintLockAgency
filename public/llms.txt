@@ -40,12 +40,11 @@ Astro, Tailwind CSS, Three.js, Cloudflare Pages, Plausible Analytics. Self-hoste
 ## Contact
 
 - Website: https://flintlockagency.com
-- Email: addellaherraoui3@gmail.com
+- Email: contact@flintlockagency.com
 - Phone: +212 706-570686
 - WhatsApp: https://wa.me/212706570686
 - LinkedIn: https://www.linkedin.com/company/flint-lock/
 - Instagram: https://www.instagram.com/flint___lock/
-- GitHub: https://github.com/flintlock
 
 ## See Also
 
