@@ -81,17 +81,16 @@ const t = useTranslations(lang);
       btn.setAttribute("disabled", "true");
       btn.textContent = "...";
 
-      /* Send to Web3Forms */
-      var formData = new FormData();
-      formData.append("access_key", "9f697629-4041-4711-9ed9-5a542b5031a6");
-      formData.append("subject", "Lead Magnet Download — 25 processus à automatiser");
-      formData.append("from_name", "Flintlock Website");
-      formData.append("email", email);
-      formData.append("message", "Nouvelle demande de téléchargement ebook (lead magnet). Email: " + email);
+      var WORKER_URL = "https://flintlock-forms.ACCOUNT_ID.workers.dev";
 
-      fetch("https://api.web3forms.com/submit", {
+      fetch(WORKER_URL, {
         method: "POST",
-        body: formData
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "lead magnet",
+          email: email,
+          lang: location.pathname.startsWith("/fr") ? "fr" : "en",
+        }),
       }).then(function() {
         /* Trigger PDF download */
         var a = document.createElement("a");

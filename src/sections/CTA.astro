@@ -30,10 +30,7 @@ const t = useTranslations(lang);
     <p class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/30 mb-4 reveal">— {lang === "fr" ? "ou" : "or"} —</p>
 
     <div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-border)]/50 bg-[var(--color-surface-2)] p-6 md:p-8 mb-8 shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] reveal">
-      <form id="contact-form" class="space-y-5" action="https://api.web3forms.com/submit" method="POST" data-lang={lang}>
-        <input type="hidden" name="access_key" value="9f697629-4041-4711-9ed9-5a542b5031a6" />
-        <input type="hidden" name="subject" value={lang === "fr" ? "Nouveau message depuis Flintlock" : "New message from Flintlock"} />
-        <input type="hidden" name="from_name" value="Flintlock Website" />
+      <form id="contact-form" class="space-y-5" data-lang={lang}>
         <div>
           <input type="text" name="name" placeholder={lang === "fr" ? "Votre nom" : "Your name"} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
         </div>
@@ -55,8 +52,7 @@ const t = useTranslations(lang);
       </form>
     </div>
 
-    <!-- Web3Forms handles submission + Turnstile inline; our success/error layer -->
-    <div id="form-result" class="hidden"></div>
+<div id="form-result" class="hidden"></div>
 
     <div class="flex flex-col items-center gap-4 reveal">
       <span class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/40">{t("cta.alt")}</span>
@@ -99,50 +95,60 @@ const t = useTranslations(lang);
   }
 </style>
 
-<!-- Web3Forms client (handles Turnstile + AJAX submission) -->
-<script src="https://web3forms.com/client/script.js" async defer></script>
-
 <script>
   (function () {
     var form = document.getElementById("contact-form");
     var result = document.getElementById("form-result");
     if (!form) return;
 
-    /* Watch for success: Web3Forms clears the form on success */
-    var origSubmit = form.querySelector('[type="submit"]');
-    var inputs = form.querySelectorAll("input, textarea");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var submitBtn = form.querySelector('[type="submit"]');
+      var fd = new FormData(form);
 
-    form.addEventListener("submit", function () {
-      /* On submit attempt, disable button briefly */
-      if (origSubmit) origSubmit.disabled = true;
-    });
+      submitBtn.disabled = true;
 
-    /* Detect successful submission — Web3Forms clears form fields */
-    var checkCleared = setInterval(function () {
-      if (origSubmit && origSubmit.disabled) {
-        var allEmpty = true;
-        inputs.forEach(function (el) {
-          if (el.type !== "hidden" && el.value && el.value.trim() !== "") {
-            allEmpty = false;
+      var WORKER_URL = "https://flintlock-forms.ACCOUNT_ID.workers.dev";
+
+      fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          name: fd.get("name"),
+          email: fd.get("email"),
+          message: fd.get("message"),
+          lang: form.getAttribute("data-lang"),
+        }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.ok) {
+            form.classList.add("hidden");
+            result.classList.remove("hidden");
+            result.innerHTML =
+              '<div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-accent)]/20 bg-[var(--color-surface-2)] p-8 mb-8 text-center">' +
+              '<div class="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mx-auto mb-4">' +
+              '<svg class="w-6 h-6 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+              "</div>" +
+              '<p class="font-bold text-lg text-[var(--color-off-white)] mb-1">' +
+              (form.getAttribute("data-lang") === "fr" ? "Message envoyé !" : "Message sent!") +
+              "</p>" +
+              '<p class="text-sm text-[var(--color-text-secondary)]">' +
+              (form.getAttribute("data-lang") === "fr" ? "Nous vous répondrons sous 24 à 48 heures." : "We'll get back to you within 24-48 hours.") +
+              "</p></div>";
+          } else {
+            throw new Error(data.error);
           }
-        });
-        if (allEmpty) {
-          clearInterval(checkCleared);
-          form.classList.add("hidden");
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
           result.classList.remove("hidden");
           result.innerHTML =
-            '<div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-accent)]/20 bg-[var(--color-surface-2)] p-8 mb-8 text-center">' +
-            '<div class="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mx-auto mb-4">' +
-            '<svg class="w-6 h-6 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
-            '</div>' +
-            '<p class="font-bold text-lg text-[var(--color-off-white)] mb-1">' +
-            (form.getAttribute("data-lang") === "fr" ? "Message envoyé !" : "Message sent!") +
-            '</p>' +
-            '<p class="text-sm text-[var(--color-text-secondary)]">' +
-            (form.getAttribute("data-lang") === "fr" ? "Nous vous répondrons sous 24 à 48 heures." : "We'll get back to you within 24-48 hours.") +
-            '</p></div>';
-        }
-      }
-    }, 500);
+            '<p class="font-mono text-xs text-red-400 text-center">' +
+            (form.getAttribute("data-lang") === "fr" ? "Une erreur est survenue. Réessayez." : "Something went wrong. Try again.") +
+            "</p>";
+        });
+    });
   })();
 </script>
