@@ -36,8 +36,8 @@ const navItems = [
 
   <!-- Inner container -->
   <div class="flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto;">
-    <!-- Left: Logo emblem + tag -->
-    <a href="/" class="flex items-center gap-2 sm:gap-3 no-underline group min-w-0">
+    <!-- Left: Logo -->
+    <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-2 sm:gap-3 no-underline group min-w-0">
       <img src="/logo-96.png" alt="Flintlock" class="h-10 sm:h-12 w-auto object-contain flex-shrink-0" width="96" height="96" fetchpriority="high" />
       <div class="flex flex-col leading-tight min-w-0">
         <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] truncate">FLINTLOCK</span>
@@ -82,30 +82,33 @@ const navItems = [
         <span class={`font-mono text-[10px] font-bold tracking-wider transition-colors duration-300 ${lang === "fr" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>FR</span>
       </button>
 
-      <!-- Ignition CTA (desktop) -->
+      <!-- Ignition CTA (desktop) — triggers Calendly -->
       <a
-        href="#contact"
+        href="#"
+        data-booking-trigger
         class="ignition-cta hidden md:inline-flex items-center gap-2 px-5 py-2.5 no-underline font-bold text-[11px] uppercase tracking-[0.15em] rounded-[var(--radius-md)] relative overflow-hidden group"
         style="background: var(--color-cta); color: #000;"
       >
         <span class="relative z-10 flex items-center gap-2">
-          <Icon name="lucide:zap" class="w-3.5 h-3.5" />
+          <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
           <span>{t("nav.book")}</span>
         </span>
         <span class="cta-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></span>
         <span class="cta-spark absolute pointer-events-none opacity-0 group-hover:opacity-100" aria-hidden="true"></span>
       </a>
 
-      <!-- Hamburger (mobile) -->
+      <!-- Hamburger (mobile) — morphs to X -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-[var(--color-off-white)] bg-transparent border-none cursor-pointer p-2 sm:p-2.5 transition-transform duration-200 active:scale-90"
+        class="md:hidden hamburger-btn relative bg-transparent border-none cursor-pointer p-2 sm:p-2.5 transition-transform duration-200 active:scale-90"
         style="touch-action: manipulation; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;"
         aria-label={lang === "en" ? "Open menu" : "Ouvrir le menu"}
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
-        <Icon name="lucide:menu" class="w-5 h-5 sm:w-6 sm:h-6" />
+        <span class="hamburger-line hamburger-top absolute w-5 sm:w-6 h-[1.5px] bg-[var(--color-off-white)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" style="top: calc(50% - 5px);"></span>
+        <span class="hamburger-line hamburger-mid absolute w-5 sm:w-6 h-[1.5px] bg-[var(--color-off-white)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" style="top: 50%;"></span>
+        <span class="hamburger-line hamburger-bot absolute w-5 sm:w-6 h-[1.5px] bg-[var(--color-off-white)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" style="top: calc(50% + 5px);"></span>
       </button>
     </div>
   </div>
@@ -128,7 +131,7 @@ const navItems = [
   <!-- Close button -->
   <button
     id="mobile-menu-close"
-    class="absolute top-5 right-5 text-[var(--color-off-white)] bg-[var(--color-surface-2)]/50 border border-[var(--color-border)] rounded-full cursor-pointer p-3 z-10"
+    class="absolute top-5 right-5 text-[var(--color-off-white)] bg-[var(--color-surface-2)]/50 border border-[var(--color-border)] rounded-full cursor-pointer p-3 z-10 transition-transform duration-200 active:scale-90"
     style="touch-action: manipulation; min-width: 44px; min-height: 44px;"
     aria-label={lang === "en" ? "Close menu" : "Fermer le menu"}
   >
@@ -137,19 +140,9 @@ const navItems = [
 
   <!-- Mobile content -->
   <div class="flex flex-col items-center gap-8 relative z-[1] w-full max-w-sm px-6">
-    <!-- Logo area -->
-    <div class="flex flex-col items-center gap-2 mb-4 mobile-stagger">
-      <div class="w-12 h-12">
-        <svg viewBox="0 0 44 44" class="w-full h-full" aria-hidden="true" style="color: var(--color-accent);">
-          <path d="M22 3 L38 10 L38 32 L22 41 L6 32 L6 10 Z" stroke="currentColor" stroke-width="1.1" fill="none" opacity="0.55" />
-          <circle cx="22" cy="21" r="11" stroke="currentColor" stroke-width="0.5" fill="none" opacity="0.2" />
-          <rect x="15" y="18" width="14" height="11" rx="1.5" stroke="currentColor" stroke-width="1" fill="none" />
-          <path d="M17 18 L17 14 Q17 10 22 10 Q27 10 27 14 L27 18" stroke="currentColor" stroke-width="1" fill="none" />
-          <circle cx="22" cy="23" r="2.5" stroke="currentColor" stroke-width="0.7" fill="none" />
-          <path d="M22 20.5 L22 18" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
-          <path d="M10 9 L20 9 L16 15 L34 15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7" />
-        </svg>
-      </div>
+    <!-- Logo area — uses real logo -->
+    <div class="flex flex-col items-center gap-3 mb-4 mobile-stagger">
+      <img src="/logo-96.png" alt="Flintlock" class="w-16 h-16 object-contain" width="96" height="96" />
       <span class="font-display text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)]">FLINTLOCK</span>
       <span class="font-mono text-[10px] tracking-[0.12em] uppercase opacity-30 text-[var(--color-off-white)]">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
     </div>
@@ -188,13 +181,14 @@ const navItems = [
       <span class={`font-mono text-xs font-bold tracking-wider transition-colors duration-300 ${lang === "fr" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>FR</span>
     </button>
 
-    <!-- Ignition CTA (mobile) -->
+    <!-- Ignition CTA (mobile) — triggers Calendly -->
     <a
-      href="#contact"
+      href="#"
+      data-booking-trigger
       class="mobile-nav-link inline-flex items-center gap-2.5 px-8 py-4 no-underline font-bold text-sm uppercase tracking-[0.15em] rounded-[var(--radius-md)] mobile-stagger relative overflow-hidden group"
       style="background: var(--color-cta); color: #000; transition-delay: 0.56s;"
     >
-      <Icon name="lucide:zap" class="w-4 h-4" />
+      <Icon name="lucide:calendar" class="w-4 h-4" />
       <span>{t("nav.book")}</span>
       <span class="cta-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
     </a>
@@ -264,6 +258,20 @@ const navItems = [
     100% { transform: translate(15%, -15%) scale(1.4); opacity: 0; }
   }
 
+  /* ─── Hamburger → X morph ─── */
+  .hamburger-btn[aria-expanded="true"] .hamburger-top {
+    top: 50% !important;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .hamburger-btn[aria-expanded="true"] .hamburger-mid {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger-btn[aria-expanded="true"] .hamburger-bot {
+    top: 50% !important;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
   /* ─── Mobile overlay open/close ─── */
   #mobile-menu[hidden] {
     display: none !important;
@@ -291,6 +299,9 @@ const navItems = [
       transform: translateX(-50%);
       border-radius: 0;
       clip-path: polygon(16px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 16px);
+      background: color-mix(in srgb, var(--onyx) 92%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     #navbar.scrolled.hidden-nav {
       transform: translateX(-50%) translateY(-120%) !important;
@@ -321,6 +332,7 @@ const navItems = [
       animation: none;
     }
     .lang-toggle .lang-knob { transition: none; }
+    .hamburger-line { transition: none; }
     #scroll-progress { display: none; }
     #nav-bottom-glow { opacity: 0 !important; }
   }
@@ -403,7 +415,7 @@ const navItems = [
           requestAnimationFrame(onScroll);
           ticking = true;
         }
-      });
+      }, { passive: true });
 
       /* ─── Lang toggle — physical switch ─── */
       langToggles.forEach(function (toggle) {
@@ -415,7 +427,6 @@ const navItems = [
           }
         });
 
-        /* Keyboard: Enter/Space toggles */
         toggle.addEventListener("keydown", function (e) {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -431,10 +442,10 @@ const navItems = [
         if (!menu || !menuBtn) return;
         lastFocused = document.activeElement;
         menu.removeAttribute("hidden");
-        /* Force reflow then add open class for clip-path animation */
         void menu.offsetHeight;
         menu.classList.add("open");
         menuBtn.setAttribute("aria-expanded", "true");
+        menuBtn.setAttribute("aria-label", window.location.pathname.startsWith("/fr") ? "Fermer le menu" : "Close menu");
         document.body.style.overflow = "hidden";
         if (menuClose) menuClose.focus();
       }
@@ -443,6 +454,7 @@ const navItems = [
         if (!menu || !menuBtn) return;
         menu.classList.remove("open");
         menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.setAttribute("aria-label", window.location.pathname.startsWith("/fr") ? "Ouvrir le menu" : "Open menu");
         document.body.style.overflow = "";
         setTimeout(function () {
           menu.setAttribute("hidden", "");
@@ -461,7 +473,6 @@ const navItems = [
           link.addEventListener("click", closeMenu);
         });
 
-        /* Escape to close */
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape" && menu.classList.contains("open")) {
             closeMenu();
@@ -485,10 +496,9 @@ const navItems = [
         });
       }
 
-      /* ─── Reduced motion: disable magnetic ─── */
+      /* ─── Magnetic pull on nav links (desktop) ─── */
       var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!prefersReduced) {
-        /* Magnetic pull on nav links */
         var navLinksMagnetic = document.querySelectorAll(".nav-link");
         navLinksMagnetic.forEach(function (link) {
           link.addEventListener("mousemove", function (e) {
