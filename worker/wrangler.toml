@@ -3,6 +3,6 @@ main = "src/index.js"
 compatibility_date = "2024-12-01"
 
 [vars]
-RESEND_API_KEY = "re_hy9ouh8x_DCV5VtCM6X6C78n6ZnRdEwSE"
+RESEND_API_KEY = "re_Xs8snnjN_32uudQx5fsx1Z6YUNuo4BvcL"
 TO_EMAIL = "contact@flintlockagency.com"
-FROM_EMAIL = "noreply@flintlockagency.com"
+FROM_EMAIL = "noreply@send.flintlockagency.com"
