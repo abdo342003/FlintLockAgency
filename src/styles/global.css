@@ -312,6 +312,9 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 100px 100px;
   image-rendering: pixelated;
 }
+@media (max-width: 768px) {
+  .noise-overlay { display: none; }
+}
 
 /* ─── Scroll reveal animations ─────────────────────── */
 .reveal {
