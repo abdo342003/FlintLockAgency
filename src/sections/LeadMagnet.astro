@@ -93,10 +93,18 @@ const t = useTranslations(lang);
         method: "POST",
         body: formData
       }).then(function() {
+        /* Trigger PDF download */
+        var a = document.createElement("a");
+        a.href = "/ebook.pdf";
+        a.download = "Flintlock-25-Processus-Automatiser.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
         form.classList.add("hidden");
         status.textContent = location.pathname.startsWith("/fr")
-          ? "Vérifiez votre boîte mail — le lien de téléchargement est en route."
-          : "Check your inbox — the download link is on its way.";
+          ? "Le téléchargement a démarré. Vérifiez votre boîte mail pour une copie."
+          : "Download started. Check your inbox for a copy.";
         status.className = "font-mono text-xs mt-3 text-[var(--color-accent)]";
         status.classList.remove("hidden");
       }).catch(function() {
