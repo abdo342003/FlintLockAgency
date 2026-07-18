@@ -259,13 +259,8 @@ function renderChars(text: string, lineOffset: number): string {
      }
    }
 
-  /* ─── Hero LCP: show hero text immediately for fastest paint ─── */
+  /* ─── Hero LCP: show hero text container immediately for fastest paint ─── */
   #hero .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  #hero .reveal .char,
-  #hero .reveal .word {
     opacity: 1 !important;
     transform: none !important;
   }
