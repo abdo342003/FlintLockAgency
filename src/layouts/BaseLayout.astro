@@ -153,22 +153,6 @@ const ogImageURL = `${siteUrl}/img/og-image.svg`;
 
     <script is:inline>
       (function() {
-        function decodeBase64(str) {
-          try { return atob(str); } catch(e) { return ''; }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-          document.querySelectorAll('[data-email-href]').forEach(function(el) {
-            var href = decodeBase64(el.getAttribute('data-email-href'));
-            var text = decodeBase64(el.getAttribute('data-email-text'));
-            if (href) el.setAttribute('href', href);
-            var span = el.querySelector('.email-obfuscated');
-            if (span && text) span.textContent = text;
-          });
-        });
-      })();
-    </script>
-    <script is:inline>
-      (function() {
         var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (prefersReducedMotion) return;
 
