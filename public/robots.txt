@@ -1,5 +1,5 @@
 # ===========================================
-# Robots.txt — Flintlock.io
+# Robots.txt — Flintlock Agency
 # AI-first: all major AI crawlers explicitly allowed
 # ===========================================
 

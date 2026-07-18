@@ -1,0 +1,32 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const stats = [
+  { value: "-85%", label: lang === "fr" ? "temps d'audit" : "audit time", detail: "45d → 7d" },
+  { value: "12+", label: lang === "fr" ? "projets livrés" : "projects delivered" },
+  { value: "5.0", label: lang === "fr" ? "note moyenne" : "average rating", detail: "12+ avis" },
+  { value: "24h", label: lang === "fr" ? "délai de réponse" : "response time" },
+];
+---
+
+<section class="py-[var(--stack-md)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
+  <div class="mx-auto" style="max-width: var(--container-max);">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      {stats.map((stat, i) => (
+        <div class="text-center reveal" style={`transition-delay: ${0.1 * i}s`}>
+          <span class="block font-display text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--color-accent)] leading-none mb-2">{stat.value}</span>
+          <span class="block font-mono text-[10px] md:text-xs tracking-[0.12em] uppercase text-[var(--color-text-secondary)] mb-1">{stat.label}</span>
+          {stat.detail && <span class="block font-mono text-[9px] text-[var(--color-text-secondary)]/50">{stat.detail}</span>}
+        </div>
+      ))}
+    </div>
+    <div class="mt-8 h-px w-full bg-gradient-to-r from-transparent via-[var(--color-accent)]/15 to-transparent"></div>
+  </div>
+</section>
