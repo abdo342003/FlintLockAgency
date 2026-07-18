@@ -245,7 +245,7 @@ function renderChars(text: string, lineOffset: number): string {
     color: var(--color-accent) !important;
   }
 
-/* ─── Mobile: stronger scrim for legibility ─── */
+  /* ─── Mobile: stronger scrim for legibility ─── */
    @media (max-width: 768px) {
      #hero {
        min-height: 100dvh;
@@ -258,6 +258,20 @@ function renderChars(text: string, lineOffset: number): string {
        font-size: clamp(1.4rem, 5vw + 0.3rem, 1.75rem);
      }
    }
+
+  /* ─── Hero LCP: show hero text immediately for fastest paint ─── */
+  #hero .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  #hero .reveal .char,
+  #hero .reveal .word {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
 
   /* ─── Reduced motion ─── */
   @media (prefers-reduced-motion: reduce) {
