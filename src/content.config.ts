@@ -9,6 +9,7 @@ const blog = defineCollection({
     date: z.string(),
     readTime: z.string(),
     lang: z.enum(["en", "fr"]),
+    translationSlug: z.string().optional(),
   }),
 });
 

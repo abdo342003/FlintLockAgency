@@ -4,6 +4,7 @@ description: "Une checklist en 5 points pour auditer les performances, le SEO et
 date: "2026-07-15"
 readTime: "6 min de lecture"
 lang: "fr"
+translationSlug: "website-losing-customers"
 ---
 
 ## Le tueur silencieux de votre chiffre d'affaires

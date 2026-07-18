@@ -9,6 +9,7 @@ export interface Props {
   description?: string;
   lang?: Lang;
   noindex?: boolean;
+  hreflangAlternates?: { lang: string; href: string }[];
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   description,
   lang = "en",
   noindex = false,
+  hreflangAlternates = [],
 } = Astro.props;
 
 const siteUrl = "https://flintlockagency.com";
@@ -78,6 +80,9 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     <link rel="alternate" hreflang="en" href={`${siteUrl}/`} />
     <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/`} />
     <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+    {hreflangAlternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.lang} href={`${siteUrl}${alt.href}`} />
+    ))}
 
     <meta name="theme-color" content="#0C0F13" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#0C0F13" media="(prefers-color-scheme: light)" />

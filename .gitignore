@@ -39,3 +39,6 @@ Posts/
 !public/robots.txt
 !public/llms.txt
 !public/llms-full.txt
+
+# Private / credentials
+Private/

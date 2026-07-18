@@ -286,15 +286,32 @@ void main() {
        }
      });
 
-     document.addEventListener("visibilitychange", () => {
-       if (document.hidden) {
-         if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-         isPaused = true;
-       } else if (isPaused) {
-         isPaused = false;
-         rafId = requestAnimationFrame(render);
-       }
-     });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          isPaused = true;
+        } else if (isPaused) {
+          isPaused = false;
+          rafId = requestAnimationFrame(render);
+        }
+      });
+
+      /* Pause rendering when hero is off-screen to save GPU */
+      const heroEl = document.getElementById("hero");
+      if (heroEl && typeof IntersectionObserver !== "undefined") {
+        const heroObserver = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              if (isPaused) { isPaused = false; rafId = requestAnimationFrame(render); }
+            } else {
+              if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+              isPaused = true;
+            }
+          },
+          { rootMargin: "100px 0px" }
+        );
+        heroObserver.observe(heroEl);
+      }
 
      function render(t) {
        if (typeof ResizeObserver === "undefined") syncSize();

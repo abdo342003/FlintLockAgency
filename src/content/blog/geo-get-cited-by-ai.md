@@ -4,6 +4,7 @@ description: "Generative Engine Optimisation is the new SEO. Here's how to struc
 date: "2026-06-28"
 readTime: "5 min read"
 lang: "en"
+translationSlug: "geo-cites-ia"
 ---
 
 ## The search paradigm is shifting

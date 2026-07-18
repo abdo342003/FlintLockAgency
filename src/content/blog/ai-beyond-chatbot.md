@@ -4,6 +4,7 @@ description: "Stop thinking about AI as a customer service bot. Here are 4 ways 
 date: "2026-07-10"
 readTime: "8 min read"
 lang: "en"
+translationSlug: "ia-au-dela-chatbot"
 ---
 
 ## AI is not a chatbot

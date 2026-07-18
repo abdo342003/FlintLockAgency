@@ -4,6 +4,7 @@ description: "You don't need to be a hacker to understand these 10 vulnerabiliti
 date: "2026-07-05"
 readTime: "7 min read"
 lang: "en"
+translationSlug: "owasp-dirigeants"
 ---
 
 ## Security isn't optional anymore

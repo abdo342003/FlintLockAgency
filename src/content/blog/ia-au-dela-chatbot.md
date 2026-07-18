@@ -4,6 +4,7 @@ description: "Arrêtez de penser à l'IA comme un service client. Voici 4 façon
 date: "2026-07-10"
 readTime: "8 min de lecture"
 lang: "fr"
+translationSlug: "ai-beyond-chatbot"
 ---
 
 ## L'IA n'est pas un chatbot

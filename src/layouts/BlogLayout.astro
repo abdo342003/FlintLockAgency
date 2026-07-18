@@ -10,9 +10,10 @@ interface Props {
   description: string;
   date: string;
   readTime: string;
+  translationSlug?: string;
 }
 
-const { lang, title, description, date, readTime } = Astro.props;
+const { lang, title, description, date, readTime, translationSlug } = Astro.props;
 const t = useTranslations(lang);
 const siteUrl = "https://flintlockagency.com";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
@@ -41,9 +42,13 @@ const blogSchema = {
     "@id": canonicalURL,
   },
 };
+
+const hreflangLinks = translationSlug ? [
+  { lang: lang === "en" ? "fr" : "en", href: `${lang === "en" ? "/fr" : ""}/blog/${translationSlug}/` },
+] : [];
 ---
 
-<BaseLayout lang={lang} title={`${title} — Flintlock`} description={description}>
+<BaseLayout lang={lang} title={`${title} — Flintlock`} description={description} hreflangAlternates={hreflangLinks}>
   <Header slot="header" lang={lang} />
 
   <article class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">

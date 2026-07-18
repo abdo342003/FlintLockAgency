@@ -4,6 +4,7 @@ description: "A 5-point checklist to audit your site's performance, SEO, and con
 date: "2026-07-15"
 readTime: "6 min read"
 lang: "en"
+translationSlug: "site-perd-client"
 ---
 
 ## The silent killer of your revenue
