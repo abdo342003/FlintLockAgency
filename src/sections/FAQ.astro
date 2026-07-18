@@ -21,7 +21,7 @@ const faqs = ["1", "2", "3", "4", "5"];
 
     <div class="max-w-2xl mx-auto space-y-3" id="faq-group">
       {faqs.map((faq, i) => (
-        <details class="group rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] faq-item hover:border-[var(--color-accent)]/25 open:border-[var(--color-accent)]/30 open:border-l-[var(--color-accent)] transition-all duration-200" name="faq" style="border-left: 2px solid transparent;">
+        <details class="group rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] faq-item hover:border-[var(--color-accent)]/25 open:border-[var(--color-accent)]/30 open:border-l-[var(--color-accent)] transition-all duration-200" name="faq" style="border-left: 2px solid transparent;">
           <summary class="flex items-center justify-between p-5 md:p-6 cursor-pointer font-bold text-sm md:text-base text-[var(--color-text-primary)] list-none">
             {t(`faq.${faq}.q`)}
             <Icon name="lucide:chevron-down" class="w-4 h-4 text-[var(--color-text-secondary)] group-open:rotate-180 transition-transform duration-200 flex-shrink-0 ml-4" />

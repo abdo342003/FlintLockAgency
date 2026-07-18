@@ -28,7 +28,7 @@ const reasons = [
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
       {reasons.map((r, i) => (
-        <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)]/60 border-l-2 border-l-[var(--color-accent)]/25 bg-[var(--color-surface-2)] p-5 md:p-6 text-center hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.06 * i}s`}>
+        <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-5 md:p-6 text-center shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.06 * i}s`}>
           <div class="icon-cyan w-12 h-12 mx-auto mb-3 group-hover:bg-[var(--color-accent)]/15 transition-colors">
             <Icon name={r.icon} class="w-5 h-5" />
           </div>
