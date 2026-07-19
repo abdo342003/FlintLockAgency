@@ -46,7 +46,7 @@ Custom LLMs and generative AI agents embedded into business workflows. Not chatb
 - Multi-model orchestration
 - AI agent deployment (autonomous task execution)
 
-**Use cases we've built**: AI-pentest orchestration (Exploit AI), automated security analysis, content pipelines
+**Use cases we've built**: AI-pentest orchestration (NexGsec AI), automated security analysis, content pipelines
 
 ### 3. Automation
 Custom pipelines that eliminate repetitive tasks and run operations on autopilot:
@@ -122,7 +122,7 @@ Built in by default, not bolted on after. Comprehensive security services:
 - **Role**: Leads all engineering
 - **Expertise**: High-performance web development, deep AI integration, systems security
 - **Notable work**:
-  - **Exploit AI**: AI-powered penetration testing orchestration platform. Reduced audit time from 45 days to 7 days (-85%). Pitched to investors.
+  - **NexGsec AI**: AI-powered penetration testing orchestration platform. Reduced audit time from 45 days to 7 days (-85%). Pitched to investors.
   - **OT_Shield**: OT/ICS intrusion detection & prevention system (IDPS). Monitors OPC UA traffic, uses Suricata rules, Elastic SIEM for visualisation.
   - **OWASP security audits**: Black-box audits on production websites for international clients.
   - **White Hat (emsi.ma)**: Ethical offensive security — responsible disclosure of vulnerabilities.
@@ -137,7 +137,7 @@ Built in by default, not bolted on after. Comprehensive security services:
 
 ## Projects & Portfolio
 
-### Exploit AI (In-house)
+### NexGsec AI (In-house)
 AI and automation tool for cybersecurity. Orchestrates penetration testing workflows using AI. Key metric: -85% audit time reduction (45 days to 7 days). Presented to investors.
 
 ### OT_Shield (In-house)

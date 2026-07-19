@@ -5,6 +5,7 @@ date: "2026-07-05"
 readTime: "7 min de lecture"
 lang: "fr"
 translationSlug: "owasp-top-10-business-owners"
+tags: ["OWASP", "Cybersécurité", "Sécurité Web", "Tests d'Intrusion"]
 ---
 
 ## La sécurité n'est plus optionnelle

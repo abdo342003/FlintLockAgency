@@ -5,6 +5,7 @@ date: "2026-07-10"
 readTime: "8 min de lecture"
 lang: "fr"
 translationSlug: "ai-beyond-chatbot"
+tags: ["IA", "Automatisation Métier", "Productivité", "LLM"]
 ---
 
 ## L'IA n'est pas un chatbot
@@ -29,7 +30,7 @@ Voici 4 façons dont on a vu l'IA générer un vrai ROI pour les entreprises :
 
 **La solution IA :** Un agent IA qui s'exécute automatiquement sur chaque pull request, vérifie les vulnérabilités OWASP, signale les anti-patterns de sécurité, et suggère des correctifs.
 
-**Résultat réel :** On a intégré ça dans Exploit AI — notre plateforme de pentest. Le temps d'audit est passé de 45 jours à 7 jours.
+**Résultat réel :** On a intégré ça dans NexGsec AI — notre plateforme de pentest. Le temps d'audit est passé de 45 jours à 7 jours.
 
 ## 3. Scoring de leads basé sur les données
 

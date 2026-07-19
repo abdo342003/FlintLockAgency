@@ -10,13 +10,13 @@ const t = useTranslations(lang);
 const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
 ---
 
-<div id="calendly-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label={lang === "fr" ? "Réserver un appel" : "Book a call"}>
+<div id="calendly-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label={t("modal.calendly.aria")}>
   <div id="calendly-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
   <div class="absolute inset-4 md:inset-8 lg:inset-12 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-onyx)] overflow-hidden flex flex-col">
     <div class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-2)]">
-      <span class="font-mono text-xs tracking-widest uppercase text-[var(--color-text-secondary)]/60">{lang === "fr" ? "Réserver un appel découverte" : "Book a discovery call"}</span>
-        <button id="calendly-close" class="p-2 rounded-full hover:bg-[var(--color-border)]/30 transition-colors cursor-pointer" aria-label={lang === "fr" ? "Fermer" : "Close"}>
-        <svg class="w-5 h-5 text-[var(--color-text-secondary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      <span class="font-mono text-xs tracking-widest uppercase text-[var(--color-text-secondary)]/60">{t("modal.calendly.title")}</span>
+        <button id="calendly-close" class="p-2 rounded-full hover:bg-[var(--color-border)]/30 transition-colors cursor-pointer" aria-label={t("a11y.close")}>
+        <svg class="w-5 h-5 text-[var(--color-text-secondary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
     <div class="flex-1 relative min-h-0">
@@ -60,6 +60,14 @@ const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
     if (backdrop) backdrop.addEventListener("click", closeModal);
     document.addEventListener("keydown", function(e) {
       if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+      if (e.key === "Tab" && !modal.classList.contains("hidden")) {
+        var focusable = modal.querySelectorAll('button, iframe');
+        if (focusable.length === 0) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
   })();
 </script>
@@ -71,5 +79,10 @@ const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
   @keyframes calendly-fade-in {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #calendly-modal {
+      animation: none;
+    }
   }
 </style>

@@ -9,14 +9,14 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const stats = [
-  { value: "-85%", label: lang === "fr" ? "temps d'audit" : "audit time", detail: "45d → 7d" },
-  { value: "12+", label: lang === "fr" ? "projets livrés" : "projects delivered" },
-  { value: "5.0", label: lang === "fr" ? "note moyenne" : "average rating", detail: lang === "fr" ? "12+ avis" : "12+ reviews" },
-  { value: "24h", label: lang === "fr" ? "délai de réponse" : "response time" },
+  { value: "-85%", label: t("stats.audit.label"), detail: "45d → 7d" },
+  { value: "12+", label: t("stats.projects.label") },
+  { value: "5.0", label: t("stats.rating.label"), detail: t("stats.rating.detail") },
+  { value: "24h", label: t("stats.response.label") },
 ];
 ---
 
-<section class="py-[var(--stack-md)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
+<section id="stats" class="py-[var(--stack-md)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
   <div class="mx-auto" style="max-width: var(--container-max);">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
       {stats.map((stat, i) => (

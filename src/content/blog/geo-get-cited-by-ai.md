@@ -5,6 +5,7 @@ date: "2026-06-28"
 readTime: "5 min read"
 lang: "en"
 translationSlug: "geo-cites-ia"
+tags: ["GEO", "SEO", "AI Search", "Content Strategy"]
 ---
 
 ## The search paradigm is shifting

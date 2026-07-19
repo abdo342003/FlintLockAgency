@@ -5,6 +5,7 @@ date: "2026-07-15"
 readTime: "6 min de lecture"
 lang: "fr"
 translationSlug: "website-losing-customers"
+tags: ["Performance Web", "SEO", "Taux de Conversion", "Core Web Vitals"]
 ---
 
 ## Le tueur silencieux de votre chiffre d'affaires

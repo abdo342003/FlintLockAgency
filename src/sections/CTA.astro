@@ -27,35 +27,35 @@ const t = useTranslations(lang);
       </a>
     </div>
 
-    <p class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/30 mb-4 reveal">— {lang === "fr" ? "ou" : "or"} —</p>
+    <p class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/30 mb-4 reveal">— {t("cta.or")} —</p>
 
     <div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-border)]/50 bg-[var(--color-surface-2)] p-6 md:p-8 mb-8 shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] reveal">
       <form id="contact-form" class="space-y-5" data-lang={lang}>
         <div>
-          <label for="contact-name" class="sr-only">{lang === "fr" ? "Votre nom" : "Your name"}</label>
-          <input type="text" id="contact-name" name="name" placeholder={lang === "fr" ? "Votre nom" : "Your name"} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
+          <label for="contact-name" class="sr-only">{t("cta.name.placeholder")}</label>
+          <input type="text" id="contact-name" name="name" placeholder={t("cta.name.placeholder")} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
         </div>
         <div>
-          <label for="contact-email" class="sr-only">{lang === "fr" ? "Votre email" : "Your email"}</label>
-          <input type="email" id="contact-email" name="email" placeholder={lang === "fr" ? "Votre email" : "Your email"} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
+          <label for="contact-email" class="sr-only">{t("cta.email.placeholder")}</label>
+          <input type="email" id="contact-email" name="email" placeholder={t("cta.email.placeholder")} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)]" required />
         </div>
         <div>
-          <label for="contact-message" class="sr-only">{lang === "fr" ? "Parlez-nous de votre projet..." : "Tell us about your project..."}</label>
-          <textarea id="contact-message" name="message" placeholder={lang === "fr" ? "Parlez-nous de votre projet..." : "Tell us about your project..."} rows={4} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)] resize-none" required></textarea>
+          <label for="contact-message" class="sr-only">{t("cta.message.placeholder")}</label>
+          <textarea id="contact-message" name="message" placeholder={t("cta.message.placeholder")} rows={4} class="w-full bg-[var(--color-onyx)]/60 border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/50 px-4 py-4 text-sm text-[var(--color-off-white)] placeholder-[var(--color-off-white)]/50 input-forge rounded-[var(--radius-md)] resize-none" required></textarea>
         </div>
         <div id="form-status" class="hidden font-mono text-xs tracking-wide text-center py-2 rounded-[var(--radius-md)]" role="status" aria-live="polite"></div>
         <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[var(--radius-md)] border border-[var(--color-accent)]/30 bg-transparent text-[var(--color-accent)] font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer hover:bg-[var(--color-accent)]/10">
           <Icon name="lucide:send" class="w-4 h-4" />
-          <span>{lang === "fr" ? "Envoyer un message" : "Send a message"}</span>
+          <span>{t("cta.send")}</span>
         </button>
         <p class="flex items-center justify-center gap-1.5 font-mono text-[10px] text-[var(--color-text-secondary)]/40 pt-1">
           <Icon name="lucide:clock" class="w-3 h-3" />
-          {lang === "fr" ? "Réponse garantie sous 24h" : "Response guaranteed within 24h"}
+          {t("cta.response.guarantee")}
         </p>
       </form>
     </div>
 
-<div id="form-result" class="hidden"></div>
+    <div id="form-result" class="hidden" data-i18n-success-title={t("cta.success.title")} data-i18n-success-desc={t("cta.success.desc")} data-i18n-error={t("cta.error")} data-lang={lang}></div>
 
     <div class="flex flex-col items-center gap-4 reveal">
       <span class="font-mono text-[10px] tracking-widest uppercase text-[var(--color-off-white)]/40">{t("cta.alt")}</span>
@@ -94,7 +94,8 @@ const t = useTranslations(lang);
     border-color: rgba(25, 227, 240, 0.25);
     border-left-color: var(--color-accent);
     box-shadow: 0 0 0 1px rgba(25, 227, 240, 0.2);
-    outline: none;
+    outline: 2px solid rgba(25, 227, 240, 0.3);
+    outline-offset: 1px;
   }
 </style>
 
@@ -129,16 +130,17 @@ const t = useTranslations(lang);
           if (data.ok) {
             form.classList.add("hidden");
             result.classList.remove("hidden");
+            var resultI18n = result;
             result.innerHTML =
               '<div class="cta-card rounded-[var(--radius-lg)] border border-[var(--color-accent)]/20 bg-[var(--color-surface-2)] p-8 mb-8 text-center">' +
               '<div class="w-12 h-12 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mx-auto mb-4">' +
               '<svg class="w-6 h-6 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
               "</div>" +
               '<p class="font-bold text-lg text-[var(--color-off-white)] mb-1">' +
-              (form.getAttribute("data-lang") === "fr" ? "Message envoyé !" : "Message sent!") +
+              resultI18n.getAttribute("data-i18n-success-title") +
               "</p>" +
               '<p class="text-sm text-[var(--color-text-secondary)]">' +
-              (form.getAttribute("data-lang") === "fr" ? "Nous vous répondrons sous 24 à 48 heures." : "We'll get back to you within 24-48 hours.") +
+              resultI18n.getAttribute("data-i18n-success-desc") +
               "</p></div>";
           } else {
             throw new Error(data.error);
@@ -149,7 +151,7 @@ const t = useTranslations(lang);
           result.classList.remove("hidden");
           result.innerHTML =
             '<p class="font-mono text-xs text-red-400 text-center">' +
-            (form.getAttribute("data-lang") === "fr" ? "Une erreur est survenue. Réessayez." : "Something went wrong. Try again.") +
+            result.getAttribute("data-i18n-error") +
             "</p>";
         });
     });

@@ -5,6 +5,7 @@ date: "2026-07-05"
 readTime: "7 min read"
 lang: "en"
 translationSlug: "owasp-dirigeants"
+tags: ["OWASP", "Cybersecurity", "Web Security", "Penetration Testing"]
 ---
 
 ## Security isn't optional anymore

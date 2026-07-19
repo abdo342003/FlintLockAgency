@@ -17,7 +17,6 @@ import FAQ from "../sections/FAQ.astro";
 import CTA from "../sections/CTA.astro";
 import LeadMagnet from "../sections/LeadMagnet.astro";
 import Footer from "../sections/Footer.astro";
-import CalendlyModal from "../components/CalendlyModal.astro";
 import { useTranslations } from "../i18n/util";
 
 const t = useTranslations("en");
@@ -46,8 +45,26 @@ const structuredData = {
         "Digital studio: web development, AI integration, automation, and cybersecurity. Built by two engineers. Based in Morocco, global clients.",
       foundingDate: "2025",
       founders: [
-        { "@type": "Person", name: "Abdellah ERRAOUI", jobTitle: "CTO & Founder" },
-        { "@type": "Person", name: "Faris BAHBAH", jobTitle: "COO & Founder" },
+        {
+          "@type": "Person",
+          "@id": `${siteUrl}/#abdellah-erroui`,
+          name: "Abdellah ERRAOUI",
+          jobTitle: "CTO & Founder",
+          url: `${siteUrl}/team#abdellah`,
+          sameAs: ["https://www.linkedin.com/in/abdellah-erraoui/"],
+          knowsAbout: ["Cybersecurity", "Artificial Intelligence", "Web Development", "OT/ICS Security", "Penetration Testing", "OWASP"],
+          worksFor: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Person",
+          "@id": `${siteUrl}/#faris-bahbah`,
+          name: "Faris BAHBAH",
+          jobTitle: "COO & Founder",
+          url: `${siteUrl}/team#faris`,
+          sameAs: ["https://www.linkedin.com/in/faris-bahbah/"],
+          knowsAbout: ["Business Automation", "Lead Generation", "Product Strategy", "SEO", "GEO"],
+          worksFor: { "@id": `${siteUrl}/#organization` },
+        },
       ],
       address: {
         "@type": "PostalAddress",
@@ -322,6 +339,30 @@ const structuredData = {
       reviewCount: "12",
       ratingCount: "12",
     },
+    {
+      "@type": "Speakable",
+      "@id": `${siteUrl}/#speakable`,
+      cssSelector: ["h1", ".geo-description"],
+    },
+    {
+      "@type": "Dataset",
+      name: "NexGsec AI — AI-Pentest Orchestration Performance Metrics",
+      description: "Benchmark data from NexGsec AI: automated penetration testing orchestration platform. Measures audit time reduction, cost efficiency, and vulnerability detection coverage.",
+      url: `${siteUrl}`,
+      creator: { "@id": `${siteUrl}/#organization` },
+      about: [
+        { "@type": "Thing", name: "Penetration Testing" },
+        { "@type": "Thing", name: "Artificial Intelligence" },
+        { "@type": "Thing", name: "Cybersecurity" },
+      ],
+      variableMeasured: [
+        { "@type": "PropertyValue", name: "Audit Time Reduction", unitText: "percent", value: "85" },
+        { "@type": "PropertyValue", name: "Audit Duration (Before)", unitText: "days", value: "45" },
+        { "@type": "PropertyValue", name: "Audit Duration (After)", unitText: "days", value: "7" },
+      ],
+      temporalCoverage: "2025/2026",
+      license: "https://flintlockagency.com",
+    },
   ],
 };
 ---
@@ -350,7 +391,6 @@ const structuredData = {
   <LeadMagnet lang="en" />
 
   <Footer slot="footer" lang="en" />
-  <CalendlyModal lang="en" />
 
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 </BaseLayout>

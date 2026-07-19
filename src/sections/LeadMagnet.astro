@@ -10,7 +10,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
+<section id="leadmagnet" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative overflow-hidden">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 50% 40% at 20% 50%, rgba(25,227,240,0.04) 0%, transparent 70%);"></div>
   <div class="mx-auto relative" style="max-width: var(--container-max);">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -33,12 +33,13 @@ const t = useTranslations(lang);
           <button
             id="leadmag-submit"
             class="cta-forge inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest transition-all duration-300 cursor-pointer whitespace-nowrap"
+            data-cta-label={t("leadmag.cta")}
           >
             <Icon name="lucide:download" class="w-4 h-4" />
             <span>{t("leadmag.cta")}</span>
           </button>
         </div>
-        <p id="leadmag-status" class="hidden font-mono text-xs mt-3" role="status" aria-live="polite"></p>
+        <p id="leadmag-status" class="hidden font-mono text-xs mt-3" role="status" aria-live="polite" data-i18n-invalid={t("leadmag.error.invalid")} data-i18n-server-error={t("leadmag.error.server")} data-i18n-success={t("leadmag.success.download")}></p>
         <p class="font-mono text-[10px] text-[var(--color-text-secondary)]/40 mt-3">{t("leadmag.note")}</p>
       </div>
 
@@ -48,8 +49,8 @@ const t = useTranslations(lang);
           <!-- Book cover -->
           <div class="absolute inset-0 rounded-lg bg-gradient-to-br from-[var(--color-accent)]/10 to-[var(--color-cta)]/10 border border-[var(--color-accent)]/20 shadow-[0_0_40px_rgba(25,227,240,0.1)] rotate-[-3deg] transition-transform duration-500 hover:rotate-0">
             <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-              <span class="font-mono text-[9px] tracking-widest uppercase text-[var(--color-accent)]/60 mb-2">{lang === "fr" ? "EBOOK GRATUIT" : "FREE EBOOK"}</span>
-              <h3 class="font-display text-lg md:text-xl font-bold text-[var(--color-text-primary)] leading-tight mb-3">{lang === "fr" ? <Fragment>25 processus<br/>à automatiser</Fragment> : <Fragment>25 processes<br/>to automate</Fragment>}</h3>
+              <span class="font-mono text-[9px] tracking-widest uppercase text-[var(--color-accent)]/60 mb-2">{t("leadmag.book.badge")}</span>
+              <h3 class="font-display text-lg md:text-xl font-bold text-[var(--color-text-primary)] leading-tight mb-3">{t("leadmag.book.title")}</h3>
               <div class="w-8 h-px bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-cta)] mb-3"></div>
               <span class="font-mono text-[9px] tracking-widest uppercase text-[var(--color-text-secondary)]/50">Flintlock Studio</span>
             </div>
@@ -73,7 +74,7 @@ const t = useTranslations(lang);
     btn.addEventListener("click", function() {
       var email = emailInput.value.trim();
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        status.textContent = location.pathname.startsWith("/fr") ? "Veuillez entrer un email valide." : "Please enter a valid email.";
+        status.textContent = status.getAttribute("data-i18n-invalid");
         status.className = "font-mono text-xs mt-3 text-red-400";
         status.classList.remove("hidden");
         return;
@@ -106,15 +107,13 @@ const t = useTranslations(lang);
         document.body.removeChild(a);
 
         form.classList.add("hidden");
-        status.textContent = location.pathname.startsWith("/fr")
-          ? "Le téléchargement a démarré. Vérifiez votre boîte mail pour une copie."
-          : "Download started. Check your inbox for a copy.";
+        status.textContent = status.getAttribute("data-i18n-success");
         status.className = "font-mono text-xs mt-3 text-[var(--color-accent)]";
         status.classList.remove("hidden");
       }).catch(function() {
         btn.removeAttribute("disabled");
-        btn.textContent = location.pathname.startsWith("/fr") ? "Télécharger" : "Download";
-        status.textContent = location.pathname.startsWith("/fr") ? "Une erreur est survenue. Réessayez." : "Something went wrong. Try again.";
+        btn.textContent = btn.getAttribute("data-cta-label");
+        status.textContent = status.getAttribute("data-i18n-server-error");
         status.className = "font-mono text-xs mt-3 text-red-400";
         status.classList.remove("hidden");
       });

@@ -11,37 +11,32 @@ const t = useTranslations(lang);
 const otherLang: Lang = lang === "en" ? "fr" : "en";
 const otherHref = otherLang === "fr" ? "/fr/" : "/";
 
-const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
+const pathname = Astro.url.pathname;
+const isHomepage = pathname === "/" || pathname === "/fr/";
+
 const navItems = [
-  { index: "01", key: "services", href: "#services" },
-  { index: "02", key: "work", href: "#proof" },
-  { index: "03", key: "team", href: "#team" },
-  { index: "04", key: "faq", href: "#faq" },
-  { index: "05", key: "blog", href: blogHref },
-  { index: "06", key: "contact", href: "#contact" },
+  { index: "01", key: "services", href: lang === "fr" ? "/fr/services" : "/services" },
+  { index: "02", key: "work", href: isHomepage ? "#proof" : (lang === "fr" ? "/fr/portfolio" : "/portfolio") },
+  { index: "03", key: "team", href: isHomepage ? "#team" : (lang === "fr" ? "/fr/team" : "/team") },
+  { index: "04", key: "faq", href: isHomepage ? "#faq" : (lang === "fr" ? "/fr/#faq" : "/#faq") },
+  { index: "05", key: "contact", href: isHomepage ? "#contact" : (lang === "fr" ? "/fr/#contact" : "/#contact") },
 ] as const;
 ---
 
 <header
   id="navbar"
   class="fixed top-0 z-50 w-full transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-  style="background: color-mix(in srgb, var(--onyx) 82%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+  style="background: rgba(11,34,51,0.75); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(25,227,240,0.08);"
 >
-  <!-- Scroll progress bar -->
-  <div id="scroll-progress" class="absolute bottom-0 left-0 h-[1px] z-10" style="width: 0%; background: linear-gradient(90deg, var(--color-accent), var(--color-ember));"></div>
-
-  <!-- Bottom edge glow (appears on scroll) -->
-  <div id="nav-bottom-glow" class="absolute bottom-0 left-0 right-0 h-[1px] opacity-0 transition-opacity duration-400" style="background: linear-gradient(90deg, transparent, rgba(25,227,240,0.1), rgba(255,122,26,0.08), transparent);"></div>
+  <!-- Scroll progress bar (top edge) -->
+  <div id="scroll-progress" class="absolute top-0 left-0 h-[2px] z-10" style="width: 0%; background: linear-gradient(90deg, var(--color-accent), var(--color-ember));"></div>
 
   <!-- Inner container -->
-  <div class="header-inner flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-[var(--unit)]" style="max-width: var(--container-max); margin: 0 auto; transition: padding 0.4s cubic-bezier(0.22,1,0.36,1);">
-    <!-- Left: Logo -->
+  <div class="header-inner flex items-center justify-between px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]" style="max-width: var(--container-max); margin: 0 auto; height: 80px; transition: height 0.4s cubic-bezier(0.22,1,0.36,1);">
+    <!-- Left: Logo + Wordmark -->
     <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-2 sm:gap-3 no-underline group flex-shrink-0">
-      <img src="/logo-96.png" alt="Flintlock" class="header-logo h-10 sm:h-12 w-auto object-contain flex-shrink-0 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]" width="96" height="96" fetchpriority="high" />
-      <div class="flex flex-col leading-tight min-w-0">
-        <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] whitespace-nowrap header-wordmark transition-all duration-400">FLINTLOCK</span>
-        <span class="font-mono text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)] whitespace-nowrap header-baseline hidden sm:block transition-all duration-400">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
-      </div>
+      <img src="/logo-96.png" alt="Flintlock" class="header-logo h-10 sm:h-11 w-auto object-contain flex-shrink-0 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]" width="96" height="96" fetchpriority="high" decoding="async" />
+      <span class="font-display text-sm sm:text-base md:text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)] whitespace-nowrap header-wordmark transition-all duration-400">FLINTLOCK</span>
     </a>
 
     <!-- Center: Desktop nav -->
@@ -57,23 +52,26 @@ const navItems = [
       ))}
     </nav>
 
-    <!-- Right: Status + Lang switch + CTA -->
+    <!-- Right: Available pill + Lang toggle + CTA -->
     <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
-      <!-- Status pill (desktop) -->
-      <div class="status-pill hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--color-accent)]/10 bg-[var(--color-accent)]/3">
-        <span class="status-dot relative w-1.5 h-1.5 rounded-full" style="background: var(--color-accent);"></span>
+      <!-- Green "Available" pill (desktop) -->
+      <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-green-500/15 bg-green-500/5">
+        <span class="relative flex w-1.5 h-1.5">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-40 motion-safe:animate-ping motion-safe:animation-duration-[2s]"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400"></span>
+        </span>
         <span class="font-mono text-[10px] tracking-wide text-[var(--color-text-secondary)] whitespace-nowrap">{t("nav.status")}</span>
       </div>
 
-      <!-- EN/FR physical toggle switch -->
+      <!-- EN/FR toggle switch -->
       <button
         id="lang-switch"
         role="switch"
         aria-checked={lang === "fr" ? "true" : "false"}
-        aria-label={lang === "en" ? "Switch to French" : "Passer en anglais"}
+        aria-label={lang === "en" ? t("a11y.switchToFr") : t("a11y.switchToEn")}
         data-other-href={otherHref}
         data-persist="true"
-        class="lang-toggle relative flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-onyx)]/60 cursor-pointer transition-colors duration-300 hover:border-[var(--color-accent)]/30 focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
+        class="lang-toggle relative flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full border border-[var(--color-border)] bg-[var(--onyx)]/60 cursor-pointer transition-colors duration-300 hover:border-[var(--color-accent)]/30 focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
         style="min-width: 56px;"
       >
         <span class={`font-mono text-[10px] font-bold tracking-wider transition-colors duration-300 ${lang === "en" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>EN</span>
@@ -81,7 +79,7 @@ const navItems = [
         <span class={`font-mono text-[10px] font-bold tracking-wider transition-colors duration-300 ${lang === "fr" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>FR</span>
       </button>
 
-      <!-- Ignition CTA (desktop) — WhatsApp -->
+      <!-- CTA: Book a call (desktop) -->
       <a
         href="https://wa.me/212706570686"
         target="_blank"
@@ -90,19 +88,18 @@ const navItems = [
         style="background: var(--color-cta); color: #000;"
       >
         <span class="relative z-10 flex items-center gap-2">
-          <Icon name="lucide:message-circle" class="w-3.5 h-3.5" />
+          <Icon name="lucide:phone" class="w-3.5 h-3.5" />
           <span>{t("nav.book")}</span>
         </span>
         <span class="cta-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></span>
-        <span class="cta-spark absolute pointer-events-none opacity-0 group-hover:opacity-100" aria-hidden="true"></span>
       </a>
 
-      <!-- Hamburger (mobile) — morphs to X -->
+      <!-- Hamburger (mobile) -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden hamburger-btn relative bg-transparent border-none cursor-pointer p-2 sm:p-2.5 transition-transform duration-200 active:scale-90"
-        style="touch-action: manipulation; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;"
-        aria-label={lang === "en" ? "Open menu" : "Ouvrir le menu"}
+        class="flex md:hidden hamburger-btn relative bg-transparent border-none cursor-pointer p-2 sm:p-2.5 transition-transform duration-200 active:scale-90"
+        style="touch-action: manipulation; min-width: 44px; min-height: 44px; align-items: center; justify-content: center;"
+        aria-label={t("a11y.openMenu")}
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
@@ -112,43 +109,41 @@ const navItems = [
       </button>
     </div>
   </div>
-
 </header>
 
 <!-- Mobile full-screen overlay -->
 <div
   id="mobile-menu"
   class="fixed inset-0 z-[60] flex flex-col items-center justify-center md:hidden transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-  style="background: color-mix(in srgb, var(--onyx) 97%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); clip-path: circle(0% at calc(100% - 40px) 32px);"
-  aria-label={lang === "en" ? "Mobile navigation" : "Navigation mobile"}
+  style="background: rgba(11,34,51,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); clip-path: circle(0% at calc(100% - 40px) 32px);"
+  aria-label={t("a11y.mobileNav")}
   role="dialog"
   aria-modal="true"
   hidden
 >
   <!-- Blueprint grid background -->
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background-image: linear-gradient(rgba(25,227,240,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(25,227,240,0.035) 1px, transparent 1px); background-size: 40px 40px;"></div>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background-image: linear-gradient(rgba(25,227,240,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(25,227,240,0.03) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
   <!-- Close button -->
   <button
     id="mobile-menu-close"
     class="absolute top-5 right-5 text-[var(--color-off-white)] bg-[var(--color-surface-2)]/50 border border-[var(--color-border)] rounded-full cursor-pointer p-3 z-10 transition-transform duration-200 active:scale-90"
     style="touch-action: manipulation; min-width: 44px; min-height: 44px;"
-    aria-label={lang === "en" ? "Close menu" : "Fermer le menu"}
+    aria-label={t("a11y.closeMenu")}
   >
     <Icon name="lucide:x" class="w-6 h-6" />
   </button>
 
   <!-- Mobile content -->
   <div class="flex flex-col items-center gap-8 relative z-[1] w-full max-w-sm px-6">
-    <!-- Logo area — uses real logo -->
+    <!-- Logo area -->
     <div class="flex flex-col items-center gap-3 mb-4 mobile-stagger">
-      <img src="/logo-96.png" alt="Flintlock" class="w-16 h-16 object-contain" width="96" height="96" />
+      <img src="/logo-96.png" alt="Flintlock" class="w-16 h-16 object-contain" width="96" height="96" decoding="async" />
       <span class="font-display text-lg font-extrabold tracking-[0.15em] text-[var(--color-off-white)]">FLINTLOCK</span>
-      <span class="font-mono text-[10px] tracking-[0.12em] uppercase opacity-30 text-[var(--color-off-white)]">Studio &middot; {lang === "fr" ? "Fondé en 2026" : "Est. 2026"}</span>
     </div>
 
     <!-- Mobile nav links -->
-    <nav class="flex flex-col items-center gap-1" aria-label={lang === "en" ? "Mobile navigation" : "Navigation mobile"}>
+    <nav class="flex flex-col items-center gap-1" aria-label={t("a11y.mobileNav")}>
       {navItems.map((item, i) => (
         <a
           href={item.href}
@@ -161,9 +156,12 @@ const navItems = [
       ))}
     </nav>
 
-    <!-- Status pill (mobile) -->
-    <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-[var(--color-accent)]/10 mobile-stagger" style="transition-delay: 0.4s;">
-      <span class="w-2 h-2 rounded-full status-dot" style="background: var(--color-accent);"></span>
+    <!-- Green Available pill (mobile) -->
+    <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-green-500/15 mobile-stagger" style="transition-delay: 0.4s;">
+      <span class="relative flex w-2 h-2">
+        <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-40 motion-safe:animate-ping motion-safe:animation-duration-[2s]"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+      </span>
       <span class="font-mono text-xs tracking-wide text-[var(--color-text-secondary)]">{t("nav.status")}</span>
     </div>
 
@@ -171,10 +169,10 @@ const navItems = [
     <button
       role="switch"
       aria-checked={lang === "fr" ? "true" : "false"}
-      aria-label={lang === "en" ? "Switch to French" : "Passer en anglais"}
+      aria-label={lang === "en" ? t("a11y.switchToFr") : t("a11y.switchToEn")}
       data-other-href={otherHref}
       data-persist="true"
-      class="lang-toggle flex items-center gap-2 px-4 py-3 rounded-full border border-[var(--color-border)] bg-[var(--color-onyx)]/60 cursor-pointer mobile-stagger"
+      class="lang-toggle flex items-center gap-2 px-4 py-3 rounded-full border border-[var(--color-border)] bg-[var(--onyx)]/60 cursor-pointer mobile-stagger"
       style="transition-delay: 0.48s;"
     >
       <span class={`font-mono text-xs font-bold tracking-wider transition-colors duration-300 ${lang === "en" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>EN</span>
@@ -182,14 +180,14 @@ const navItems = [
       <span class={`font-mono text-xs font-bold tracking-wider transition-colors duration-300 ${lang === "fr" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>FR</span>
     </button>
 
-    <!-- Ignition CTA (mobile) — triggers Calendly -->
+    <!-- CTA: Book a call (mobile) -->
     <a
       href="#"
       data-booking-trigger
       class="mobile-nav-link inline-flex items-center gap-2.5 px-8 py-4 no-underline font-bold text-sm uppercase tracking-[0.15em] rounded-[var(--radius-md)] mobile-stagger relative overflow-hidden group"
       style="background: var(--color-cta); color: #000; transition-delay: 0.56s;"
     >
-      <Icon name="lucide:calendar" class="w-4 h-4" />
+      <Icon name="lucide:phone" class="w-4 h-4" />
       <span>{t("nav.book")}</span>
       <span class="cta-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
     </a>
@@ -197,6 +195,7 @@ const navItems = [
 </div>
 
 <style is:global>
+  /* ─── Nav link underline + active ─── */
   .nav-link .nav-underline {
     position: absolute;
     bottom: -3px;
@@ -214,29 +213,6 @@ const navItems = [
     color: var(--color-accent);
   }
 
-  /* ─── Status dot pulse ─── */
-  .status-dot::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    opacity: 0.3;
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { transform: scale(1); opacity: 0.3; }
-    50% { transform: scale(1.8); opacity: 0.05; }
-  }
-
-  /* ─── EN/FR lang toggle ─── */
-  .lang-toggle[aria-checked="true"] .lang-knob {
-    transform: translateX(10px);
-  }
-  .lang-toggle[aria-checked="false"] .lang-knob {
-    transform: translateX(0px);
-  }
-
   /* ─── Ignition CTA heat glow ─── */
   .cta-glow {
     background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255, 122, 26, 0.5), transparent 70%);
@@ -245,18 +221,12 @@ const navItems = [
     box-shadow: 0 0 20px rgba(255, 122, 26, 0.5), 0 0 40px rgba(255, 122, 26, 0.2);
   }
 
-  /* ─── Spark animation on CTA hover ─── */
-  .cta-spark {
-    top: -20%;
-    left: -20%;
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.15), transparent 60%);
-    animation: spark-fly 0.8s ease-out infinite;
+  /* ─── EN/FR lang toggle ─── */
+  .lang-toggle[aria-checked="true"] .lang-knob {
+    transform: translateX(10px);
   }
-  @keyframes spark-fly {
-    0% { transform: translate(0, 0) scale(0.8); opacity: 1; }
-    100% { transform: translate(15%, -15%) scale(1.4); opacity: 0; }
+  .lang-toggle[aria-checked="false"] .lang-knob {
+    transform: translateX(0px);
   }
 
   /* ─── Hamburger → X morph ─── */
@@ -291,11 +261,10 @@ const navItems = [
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ─── Scrolled capsule state (desktop only) ─── */
+  /* ─── Scrolled shrink state (desktop only) ─── */
   @media (min-width: 768px) {
     #navbar.scrolled .header-inner {
-      padding-top: var(--unit-sm, 0.5rem);
-      padding-bottom: var(--unit-sm, 0.5rem);
+      height: 60px;
     }
     #navbar.scrolled .header-logo {
       height: 2rem;
@@ -305,44 +274,19 @@ const navItems = [
       letter-spacing: 0.12em;
     }
     #navbar.scrolled {
-      width: 90%;
-      max-width: 1000px;
+      width: 92%;
+      max-width: 1060px;
       left: 50%;
       transform: translateX(-50%);
       border-radius: 16px;
-      background: color-mix(in srgb, var(--onyx) 85%, transparent);
+      background: rgba(11,34,51,0.88);
       backdrop-filter: blur(20px) saturate(1.4);
       -webkit-backdrop-filter: blur(20px) saturate(1.4);
-      border: 1px solid transparent;
-      background-clip: padding-box;
+      border: 1px solid rgba(25,227,240,0.08);
       box-shadow:
-        0 8px 32px rgba(0,0,0,0.3),
-        inset 0 0 0 1px rgba(255,255,255,0.05);
-      position: relative;
-    }
-    #navbar.scrolled::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: 17px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(25,227,240,0.15), rgba(255,122,26,0.08), rgba(25,227,240,0.05));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    #navbar.scrolled:hover::before {
-      opacity: 1;
-    }
-    #navbar.scrolled .header-baseline {
-      opacity: 0;
-      height: 0;
-      margin: 0;
-      overflow: hidden;
+        0 8px 32px rgba(0,0,0,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      margin-top: 8px;
     }
     #navbar.scrolled.hidden-nav {
       transform: translateX(-50%) translateY(-120%) !important;
@@ -359,8 +303,7 @@ const navItems = [
 
   /* ─── Reduced motion ─── */
   @media (prefers-reduced-motion: reduce) {
-    .status-dot::after { animation: none; }
-    .cta-spark { display: none; }
+    .cta-glow { display: none; }
     .ignition-cta:hover { box-shadow: none; }
     .nav-link .nav-underline { transition: none; }
     .nav-link:hover .nav-underline { width: 0; }
@@ -375,7 +318,6 @@ const navItems = [
     .lang-toggle .lang-knob { transition: none; }
     .hamburger-line { transition: none; }
     #scroll-progress { display: none; }
-    #nav-bottom-glow { opacity: 0 !important; }
   }
 </style>
 
@@ -434,7 +376,7 @@ const navItems = [
         ticking = false;
       }
 
-      /* ─── Active nav section on scroll ─── */
+      /* ─── Scroll-spy: highlight active nav section ─── */
       var sections = document.querySelectorAll("section[id]");
       var navLinks = document.querySelectorAll(".nav-link");
       if (sections.length && navLinks.length) {
@@ -451,6 +393,16 @@ const navItems = [
         sections.forEach(function (s) { sectionObs.observe(s); });
       }
 
+      /* ─── Path-based active state for subpages ─── */
+      var currentPath = window.location.pathname.replace(/\/$/, "");
+      navLinks.forEach(function (link) {
+        var href = link.getAttribute("href") || "";
+        var linkPath = href.replace(/\/$/, "");
+        if (linkPath && linkPath !== "#" && currentPath === linkPath) {
+          link.classList.add("active");
+        }
+      });
+
       window.addEventListener("scroll", function () {
         if (!ticking) {
           requestAnimationFrame(onScroll);
@@ -458,7 +410,7 @@ const navItems = [
         }
       }, { passive: true });
 
-      /* ─── Lang toggle — physical switch ─── */
+      /* ─── Lang toggle ─── */
       langToggles.forEach(function (toggle) {
         toggle.addEventListener("click", function () {
           var href = this.getAttribute("data-other-href");

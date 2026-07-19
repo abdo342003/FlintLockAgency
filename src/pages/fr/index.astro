@@ -17,7 +17,6 @@ import FAQ from "../../sections/FAQ.astro";
 import CTA from "../../sections/CTA.astro";
 import LeadMagnet from "../../sections/LeadMagnet.astro";
 import Footer from "../../sections/Footer.astro";
-import CalendlyModal from "../../components/CalendlyModal.astro";
 import { useTranslations } from "../../i18n/util";
 
 const t = useTranslations("fr");
@@ -46,8 +45,26 @@ const structuredData = {
         "Studio digital : développement web, intégration IA, automatisation et cybersécurité. Construit par deux ingénieurs. Basé au Maroc, clients dans le monde.",
       foundingDate: "2025",
       founders: [
-        { "@type": "Person", name: "Abdellah ERRAOUI", jobTitle: "CTO & Fondateur" },
-        { "@type": "Person", name: "Faris BAHBAH", jobTitle: "COO & Fondateur" },
+        {
+          "@type": "Person",
+          "@id": `${siteUrl}/#abdellah-erroui`,
+          name: "Abdellah ERRAOUI",
+          jobTitle: "CTO & Fondateur",
+          url: `${siteUrl}/team#abdellah`,
+          sameAs: ["https://www.linkedin.com/in/abdellah-erraoui/"],
+          knowsAbout: ["Cybersécurité", "Intelligence Artificielle", "Développement Web", "Sécurité OT/ICS", "Tests d'Intrusion", "OWASP"],
+          worksFor: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "Person",
+          "@id": `${siteUrl}/#faris-bahbah`,
+          name: "Faris BAHBAH",
+          jobTitle: "COO & Fondateur",
+          url: `${siteUrl}/team#faris`,
+          sameAs: ["https://www.linkedin.com/in/faris-bahbah/"],
+          knowsAbout: ["Automatisation Métier", "Génération de Leads", "Stratégie Produit", "SEO", "GEO"],
+          worksFor: { "@id": `${siteUrl}/#organization` },
+        },
       ],
       address: {
         "@type": "PostalAddress",
@@ -322,6 +339,30 @@ const structuredData = {
       reviewCount: "12",
       ratingCount: "12",
     },
+    {
+      "@type": "Speakable",
+      "@id": `${siteUrl}/#speakable`,
+      cssSelector: ["h1", ".geo-description"],
+    },
+    {
+      "@type": "Dataset",
+      name: "NexGsec AI — Métriques de Performance d'Orchestration de Pentest IA",
+      description: "Données de benchmark de NexGsec AI : plateforme d'orchestration automatisée de tests de pénétration. Mesure la réduction du temps d'audit, l'efficacité coût et la couverture de détection des vulnérabilités.",
+      url: `${siteUrl}/fr`,
+      creator: { "@id": `${siteUrl}/#organization` },
+      about: [
+        { "@type": "Thing", name: "Tests de Pénétration" },
+        { "@type": "Thing", name: "Intelligence Artificielle" },
+        { "@type": "Thing", name: "Cybersécurité" },
+      ],
+      variableMeasured: [
+        { "@type": "PropertyValue", name: "Réduction du Temps d'Audit", unitText: "pourcentage", value: "85" },
+        { "@type": "PropertyValue", name: "Durée d'Audit (Avant)", unitText: "jours", value: "45" },
+        { "@type": "PropertyValue", name: "Durée d'Audit (Après)", unitText: "jours", value: "7" },
+      ],
+      temporalCoverage: "2025/2026",
+      license: "https://flintlockagency.com",
+    },
   ],
 };
 ---
@@ -350,7 +391,6 @@ const structuredData = {
   <LeadMagnet lang="fr" />
 
   <Footer slot="footer" lang="fr" />
-  <CalendlyModal lang="fr" />
 
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 </BaseLayout>

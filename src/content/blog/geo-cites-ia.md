@@ -5,6 +5,7 @@ date: "2026-06-28"
 readTime: "5 min de lecture"
 lang: "fr"
 translationSlug: "geo-get-cited-by-ai"
+tags: ["GEO", "SEO", "Recherche IA", "Stratégie de Contenu"]
 ---
 
 ## Le paradigme de recherche change

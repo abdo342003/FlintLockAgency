@@ -5,6 +5,7 @@ date: "2026-07-15"
 readTime: "6 min read"
 lang: "en"
 translationSlug: "site-perd-client"
+tags: ["Web Performance", "SEO", "Conversion Rate", "Core Web Vitals"]
 ---
 
 ## The silent killer of your revenue

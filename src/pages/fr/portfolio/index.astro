@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../sections/Header.astro";
+import Footer from "../../../sections/Footer.astro";
+import ForgeBackground from "../../../components/ForgeBackground.astro";
+import ProjectDetail from "../../../components/ProjectDetail.astro";
+import CategoryFilter from "../../../components/CategoryFilter.astro";
+import { useTranslations } from "../../../i18n/util";
+import { projects } from "../../../data/projects";
+
+const t = useTranslations("fr");
+const siteUrl = "https://flintlockagency.com";
+
+const allProjects = projects.sort((a, b) => a.order - b.order);
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteUrl}/fr/` },
+    { "@type": "ListItem", position: 2, name: "Réalisations", item: `${siteUrl}/fr/portfolio` },
+  ],
+};
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Portfolio Flintlock",
+  description: "Projets sélectionnés construits et livrés par Flintlock.",
+  numberOfItems: allProjects.length,
+  itemListElement: allProjects.map((p, i) => ({
+    "@type": "CreativeWork",
+    position: i + 1,
+    name: p.title.fr,
+    description: p.description.fr,
+    url: p.conceptDemo ? `${siteUrl}/fr/work/${p.slug}` : `${siteUrl}/fr/portfolio/#${p.slug}`,
+  })),
+};
+---
+
+<BaseLayout lang="fr" title={t("portfolio.page.title")} description={t("portfolio.page.desc")}>
+  <ForgeBackground slot="background" />
+  <Header slot="header" lang="fr" />
+  <ProjectDetail lang="fr" />
+
+  <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative" style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(25,227,240,0.04) 0%, transparent 60%);">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="reveal max-w-3xl mb-12">
+        <p class="section-kicker">{t("portfolio.kicker")}</p>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] leading-tight mb-6">{t("portfolio.title")}</h1>
+        <p class="text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed">{t("portfolio.desc")}</p>
+      </div>
+
+      <div class="mb-8 reveal">
+        <CategoryFilter lang="fr" />
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[var(--gutter)]">
+        {allProjects.map((p, i) => (
+          <div
+            class="portfolio-card rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] transition-all duration-300 reveal"
+            style={`transition-delay: ${0.08 * i}s`}
+            data-project-slug={p.slug}
+            data-project-category={p.category}
+            data-concept-demo={p.conceptDemo ? "true" : "false"}
+            role="button"
+            tabindex="0"
+            aria-label={p.title.fr}
+          >
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-14 h-14 rounded-[var(--radius-md)] bg-[var(--color-surface-1)] flex items-center justify-center overflow-hidden border border-[var(--color-border)] flex-shrink-0">
+                <img src={p.logo} alt={p.title.fr} class="w-10 h-10 object-contain" loading="lazy" />
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  {p.conceptDemo && <span class="tag-badge tag-badge-cyan">{p.tag.fr}</span>}
+                  {!p.conceptDemo && <span class="tag-badge" style={`border-color: ${p.color}33; color: ${p.color};`}>{p.tag.fr}</span>}
+                </div>
+                <h2 class="font-bold text-lg text-[var(--color-text-primary)] mt-1 truncate">{p.title.fr}</h2>
+              </div>
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 portfolio-desc">{p.description.fr}</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {p.techStack.slice(0, 3).map((tech) => (
+                <span class="font-mono text-[10px] px-2 py-1 rounded-full bg-[var(--color-surface-1)] text-[var(--color-text-secondary)]/60 border border-[var(--color-border)]">{tech}</span>
+              ))}
+              {p.techStack.length > 3 && (
+                <span class="font-mono text-[10px] px-2 py-1 text-[var(--color-text-secondary)]/40">+{p.techStack.length - 3}</span>
+              )}
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-badge">{p.category.toUpperCase()}</span>
+              {p.conceptDemo && (
+                <span class="font-mono text-[10px] tracking-wider text-[var(--color-accent)] flex items-center gap-1">
+                  {t("portfolio.detail.view")}
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+</BaseLayout>
+
+<style is:global>
+  .portfolio-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  (function () {
+    var cards = document.querySelectorAll(".portfolio-card");
+    cards.forEach(function (card) {
+      var slug = card.getAttribute("data-project-slug");
+      var isConcept = card.getAttribute("data-concept-demo") === "true";
+
+      card.addEventListener("click", function () {
+        if (isConcept) {
+          window.location.href = "/fr/work/" + slug;
+        } else {
+          history.replaceState(null, "", "#" + slug);
+          window.dispatchEvent(new CustomEvent("project-open", { detail: { slug: slug } }));
+        }
+      });
+
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (isConcept) {
+            window.location.href = "/fr/work/" + slug;
+          } else {
+            history.replaceState(null, "", "#" + slug);
+            window.dispatchEvent(new CustomEvent("project-open", { detail: { slug: slug } }));
+          }
+        }
+      });
+    });
+
+    var hash = window.location.hash.replace("#", "");
+    if (hash) {
+      var match = document.querySelector('[data-project-slug="' + hash + '"]');
+      if (match) {
+        setTimeout(function () {
+          window.dispatchEvent(new CustomEvent("project-open", { detail: { slug: hash } }));
+        }, 600);
+      }
+    }
+  })();
+</script>

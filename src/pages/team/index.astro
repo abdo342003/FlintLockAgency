@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../sections/Header.astro";
+import Footer from "../../sections/Footer.astro";
+import ForgeBackground from "../../components/ForgeBackground.astro";
+import { useTranslations } from "../../i18n/util";
+
+const t = useTranslations("en");
+const siteUrl = "https://flintlockagency.com";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Team", item: `${siteUrl}/team` },
+  ],
+};
+
+const teamSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: "Flintlock Team",
+  description: "The two founders behind Flintlock.",
+  mainEntity: [
+    {
+      "@type": "Person",
+      name: "Abdellah ERRAOUI",
+      jobTitle: "CTO & Founder",
+      url: `${siteUrl}/team#abdellah`,
+      worksFor: { "@type": "Organization", name: "Flintlock", url: siteUrl },
+    },
+    {
+      "@type": "Person",
+      name: "Faris BAHBAH",
+      jobTitle: "COO & Founder",
+      url: `${siteUrl}/team#faris`,
+      worksFor: { "@type": "Organization", name: "Flintlock", url: siteUrl },
+    },
+  ],
+};
+---
+
+<BaseLayout lang="en" title={t("team.page.title")} description={t("team.page.desc")}>
+  <ForgeBackground slot="background" />
+  <Header slot="header" lang="en" />
+
+  <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative" style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(25,227,240,0.04) 0%, transparent 60%);">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="reveal max-w-3xl mb-16">
+        <p class="section-kicker">{t("team.kicker")}</p>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] leading-tight mb-6">{t("team.title")}</h1>
+        <p class="text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed">{t("team.tagline")}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[var(--gutter)]">
+        <div id="abdellah" class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-8 md:p-10 shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] reveal">
+          <div class="w-20 h-20 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mb-6">
+            <span class="font-display text-2xl font-bold text-[var(--color-accent)]">AE</span>
+          </div>
+          <h2 class="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] mb-1">{t("team.abdo.name")}</h2>
+          <p class="font-mono text-xs tracking-[0.12em] uppercase text-[var(--color-accent)] mb-4">{t("team.abdo.role")}</p>
+          <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t("team.abdo.desc")}</p>
+        </div>
+
+        <div id="faris" class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-8 md:p-10 shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] reveal">
+          <div class="w-20 h-20 rounded-full bg-[var(--color-ember)]/10 flex items-center justify-center mb-6">
+            <span class="font-display text-2xl font-bold text-[var(--color-ember)]">FB</span>
+          </div>
+          <h2 class="font-bold text-xl md:text-2xl text-[var(--color-text-primary)] mb-1">{t("team.faris.name")}</h2>
+          <p class="font-mono text-xs tracking-[0.12em] uppercase text-[var(--color-ember)] mb-4">{t("team.faris.role")}</p>
+          <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t("team.faris.desc")}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="en" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(teamSchema)} />
+</BaseLayout>

@@ -11,9 +11,10 @@ interface Props {
   date: string;
   readTime: string;
   translationSlug?: string;
+  tags?: string[];
 }
 
-const { lang, title, description, date, readTime, translationSlug } = Astro.props;
+const { lang, title, description, date, readTime, translationSlug, tags = [] } = Astro.props;
 const t = useTranslations(lang);
 const siteUrl = "https://flintlockagency.com";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
@@ -24,10 +25,13 @@ const blogSchema = {
   headline: title,
   description: description,
   datePublished: date,
+  dateModified: date,
+  keywords: tags.length > 0 ? tags : undefined,
   author: {
-    "@type": "Organization",
-    name: "Flintlock",
-    url: siteUrl,
+    "@type": "Person",
+    name: "Abdellah ERRAOUI",
+    url: `${siteUrl}/team#abdellah`,
+    worksFor: { "@type": "Organization", name: "Flintlock", url: siteUrl },
   },
   publisher: {
     "@type": "Organization",
@@ -43,18 +47,37 @@ const blogSchema = {
   },
 };
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: lang === "fr" ? "Accueil" : "Home", item: lang === "fr" ? `${siteUrl}/fr/` : siteUrl },
+    { "@type": "ListItem", position: 2, name: "Blog", item: lang === "fr" ? `${siteUrl}/fr/blog` : `${siteUrl}/blog` },
+    { "@type": "ListItem", position: 3, name: title, item: canonicalURL },
+  ],
+};
+
 const hreflangLinks = translationSlug ? [
   { lang: lang === "en" ? "fr" : "en", href: `${lang === "en" ? "/fr" : ""}/blog/${translationSlug}/` },
 ] : [];
 ---
 
 <BaseLayout lang={lang} title={`${title} — Flintlock`} description={description} hreflangAlternates={hreflangLinks}>
+  <Fragment slot="head">
+    {tags.length > 0 && tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+    <meta property="article:published_time" content={date} />
+    <meta property="article:modified_time" content={date} />
+    <meta property="article:author" content="Abdellah ERRAOUI" />
+  </Fragment>
+
   <Header slot="header" lang={lang} />
 
   <article class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)]">
     <div class="mx-auto" style="max-width: 720px;">
       <a href={lang === "fr" ? "/fr/blog" : "/blog"} class="inline-flex items-center gap-1 text-sm text-[var(--color-accent)] no-underline hover:underline mb-8">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
         {t("blog.back")}
       </a>
 
@@ -79,6 +102,7 @@ const hreflangLinks = translationSlug ? [
   <Footer slot="footer" lang={lang} />
 
   <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 </BaseLayout>
 
 <style is:global>

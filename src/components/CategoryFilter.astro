@@ -1,0 +1,104 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const categories = [
+  { key: "all", label: t("portfolio.filter.all") },
+  { key: "ai", label: t("portfolio.filter.ai") },
+  { key: "security", label: t("portfolio.filter.security") },
+  { key: "web", label: t("portfolio.filter.web") },
+  { key: "automation", label: t("portfolio.filter.automation") },
+  { key: "data", label: t("portfolio.filter.data") },
+  { key: "integrations", label: t("portfolio.filter.integrations") },
+];
+---
+
+<div class="portfolio-filter flex items-center gap-2 sm:gap-3 flex-wrap" role="tablist" aria-label="Filter projects by category">
+  {categories.map((cat) => (
+    <button
+      class={`filter-btn font-mono text-[11px] sm:text-xs tracking-[0.12em] uppercase px-4 py-2 rounded-full border transition-all duration-300 cursor-pointer ${
+        cat.key === "all"
+          ? "border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)]"
+          : "border-[var(--color-border)] bg-transparent text-[var(--color-text-secondary)] hover:border-[var(--color-accent)]/20 hover:text-[var(--color-accent)]"
+      }`}
+      data-category={cat.key}
+      role="tab"
+      aria-selected={cat.key === "all" ? "true" : "false"}
+    >
+      {cat.label}
+    </button>
+  ))}
+</div>
+
+<script>
+  (function () {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll<HTMLElement>("[data-project-category]");
+
+    /* Set will-change on cards for GPU-accelerated filter animation */
+    if (!prefersReduced) {
+      cards.forEach((card) => {
+        card.style.willChange = "opacity, transform";
+      });
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const category = btn.getAttribute("data-category");
+
+        /* Update active state */
+        filterBtns.forEach((b) => {
+          b.classList.remove(
+            "border-[var(--color-accent)]/30",
+            "bg-[var(--color-accent)]/10",
+            "text-[var(--color-accent)]"
+          );
+          b.classList.add(
+            "border-[var(--color-border)]",
+            "bg-transparent",
+            "text-[var(--color-text-secondary)]"
+          );
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add(
+          "border-[var(--color-accent)]/30",
+          "bg-[var(--color-accent)]/10",
+          "text-[var(--color-accent)]"
+        );
+        btn.classList.remove(
+          "border-[var(--color-border)]",
+          "bg-transparent",
+          "text-[var(--color-text-secondary)]"
+        );
+        btn.setAttribute("aria-selected", "true");
+
+        /* Filter cards */
+        cards.forEach((card) => {
+          const cardCat = card.getAttribute("data-project-category");
+          if (category === "all" || cardCat === category) {
+            card.style.opacity = "1";
+            card.style.transform = prefersReduced ? "none" : "scale(1)";
+            card.style.pointerEvents = "auto";
+            card.removeAttribute("aria-hidden");
+          } else {
+            card.style.opacity = "0";
+            card.style.transform = prefersReduced ? "none" : "scale(0.95)";
+            card.style.pointerEvents = "none";
+            card.setAttribute("aria-hidden", "true");
+          }
+        });
+      });
+    });
+
+    /* Activate first filter button on page load for WAI-ARIA */
+    const firstActive = document.querySelector<HTMLButtonElement>('.filter-btn[aria-selected="true"]');
+    if (firstActive) firstActive.focus();
+  })();
+</script>

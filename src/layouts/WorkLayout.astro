@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../sections/Header.astro";
+import Footer from "../sections/Footer.astro";
+import ForgeBackground from "../components/ForgeBackground.astro";
+import { useTranslations, type Lang } from "../i18n/util";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  projectSlug: string;
+}
+
+const { lang, title, description, projectSlug } = Astro.props;
+const t = useTranslations(lang);
+const siteUrl = "https://flintlockagency.com";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+
+const otherLang: Lang = lang === "en" ? "fr" : "en";
+const prefix = lang === "fr" ? "/fr" : "";
+const translationSlug = `/work/${projectSlug}/`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: lang === "fr" ? "Accueil" : "Home", item: lang === "fr" ? `${siteUrl}/fr/` : siteUrl },
+    { "@type": "ListItem", position: 2, name: t("portfolio.title"), item: `${siteUrl}${prefix}/portfolio` },
+    { "@type": "ListItem", position: 3, name: title, item: canonicalURL },
+  ],
+};
+
+const hreflangLinks = [
+  { lang: otherLang, href: `${otherLang === "fr" ? "/fr" : ""}${translationSlug}` },
+];
+---
+
+<BaseLayout lang={lang} title={`${title} — Flintlock`} description={description} hreflangAlternates={hreflangLinks}>
+  <ForgeBackground slot="background" />
+  <Header slot="header" lang={lang} />
+
+  <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative" style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(25,227,240,0.04) 0%, transparent 60%);">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <a href={lang === "fr" ? "/fr/portfolio" : "/portfolio"} class="inline-flex items-center gap-1 text-sm text-[var(--color-accent)] no-underline hover:underline mb-8">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        {t("portfolio.title")}
+      </a>
+
+      <slot name="hero" />
+    </div>
+  </section>
+
+  <section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface section-glow-cyan">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <slot name="content" />
+    </div>
+  </section>
+
+  <section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-8 md:p-12 text-center reveal" style="background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,122,26,0.06) 0%, transparent 60%);">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] mb-4">{t("work.cta.title")}</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-lg mx-auto mb-8">{t("work.cta.desc")}</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://wa.me/212706570686" target="_blank" rel="noopener" class="ignition-cta inline-flex items-center gap-2 px-6 py-3 no-underline font-bold text-sm uppercase tracking-[0.12em] rounded-[var(--radius-md)]" style="background: var(--color-cta); color: #000;">
+            {t("work.cta.book")}
+          </a>
+          <a href="mailto:contact@flintlockagency.com" class="text-sm text-[var(--color-accent)] no-underline hover:underline">
+            {t("cta.alt")}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang={lang} />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</BaseLayout>

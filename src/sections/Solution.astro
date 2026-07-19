@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative section-glow-ember">
+<section id="solution" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative section-glow-ember">
   <div class="mx-auto relative" style="max-width: var(--container-max);">
     <div class="reveal">
       <p class="section-kicker">{t("solution.kicker")}</p>
@@ -23,11 +23,11 @@ const t = useTranslations(lang);
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-3 mb-6">
-        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/70 hover:text-[var(--color-accent)] no-underline transition-colors">{lang === "fr" ? "Découvrez nos services" : "Explore our services"} &rarr;</a>
+        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/70 hover:text-[var(--color-accent)] no-underline transition-colors">{t("solution.explore_cta")} &rarr;</a>
       </div>
       <a href="https://wa.me/212706570686" target="_blank" rel="noopener" class="cta-forge inline-flex items-center gap-2 px-8 py-4 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest no-underline transition-all duration-300 magnetic">
         {t("solution.cta")}
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
   </div>

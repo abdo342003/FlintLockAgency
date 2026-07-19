@@ -11,7 +11,7 @@ const t = useTranslations(lang);
 const items = ["item1", "item2", "item3"];
 ---
 
-<section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface overflow-hidden">
+<section id="problem" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative bg-surface overflow-hidden">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 60% 40% at 30% 50%, rgba(255,122,26,0.04) 0%, transparent 70%);"></div>
   <div class="mx-auto relative" style="max-width: var(--container-max);">
     <div class="reveal">
@@ -21,13 +21,13 @@ const items = ["item1", "item2", "item3"];
         {t("problem.desc")}
       </p>
       <p class="text-sm text-[var(--color-text-secondary)]/60 mb-12">
-        <a href="#solution" class="text-[var(--color-accent)] no-underline hover:underline">{lang === "fr" ? "Découvrez notre approche" : "Discover our approach"} &rarr;</a>
+        <a href="#solution" class="text-[var(--color-accent)] no-underline hover:underline">{t("problem.cta")} &rarr;</a>
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
         {items.map((key, i) => (
           <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 text-center shadow-[inset_1px_1px_0px_0px_rgba(255,122,26,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(255,122,26,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.1 * i}s`}>
             <div class="w-11 h-11 rounded-full flex items-center justify-center mx-auto mb-4 bg-[var(--color-ember)]/10 group-hover:bg-[var(--color-ember)]/15 transition-colors">
-              <svg class="w-5 h-5 text-[var(--color-ember)]/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <svg class="w-5 h-5 text-[var(--color-ember)]/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </div>
             <h3 class="font-bold text-base md:text-lg text-[var(--color-text-primary)] mb-2">{t(`problem.${key}`)}</h3>
             <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`problem.${key}.desc`)}</p>

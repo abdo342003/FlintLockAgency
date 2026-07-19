@@ -5,7 +5,6 @@ import icon from 'astro-icon';
 import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://flintlockagency.com',
   output: 'static',
@@ -29,7 +28,30 @@ export default defineConfig({
     },
   })],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        'debug': new URL('./src/stubs/debug.mjs', import.meta.url).pathname,
+      },
+    },
+    optimizeDeps: {
+      exclude: ['@astrojs/cloudflare'],
+    },
+    ssr: {
+      noExternal: [
+        'ms',
+        'extract-zip',
+        '@iconify/utils',
+        '@iconify/tools',
+        'cheerio',
+        'svgo',
+        'domhandler',
+        'parse5',
+        'htmlparser2',
+        'entities',
+        'get-stream',
+      ],
+    },
   },
   i18n: {
     defaultLocale: 'en',

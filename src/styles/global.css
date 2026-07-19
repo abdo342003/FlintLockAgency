@@ -19,11 +19,15 @@
    --color-steel: #0D1520;
    --color-surface: var(--color-steel);
    --color-surface-elevated: var(--surface-2);
+   --color-surface-2: var(--surface-2);
    --color-text-primary: var(--off-white);
    --color-text-secondary: #A0B0C0;
    --color-accent: var(--cyan);
    --color-cta: var(--ember);
    --color-border: #1E2530;
+   --color-off-white: var(--off-white);
+   --color-navy: var(--navy);
+   --color-onyx: var(--onyx);
 
    /* Numeric triplets for JS color parsing (RGB only) */
    --color-accent-rgb: 25, 227, 240;
@@ -42,6 +46,7 @@
   --stack-sm: 16px;
   --stack-md: 40px;
   --stack-lg: 96px;
+  --stack-xl: 128px;
 
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
@@ -87,7 +92,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Focus ring ───────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--color-cyan);
+  outline: 2px solid var(--cyan);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
@@ -266,7 +271,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .card-luminous:hover::after {
   opacity: 0.35;
-  filter: blur(12px);
+  filter: blur(10px);
 }
 .card-luminous::after {
   content: '';
@@ -276,6 +281,7 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(135deg, var(--color-accent), var(--color-cta));
   filter: blur(8px);
   opacity: 0.15;
+  will-change: filter;
   z-index: -1;
 }
 
@@ -347,6 +353,19 @@ h1, h2, h3, h4, h5, h6 {
 .gradient-connector.revealed {
   transform: scaleX(1);
   opacity: 0.2;
+}
+
+/* ─── High contrast ──────────────────────────────── */
+@media (prefers-contrast: more) {
+  :root {
+    --color-text-secondary: #C0D0E0;
+    --color-border: #3A4A5A;
+  }
+  .card-base:hover {
+    border-color: var(--color-accent);
+    box-shadow: none;
+    transform: none;
+  }
 }
 
 /* ─── Reduced motion ───────────────────────────────── */

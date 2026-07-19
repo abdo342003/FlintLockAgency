@@ -5,6 +5,7 @@ date: "2026-07-10"
 readTime: "8 min read"
 lang: "en"
 translationSlug: "ia-au-dela-chatbot"
+tags: ["AI", "Business Automation", "Productivity", "LLM"]
 ---
 
 ## AI is not a chatbot
@@ -31,7 +32,7 @@ Here are 4 ways we've seen AI deliver real ROI for businesses:
 
 **The AI solution:** An AI agent that runs automatically on every pull request, checks for OWASP vulnerabilities, flags security anti-patterns, and suggests fixes.
 
-**Real result:** We built this into Exploit AI — our internal pentest orchestration platform. Audit time dropped from 45 days to 7 days. That's not incremental improvement; it's a paradigm shift.
+**Real result:** We built this into NexGsec AI — our internal pentest orchestration platform. Audit time dropped from 45 days to 7 days. That's not incremental improvement; it's a paradigm shift.
 
 **Why it matters:** Security vulnerabilities found in development cost 100x less to fix than those found in production. AI makes continuous security review feasible for teams of any size.
 

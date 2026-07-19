@@ -1,0 +1,189 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import TechBadge from "./TechBadge.astro";
+import MetricCounter from "./MetricCounter.astro";
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  index: number;
+}
+
+const { project, lang, index } = Astro.props;
+const t = useTranslations(lang);
+
+const isFeatured = project.featured;
+const categoryColors: Record<string, string> = {
+  ai: "var(--color-accent)",
+  security: "var(--color-ember)",
+  web: project.color,
+};
+const accentColor = categoryColors[project.category] || "var(--color-accent)";
+---
+
+<article
+  class="project-card group relative overflow-hidden rounded-2xl border border-[var(--color-border)]/30 bg-[var(--color-surface-2)]/80 cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-transparent"
+  data-project-category={project.category}
+  data-project-slug={project.slug}
+  style={`--accent: ${accentColor}; transition-delay: ${index * 0.06}s;`}
+  role="button"
+  tabindex="0"
+  aria-label={`${project.title[lang]} — ${project.subtitle[lang]}`}
+>
+  <!-- Glow border on hover -->
+  <div
+    class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+    style={`background: linear-gradient(135deg, ${accentColor}20, transparent 40%, ${accentColor}10);`}
+    aria-hidden="true"
+  ></div>
+
+  <!-- Top accent line -->
+  <div
+    class="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+    style={`background: linear-gradient(90deg, transparent, ${accentColor}, transparent);`}
+    aria-hidden="true"
+  ></div>
+
+  <!-- Card content -->
+  <div class="relative z-[1] p-5 sm:p-6 flex flex-col h-full min-h-[280px] sm:min-h-[320px]">
+    <!-- Header: Logo + Category -->
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <img
+          src={project.logo}
+          alt={`${project.title[lang]} logo`}
+          class="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-lg flex-shrink-0"
+          loading="lazy"
+          decoding="async"
+          width="48"
+          height="48"
+        />
+        <div class="flex flex-col">
+          <span class="font-mono text-[10px] tracking-[0.12em] uppercase" style={`color: ${accentColor};`}>
+            {project.tag[lang]}
+          </span>
+        </div>
+      </div>
+      <span class="font-mono text-[10px] tracking-wider uppercase px-2 py-1 rounded-md border border-current/10" style={`color: ${accentColor}; opacity: 0.6;`}>
+        {project.category}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="font-display text-lg sm:text-xl font-extrabold tracking-[0.02em] text-[var(--color-off-white)] mb-2 group-hover:text-[var(--color-accent)] transition-colors duration-300">
+      {project.title[lang]}
+    </h3>
+
+    <!-- Subtitle -->
+    <p class="font-body text-sm text-[var(--color-text-secondary)]/70 mb-4 leading-relaxed line-clamp-2">
+      {project.subtitle[lang]}
+    </p>
+
+    <!-- Metrics -->
+    <div class="flex items-center gap-4 sm:gap-6 mt-auto mb-4">
+      {project.results.slice(0, 2).map((result) => (
+        <MetricCounter value={result.metric} label={result.label[lang]} color={accentColor} />
+      ))}
+    </div>
+
+    <!-- Tech stack -->
+    <div class="flex flex-wrap gap-1.5 mt-auto">
+      {project.techStack.slice(0, 4).map((tech) => (
+        <TechBadge name={tech} />
+      ))}
+      {project.techStack.length > 4 && (
+        <span class="font-mono text-[10px] text-[var(--color-text-secondary)]/40 self-center">
+          +{project.techStack.length - 4}
+        </span>
+      )}
+    </div>
+
+    <!-- Video indicator -->
+    {project.video && (
+      <div class="absolute bottom-5 right-5 flex items-center gap-1.5 px-2 py-1 rounded-md bg-[var(--color-onyx)]/80 border border-[var(--color-border)]/30">
+        <svg class="w-3 h-3 text-[var(--color-cta)]" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <span class="font-mono text-[9px] tracking-wider uppercase text-[var(--color-text-secondary)]/50">Video</span>
+      </div>
+    )}
+  </div>
+
+</article>
+
+<style>
+  .project-card {
+    transform: perspective(800px) rotateX(0) rotateY(0);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.5s ease,
+                box-shadow 0.5s ease,
+                opacity 0.35s ease;
+  }
+  .project-card:hover {
+    transform: perspective(800px) rotateX(2deg) rotateY(-2deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(25, 227, 240, 0.1);
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card {
+      transform: none !important;
+      transition: border-color 0.3s ease !important;
+    }
+    .project-card:hover {
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    /* 3D tilt effect on mouse move */
+    const cards = document.querySelectorAll(".project-card");
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!prefersReduced) {
+      cards.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `perspective(800px) rotateX(${y * -4}deg) rotateY(${x * 4}deg) scale(1.02)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "perspective(800px) rotateX(0) rotateY(0) scale(1)";
+        });
+      });
+    }
+
+    /* Click to open detail (on the card itself, not overlay) */
+    cards.forEach((card) => {
+      card.addEventListener("click", (e) => {
+        /* Don't trigger if user was interacting with the 3D tilt */
+        const slug = card.getAttribute("data-project-slug");
+        if (slug) {
+          window.dispatchEvent(new CustomEvent("project-open", { detail: { slug } }));
+        }
+      });
+
+      /* Keyboard support */
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const slug = card.getAttribute("data-project-slug");
+          if (slug) {
+            window.dispatchEvent(new CustomEvent("project-open", { detail: { slug } }));
+          }
+        }
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../sections/Header.astro";
+import Footer from "../../../sections/Footer.astro";
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../../../i18n/util";
+import { services } from "../../../data/services";
+
+const t = useTranslations("fr");
+const siteUrl = "https://flintlockagency.com";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteUrl}/fr/` },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${siteUrl}/fr/services` },
+  ],
+};
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Services Flintlock",
+  description: "Cinq stations de services pour votre succès digital.",
+  itemListElement: services.map((s, i) => ({
+    "@type": "Service",
+    position: i + 1,
+    name: t(`service.${s.slug}.title`),
+    description: t(`service.${s.slug}.desc`),
+    url: `${siteUrl}/fr/services/${s.slug}/`,
+    provider: { "@type": "Organization", name: "Flintlock", url: siteUrl },
+  })),
+};
+---
+
+<BaseLayout lang="fr" title="Tous les Services — Flintlock" description={t("servicehub.desc")}>
+  <Header slot="header" lang="fr" />
+
+  <section class="pt-32 pb-20 px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative" style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(25,227,240,0.04) 0%, transparent 60%);">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="reveal max-w-3xl">
+        <p class="section-kicker">{t("servicehub.kicker")}</p>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text-primary)] leading-tight mb-6">{t("servicehub.title")}</h1>
+        <p class="text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed mb-8">{t("servicehub.desc")}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--gutter)]">
+        {services.map((s, i) => {
+          const isFeatured = s.slug === "ai";
+          return (
+            <a href={`/fr/services/${s.slug}/`} class={`rounded-[var(--radius-lg)] ${isFeatured ? "card-luminous border-transparent" : "border border-[var(--color-border)]"} bg-[var(--color-surface-2)] p-6 md:p-7 lg:p-8 shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.15)] transition-all duration-300 group no-underline reveal`} style={`transition-delay: ${0.08 * i}s`}>
+              <div class="flex items-start justify-between mb-5">
+                <div class={`w-11 h-11 rounded-[var(--radius-md)] flex items-center justify-center ${isFeatured ? "bg-[var(--color-accent)]/15" : "bg-[var(--color-accent)]/8"} group-hover:bg-[var(--color-accent)]/15 transition-colors`}>
+                  <Icon name={s.icon} class={`w-5 h-5 text-[var(--color-accent)] group-hover:scale-110 transition-transform`} />
+                </div>
+                <span class={`tag-badge ${isFeatured ? "tag-badge-cyan" : ""}`}>{s.station}</span>
+              </div>
+              <h2 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-2">{t(`service.${s.slug}.title`)}</h2>
+              <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed mb-4">{t(`service.${s.slug}.desc`)}</p>
+              <span class="text-xs text-[var(--color-accent)] font-mono tracking-wider uppercase group-hover:underline">
+                {t("blog.readmore")} →
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative">
+    <div class="mx-auto" style="max-width: var(--container-max);">
+      <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-8 md:p-12 text-center reveal" style="background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,122,26,0.06) 0%, transparent 60%);">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] mb-4">{t("cta.title")}</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-lg mx-auto mb-8">{t("cta.desc")}</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://wa.me/212706570686" target="_blank" rel="noopener" class="ignition-cta inline-flex items-center gap-2 px-6 py-3 no-underline font-bold text-sm uppercase tracking-[0.12em] rounded-[var(--radius-md)]" style="background: var(--color-cta); color: #000;">
+            {t("servicehub.cta")}
+          </a>
+          <a href="mailto:contact@flintlockagency.com" class="text-sm text-[var(--color-accent)] no-underline hover:underline">
+            {t("cta.alt")}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+</BaseLayout>

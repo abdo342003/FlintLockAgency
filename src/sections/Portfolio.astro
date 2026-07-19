@@ -1,0 +1,116 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { projects } from "../data/projects";
+import CategoryFilter from "../components/CategoryFilter.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import ProjectDetail from "../components/ProjectDetail.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+/* Sort projects by order */
+const sortedProjects = [...projects].sort((a, b) => a.order - b.order);
+---
+
+<section id="portfolio" class="portfolio-section relative py-[var(--stack-xl)] overflow-hidden">
+  <!-- Section glow -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 40% 30% at 50% 0%, rgba(25,227,240,0.03) 0%, transparent 60%);"></div>
+
+  <div class="mx-auto px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative" style="max-width: var(--container-max);">
+    <!-- Header -->
+    <div class="mb-10 sm:mb-14">
+      <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3">{t("portfolio.kicker")}</p>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.02em] text-[var(--color-off-white)] mb-4">
+        {t("portfolio.title")}
+      </h2>
+      <p class="font-body text-base sm:text-lg text-[var(--color-text-secondary)]/60 max-w-xl mb-8">
+        {t("portfolio.desc")}
+      </p>
+
+      <!-- Category filter -->
+      <CategoryFilter lang={lang} />
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 auto-rows-auto">
+      {sortedProjects.map((project, i) => (
+        <div
+          class:list={[
+            project.featured && i === 0 ? "md:col-span-2 lg:col-span-2" : "",
+            project.category === "web" && i === sortedProjects.length - 1 ? "md:col-span-2 lg:col-span-1" : "",
+          ]}
+        >
+          <ProjectCard project={project} lang={lang} index={i} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Project detail slide-out panel -->
+<ProjectDetail lang={lang} />
+
+<script>
+  (function () {
+    /* Scroll-triggered reveal animation */
+    const cards = document.querySelectorAll<HTMLElement>(".project-card");
+    if (!cards.length) return;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    cards.forEach((card) => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(30px)";
+      observer.observe(card);
+    });
+  })();
+</script>
+
+<style is:global>
+  .project-card.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Stagger delay for revealed cards */
+  .project-card:nth-child(1).revealed { transition-delay: 0s; }
+  .project-card:nth-child(2).revealed { transition-delay: 0.08s; }
+  .project-card:nth-child(3).revealed { transition-delay: 0.16s; }
+  .project-card:nth-child(4).revealed { transition-delay: 0.24s; }
+  .project-card:nth-child(5).revealed { transition-delay: 0.32s; }
+  .project-card:nth-child(6).revealed { transition-delay: 0.4s; }
+  .project-card:nth-child(7).revealed { transition-delay: 0.48s; }
+  .project-card:nth-child(8).revealed { transition-delay: 0.56s; }
+
+  /* Filter transition */
+  .project-card {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card.revealed {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>

@@ -26,8 +26,11 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
       <!-- Brand (5 cols) -->
       <div class="lg:col-span-5 flex flex-col gap-3">
         <a href={lang === "fr" ? "/fr/" : "/"} class="flex items-center gap-3 text-[var(--color-text-primary)] no-underline mb-1 group">
-          <img src="/logo-96.png" alt="Flintlock" class="h-12 w-auto object-contain" width="96" height="96" />
-          <span class="font-display text-lg font-extrabold tracking-[0.15em] leading-none">FLINTLOCK</span>
+          <img src="/logo-96.png" alt="Flintlock" class="h-12 w-auto object-contain" width="96" height="96" decoding="async" />
+          <div class="flex flex-col leading-tight">
+            <span class="font-display text-lg font-extrabold tracking-[0.15em] leading-none">FLINTLOCK</span>
+            <span class="font-mono text-[10px] tracking-[0.12em] uppercase opacity-40 text-[var(--color-off-white)]">{t("footer.established")}</span>
+          </div>
         </a>
         <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed max-w-sm">
           {t("footer.tagline")}
@@ -53,11 +56,12 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
 
       <!-- Services (3 cols) -->
       <div class="lg:col-span-3 flex flex-col gap-2.5">
-        <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5">{t("services.kicker")}</p>
-        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.web.title")}</a>
-        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.ai.title")}</a>
-        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.automation.title")}</a>
-        <a href="#services" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.security.title")}</a>
+        <a href={lang === "fr" ? "/fr/services" : "/services"} class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5 no-underline hover:text-[var(--color-accent)] transition-colors">{t("services.kicker")}</a>
+        <a href={lang === "fr" ? "/fr/services/web" : "/services/web"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.web.title")}</a>
+        <a href={lang === "fr" ? "/fr/services/ai" : "/services/ai"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.ai.title")}</a>
+        <a href={lang === "fr" ? "/fr/services/automation" : "/services/automation"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.automation.title")}</a>
+        <a href={lang === "fr" ? "/fr/services/acquisition" : "/services/acquisition"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.acquisition.title")}</a>
+        <a href={lang === "fr" ? "/fr/services/security" : "/services/security"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("service.security.title")}</a>
       </div>
 
       <!-- Links + Connect (4 cols) -->
@@ -65,10 +69,10 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
         <!-- Quick links -->
         <div class="flex flex-col gap-2.5 mb-8 lg:mb-0">
           <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--color-text-secondary)]/35 mb-1.5">{t("footer.links")}</p>
-          <a href="#process" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.services")}</a>
-          <a href="#proof" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.work")}</a>
-          <a href="#team" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.team")}</a>
-          <a href="#faq" class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.faq")}</a>
+          <a href={lang === "fr" ? "/fr/services" : "/services"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.services")}</a>
+          <a href={lang === "fr" ? "/fr/portfolio" : "/portfolio"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.work")}</a>
+          <a href={lang === "fr" ? "/fr/team" : "/team"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.team")}</a>
+          <a href={lang === "fr" ? "/fr/#faq" : "/#faq"} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.faq")}</a>
           <a href={blogHref} class="text-sm text-[var(--color-text-secondary)]/80 hover:text-[var(--color-accent)] no-underline transition-colors py-3">{t("nav.blog")}</a>
         </div>
         <!-- Connect -->
@@ -118,8 +122,8 @@ const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
         <span class="text-[var(--color-text-secondary)]/10">·</span>
         <a href={lang === "fr" ? "/fr/legal/cookie-policy" : "/legal/cookie-policy"} class="font-mono text-[11px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors py-2 whitespace-nowrap">{t("footer.cookies")}</a>
         <span class="text-[var(--color-text-secondary)]/10 hidden sm:inline">·</span>
-        <a href="#hero" class="font-mono text-[11px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors py-2 whitespace-nowrap hidden sm:inline">
-          &uarr; {lang === "fr" ? "Retour en haut" : "Back to top"}
+        <a href="#main-content" class="font-mono text-[11px] md:text-xs text-[var(--color-text-secondary)]/25 hover:text-[var(--color-accent)] no-underline transition-colors py-2 whitespace-nowrap hidden sm:inline">
+          &uarr; {t("footer.backToTop")}
         </a>
       </div>
     </div>

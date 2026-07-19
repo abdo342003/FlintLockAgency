@@ -16,7 +16,7 @@ Flintlock replaces the chain of middlemen with a single technical partner. We de
 
 ## Founders
 
-- **Abdellah ERRAOUI** — CTO & Founder. Engineering lead: high-performance web, deep AI integration, systems security. Creator of Exploit AI (AI-pentest orchestration) and OT_Shield (OT/ICS intrusion detection).
+- **Abdellah ERRAOUI** — CTO & Founder. Engineering lead: high-performance web, deep AI integration, systems security. Creator of NexGsec AI (AI-pentest orchestration) and OT_Shield (OT/ICS intrusion detection).
 - **Faris BAHBAH** — COO & Founder. Drives product, automation, and acquisition. Turns technical capability into business impact.
 
 ## Process
@@ -28,7 +28,7 @@ Flintlock replaces the chain of middlemen with a single technical partner. We de
 
 ## Key Projects
 
-- **Exploit AI**: AI-pentest orchestration platform. -85% audit time (45 days to 7 days).
+- **NexGsec AI**: AI-pentest orchestration platform. -85% audit time (45 days to 7 days).
 - **OT_Shield**: OT/ICS intrusion detection & prevention system (OPC UA, Suricata, Elastic).
 - **Prix Jardin Majorelle**: Full-stack dev + security audit for a 2026 architecture prize.
 - **OWASP audits**: Black-box security audits on production websites.

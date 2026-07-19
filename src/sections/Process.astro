@@ -21,12 +21,12 @@ const stepIcons = ["search", "pen-tool", "workflow", "shield-check"];
       <h2 class="section-title">{t("process.title")}</h2>
     </div>
 
-    <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 md:gap-y-12 gap-x-[var(--gutter)]">
+    <ol class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 md:gap-y-12 gap-x-[var(--gutter)] list-none p-0 m-0">
       <!-- Horizontal connector (desktop) -->
       <div class="hidden lg:block absolute top-[1.75rem] left-[calc(12.5%+1.75rem)] right-[calc(12.5%+1.75rem)] h-px gradient-connector reveal"></div>
 
       {steps.map((step, i) => (
-        <div class="process-step relative reveal" style={`transition-delay: ${0.12 * i}s`}>
+        <li class="process-step relative reveal" style={`transition-delay: ${0.12 * i}s`}>
           <!-- Mobile/tablet vertical connector -->
           {i > 0 && <div class="block lg:hidden absolute left-[1.5rem] -top-[calc(var(--gutter)+0.5rem)] w-px h-[calc(var(--gutter)+0.5rem)] bg-gradient-to-b from-[var(--color-accent)] to-[var(--color-cta)] opacity-20"></div>}
 
@@ -40,9 +40,9 @@ const stepIcons = ["search", "pen-tool", "workflow", "shield-check"];
               <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`process.${step}.desc`)}</p>
             </div>
           </div>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
 

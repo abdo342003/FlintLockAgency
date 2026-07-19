@@ -1,0 +1,571 @@
+---
+import { useTranslations, type Lang } from "../i18n/util";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div
+  id="project-detail"
+  class="fixed inset-0 z-[70] hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Project detail"
+>
+  <!-- Backdrop -->
+  <div class="project-detail-backdrop absolute inset-0 bg-[var(--onyx)]/85 backdrop-blur-md cursor-pointer"></div>
+
+  <!-- Panel -->
+  <div class="project-detail-panel absolute inset-4 sm:inset-6 md:inset-8 flex items-start justify-center overflow-y-auto" style="pointer-events: none;">
+    <div class="detail-content relative w-full max-w-3xl bg-[var(--color-surface-2)]/95 backdrop-blur-sm border border-[var(--color-border)]/30 rounded-2xl overflow-hidden shadow-2xl my-auto" style="pointer-events: auto; transform: scale(0.96); opacity: 0; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease;">
+      <!-- Close button -->
+      <button
+        id="project-detail-close"
+        class="absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-border)]/40 bg-[var(--color-onyx)]/80 backdrop-blur-sm text-[var(--color-off-white)] cursor-pointer transition-all duration-200 hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] active:scale-90"
+        style="touch-action: manipulation; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+        aria-label={t("portfolio.detail.close")}
+      >
+        <Icon name="lucide:x" class="w-5 h-5" />
+      </button>
+
+      <!-- Hero image -->
+      <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] overflow-hidden bg-[var(--color-onyx)]">
+        <div id="detail-image-placeholder" class="absolute inset-0 flex items-center justify-center bg-[var(--color-onyx)]">
+          <div class="w-16 h-16 rounded-full border-2 border-[var(--color-border)]/30 flex items-center justify-center">
+            <svg class="w-8 h-8 text-[var(--color-border)]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+        </div>
+        <img id="detail-image" src="" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-surface-2)]/90 via-[var(--color-surface-2)]/10 to-transparent"></div>
+      </div>
+
+      <!-- Content -->
+      <div id="detail-content" class="px-6 sm:px-10 pb-10 -mt-10 relative z-[1]">
+        <!-- Category + Tag -->
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <span id="detail-tag" class="font-mono text-[10px] tracking-[0.12em] uppercase px-3 py-1.5 rounded-lg border"></span>
+          <span id="detail-category" class="font-mono text-[10px] tracking-wider uppercase text-[var(--color-text-secondary)]/50 px-2"></span>
+          <span id="detail-client-wrap" class="hidden">
+            <span class="font-mono text-[10px] tracking-wider uppercase text-[var(--color-text-secondary)]/40 px-2">·</span>
+            <span id="detail-client" class="font-mono text-[10px] tracking-[0.08em] text-[var(--color-text-secondary)]/70"></span>
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h2 id="detail-title" class="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-[0.02em] text-[var(--color-off-white)] mb-2 leading-tight"></h2>
+
+        <!-- Subtitle -->
+        <p id="detail-subtitle" class="font-body text-base sm:text-lg text-[var(--color-text-secondary)]/70 mb-8"></p>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-gradient-to-r from-[var(--color-border)]/40 via-[var(--color-border)]/10 to-transparent mb-8"></div>
+
+        <!-- Results metrics -->
+        <div id="detail-results" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-10"></div>
+
+        <!-- Challenge -->
+        <div class="mb-9">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-3 text-[var(--color-accent)]">
+            {t("portfolio.detail.challenge")}
+          </h3>
+          <p id="detail-challenge" class="font-body text-base text-[var(--color-text-secondary)]/80 leading-relaxed"></p>
+        </div>
+
+        <!-- Solution / Our Approach -->
+        <div class="mb-9">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-3 text-[var(--color-cta)]">
+            {t("portfolio.detail.solution")}
+          </h3>
+          <p id="detail-solution" class="font-body text-base text-[var(--color-text-secondary)]/80 leading-relaxed"></p>
+        </div>
+
+        <!-- Features / What We Delivered -->
+        <div id="detail-features-wrap" class="mb-9 hidden">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-4 text-[var(--color-accent)]">
+            {t("portfolio.detail.features")}
+          </h3>
+          <div id="detail-features" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Tech stack -->
+        <div class="mb-9">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-4 text-[var(--color-text-secondary)]/60">
+            {t("portfolio.detail.tech")}
+          </h3>
+          <div id="detail-tech" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Gallery -->
+        <div id="detail-gallery-wrap" class="mb-9 hidden">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-4 text-[var(--color-text-secondary)]/60">
+            {t("portfolio.detail.gallery")}
+          </h3>
+          <div id="detail-gallery" class="grid grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Video -->
+        <div id="detail-video-wrap" class="mb-9 hidden">
+          <h3 class="font-display text-sm font-bold tracking-[0.15em] uppercase mb-4 text-[var(--color-text-secondary)]/60">
+            Video
+          </h3>
+          <video id="detail-video" class="w-full rounded-xl border border-[var(--color-border)]/20" controls preload="none">
+            <source src="" type="video/mp4" />
+          </video>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-9">
+          <p id="detail-description" class="font-body text-sm text-[var(--color-text-secondary)]/50 leading-relaxed italic"></p>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-gradient-to-r from-[var(--color-border)]/30 via-[var(--color-border)]/10 to-transparent mb-8"></div>
+
+        <!-- Closing CTA -->
+        <div class="text-center">
+          <p class="font-display text-lg sm:text-xl font-bold text-[var(--color-off-white)] mb-6">
+            {t("portfolio.detail.closing")}
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="https://wa.me/212706570686"
+              target="_blank"
+              rel="noopener"
+              class="cta-forge inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-bold text-sm uppercase tracking-[0.12em] no-underline transition-all duration-300"
+            >
+              <Icon name="lucide:message-circle" class="w-4 h-4" />
+              <span>{t("portfolio.detail.whatsapp")}</span>
+            </a>
+            <button
+              id="detail-close-cta"
+              class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-bold text-sm uppercase tracking-[0.12em] no-underline transition-all duration-300 cursor-pointer border border-[var(--color-accent)]/20 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 hover:border-[var(--color-accent)]/30"
+            >
+              <Icon name="lucide:arrow-left" class="w-4 h-4" />
+              <span>{t("portfolio.detail.close")}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .detail-content {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.35s ease;
+  }
+  .detail-content.open {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+  /* Custom scrollbar for panel */
+  .project-detail-panel::-webkit-scrollbar { width: 4px; }
+  .project-detail-panel::-webkit-scrollbar-track { background: transparent; }
+  .project-detail-panel::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .detail-content {
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+    .detail-content.open {
+      transition: none !important;
+    }
+    .project-detail-backdrop {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const detail = document.getElementById("project-detail");
+    const closeBtn = document.getElementById("project-detail-close");
+    const closeCta = document.getElementById("detail-close-cta");
+    const backdrop = detail?.querySelector<HTMLElement>(".project-detail-backdrop");
+    const content = detail?.querySelector<HTMLElement>(".detail-content");
+
+    if (!detail || !closeBtn || !content) return;
+
+    const lang = document.documentElement.lang === "fr" ? "fr" : "en";
+
+    const projectsData = [
+      {
+        slug: "ot-shield",
+        category: "security",
+        tag: { en: "In-house", fr: "Projet créé" },
+        title: { en: "OT_Shield", fr: "OT_Shield" },
+        subtitle: { en: "OT/ICS Intrusion Detection & Prevention System", fr: "Système de détection & prévention d'intrusion OT/ICS" },
+        description: { en: "Industrial security system — Intrusion Detection & Prevention (IDPS) for OT/ICS environments (OPC UA, Suricata, Elastic).", fr: "Sécurité industrielle — Système de détection & prévention d'intrusion (IDPS) pour environnements OT/ICS (OPC UA, Suricata, Elastic)." },
+        challenge: { en: "OT/ICS environments (factories, energy grids, water treatment) use legacy protocols with zero built-in security. Traditional IT security tools don't work on industrial networks.", fr: "Les environnements OT/ICS (usines, réseaux énergétiques, stations de traitement) utilisent des protocoles hérités sans sécurité intégrée. Les outils IT classiques ne fonctionnent pas sur les réseaux industriels." },
+        solution: { en: "OT_Shield is a custom IDPS built for industrial environments — monitors OPC UA traffic, detects anomalies with Suricata rules, and provides real-time alerting through Elastic dashboards.", fr: "OT_Shield est un IDPS sur-mesure pour environnements industriels — surveille le trafic OPC UA, détecte les anomalies avec des règles Suricata, et fournit des alertes en temps réel via des dashboards Elastic." },
+        results: [
+          { metric: "IDPS", label: { en: "Intrusion Detection & Prevention", fr: "Détection & Prévention d'intrusion" } },
+          { metric: "OPC UA", label: { en: "Industrial protocol support", fr: "Support protocole industriel" } },
+          { metric: "Real-time", label: { en: "Real-time monitoring & alerting", fr: "Surveillance & alertes temps réel" } }
+        ],
+        features: {
+          en: ["OPC UA deep packet inspection", "Suricata rule engine", "Elastic dashboards & alerting", "Real-time anomaly detection", "Industrial protocol support"],
+          fr: ["Inspection approfondie paquets OPC UA", "Moteur de règles Suricata", "Dashboards Elastic & alertes", "Détection d'anomalies temps réel", "Support protocole industriel"]
+        },
+        techStack: ["OPC UA", "Suricata", "Elastic", "Python", "OT/ICS Security"],
+        image: "/img/projects/ot-shield/logo.svg",
+        color: "var(--color-ember)"
+      },
+      {
+        slug: "nexgsec-ai",
+        category: "security",
+        tag: { en: "In-house", fr: "Projet créé" },
+        title: { en: "NexGSec AI", fr: "NexGSec AI" },
+        subtitle: { en: "Offensive Security Platform with Guardrails", fr: "Plateforme d'offensive security avec garde-fous" },
+        description: { en: "Run high-signal web, network, OS, and OSINT assessments through one command deck. AI-powered ReAct loop for targeted, explainable, and repeatable scans.", fr: "Exécutez des évaluations web, réseau, OS et OSINT de haute qualité depuis un seul tableau de bord. Boucle ReAct IA pour des scans ciblés, explicables et reproductibles." },
+        challenge: { en: "Security assessments require multiple disconnected tools, manual coordination, and expert interpretation. Results are inconsistent and hard to reproduce.", fr: "Les évaluations de sécurité nécessitent plusieurs outils déconnectés, une coordination manuelle et une interprétation experte. Les résultats sont incohérents et difficiles à reproduire." },
+        solution: { en: "NexGSec AI unifies Nmap, SQLMap, Metasploit, Nikto, Gobuster, and Hydra into a single AI-orchestrated platform with a Reason → Act → Observe loop. Outputs live findings + PDF reports.", fr: "NexGSec AI unifie Nmap, SQLMap, Metasploit, Nikto, Gobuster et Hydra dans une plateforme unique orchestrée par IA avec une boucle Reason → Act → Observe. Sorties : findings live + rapports PDF." },
+        results: [
+          { metric: "6+", label: { en: "Integrated security tools", fr: "Outils de sécurité intégrés" } },
+          { metric: "AI", label: { en: "ReAct reasoning loop", fr: "Boucle de raisonnement ReAct" } },
+          { metric: "PDF", label: { en: "Automated audit reports", fr: "Rapports d'audit automatisés" } }
+        ],
+        features: {
+          en: ["Unified command deck", "AI ReAct agent loop", "Multi-tool orchestration", "Live findings + PDF reports", "Dockerized deployment"],
+          fr: ["Interface de commande unifiée", "Boucle d'agent ReAct IA", "Orchestration multi-outils", "Résultats live + rapports PDF", "Déploiement Dockerisé"]
+        },
+        techStack: ["Python", "Nmap", "SQLMap", "Metasploit", "Docker", "AI/LLM"],
+        image: "/img/projects/nexgsec-ai/hero.webp",
+        gallery: ["/img/projects/nexgsec-ai/auth.webp", "/img/projects/nexgsec-ai/dashboard1.webp"],
+        color: "var(--color-ember)"
+      },
+      {
+        slug: "autonomous-attacker",
+        category: "security",
+        tag: { en: "In-house", fr: "Projet créé" },
+        title: { en: "Autonomous Attacker", fr: "Autonomous Attacker" },
+        subtitle: { en: "Wi-Fi Penetration Test Suite v3.0", fr: "Suite de pentest Wi-Fi v3.0" },
+        description: { en: "Desktop Python application for autonomous Wi-Fi penetration testing. AI-powered agent that scans, attacks, and reports — with full dependency management.", fr: "Application desktop Python pour le pentest Wi-Fi autonome. Agent IA qui scanne, attaque et génère des rapports — avec gestion complète des dépendances." },
+        challenge: { en: "Wi-Fi penetration testing requires specialized tools (aircrack-ng, hashcat), manual configuration, and deep Linux knowledge. Accessible only to expert pentesters.", fr: "Le pentest Wi-Fi nécessite des outils spécialisés (aircrack-ng, hashcat), une configuration manuelle et des connaissances Linux avancées. Accessible uniquement aux experts pentesters." },
+        solution: { en: "A unified GUI application that automates the entire Wi-Fi pentest workflow — from interface detection to autonomous attack execution, with AI-assisted decision making and comprehensive result reporting.", fr: "Une application GUI unifiée qui automatise tout le workflow de pentest Wi-Fi — de la détection d'interface à l'exécution d'attaques autonomes, avec aide à la décision par IA et rapports de résultats complets." },
+        results: [
+          { metric: "v3.0", label: { en: "Latest release version", fr: "Dernière version" } },
+          { metric: "AI", label: { en: "AI-assisted attack decisions", fr: "Décisions d'attaque assistées par IA" } },
+          { metric: "Full", label: { en: "End-to-end automation", fr: "Automatisation de bout en bout" } }
+        ],
+        features: {
+          en: ["One-click Wi-Fi pentesting", "AI-assisted attack decisions", "Automated dependency management", "Comprehensive PDF reporting", "Interface detection & monitoring"],
+          fr: ["Pentest Wi-Fi en un clic", "Décisions d'attaque assistées par IA", "Gestion automatisée des dépendances", "Rapports PDF complets", "Détection et surveillance d'interface"]
+        },
+        techStack: ["Python", "Wi-Fi Security", "AI Agent", "GUI", "Pentesting"],
+        image: "/img/projects/autonomous-attacker/hero.webp",
+        gallery: ["/img/projects/autonomous-attacker/preview.png"],
+        color: "var(--color-ember)"
+      },
+      {
+        slug: "fiftyfive-digital",
+        category: "web",
+        tag: { en: "Client Project", fr: "Projet client" },
+        title: { en: "Fifty Five Digital", fr: "Fifty Five Digital" },
+        subtitle: { en: "Digital Agency Website", fr: "Site d'agence digitale" },
+        description: { en: "Full website for a digital agency specializing in lead generation. Dark/light mode, animated hero, service showcase, testimonials, and conversion-optimized CTA flows.", fr: "Site complet pour une agence digitale spécialisée en génération de leads. Mode sombre/clair, hero animé, showcase de services, témoignages et flows CTA optimisés pour la conversion." },
+        challenge: { en: "Build a high-converting agency website with dual theme support, smooth animations, and a complete service showcase that establishes credibility and drives lead capture.", fr: "Construire un site d'agence haute conversion avec double thème, animations fluides et showcase complet de services qui établit la crédibilité et génère des leads." },
+        solution: { en: "Modern single-page application with dark/light mode toggle, particle-animated hero, service cards with hover effects, social proof section, testimonials, FAQ accordion, and integrated contact form with Calendly booking.", fr: "Application single-page moderne avec basculement sombre/clair, hero à particules, cartes de services avec effets hover, section preuve sociale, témoignages, accordion FAQ et formulaire de contact intégré avec réservation Calendly." },
+        results: [
+          { metric: "50+", label: { en: "Client logos displayed", fr: "Logos clients affichés" } },
+          { metric: "7", label: { en: "Service categories", fr: "Catégories de services" } },
+          { metric: "Dual", label: { en: "Dark & light mode", fr: "Mode sombre &clair" } }
+        ],
+        clientName: { en: "Fifty Five Digital", fr: "Fifty Five Digital" },
+        features: {
+          en: ["Dark & light mode", "Particle-animated hero", "7 service categories showcase", "Client testimonials section", "FAQ accordion", "Calendly booking integration"],
+          fr: ["Mode sombre & clair", "Hero animé par particules", "7 catégories de services", "Section témoignages clients", "FAQ accordéon", "Intégration réservation Calendly"]
+        },
+        techStack: ["React", "Tailwind CSS", "Animation", "Responsive Design"],
+        image: "/img/projects/fiftyfive-digital/hero-dark.webp",
+        gallery: ["/img/projects/fiftyfive-digital/hero-light.webp"],
+        color: "#3B82F6"
+      },
+      {
+        slug: "ecologix",
+        category: "web",
+        tag: { en: "Client Project", fr: "Projet client" },
+        title: { en: "EcoLogix", fr: "EcoLogix" },
+        subtitle: { en: "GreenTech IoT SaaS Platform", fr: "Plateforme SaaS GreenTech IoT" },
+        description: { en: "Corporate website + promotional video for an IoT SaaS platform that optimizes industrial cleaning product distribution. ESG reporting, smart IoT devices, SaaS revenue model, and a full video production to showcase the solution.", fr: "Site corporate + vidéo promotionnelle pour une plateforme SaaS IoT qui optimise la distribution de produits de nettoyage industriel. Rapports ESG, objets connectés intelligents, modèle économique SaaS, et production vidéo complète pour présenter la solution." },
+        challenge: { en: "Industrial cleaning product procurement is fragmented: 95% transport waste, single-use plastic, no traceability, and non-optimized ESG processes. Needed a digital presence plus a compelling video to explain the value proposition.", fr: "L'approvisionnement en produits de nettoyage industriel est fragmenté : 95% de gaspillage de transport, plastique usage unique, aucune traçabilité et processus ESG non optimisés. Besoin d'une présence digitale plus une vidéo percutante pour expliquer la proposition de valeur." },
+        solution: { en: "Full SaaS platform website with IoT-connected dispensers, ESG reporting dashboard, ROI calculator — plus a professionally produced montage video showcasing the product in action. Clean B2B design with green/white palette.", fr: "Site de plateforme SaaS complet avec distributeurs connectés IoT, dashboard de rapports ESG, calculateur de ROI — plus une vidéo montage produite par nos soins présentant le produit en action. Design B2B épuré avec palette verte/blanche." },
+        results: [
+          { metric: "-21%", label: { en: "Cost reduction", fr: "Réduction des coûts" } },
+          { metric: "-14%", label: { en: "Waste reduction", fr: "Réduction des déchets" } },
+          { metric: "Video", label: { en: "Promotional video produced", fr: "Vidéo promotionnelle produite" } }
+        ],
+        clientName: { en: "EcoLogix", fr: "EcoLogix" },
+        features: {
+          en: ["IoT-connected dispenser monitoring", "ESG reporting dashboard", "SaaS subscription portal", "ROI calculator tool", "B2B lead capture system", "Promotional video production"],
+          fr: ["Surveillance distributeurs connectés IoT", "Dashboard de rapports ESG", "Portail d'abonnement SaaS", "Calculateur de ROI", "Système de capture leads B2B", "Production vidéo promotionnelle"]
+        },
+        techStack: ["React", "Tailwind CSS", "SaaS", "IoT", "ESG Reporting", "Video Production"],
+        image: "/img/projects/ecologix/hero.webp",
+        gallery: ["/img/projects/ecologix/slide-preview.png"],
+        video: "/img/projects/ecologix/montage.mp4",
+        color: "#22C55E"
+      },
+      {
+        slug: "jardin-majorelle",
+        category: "web",
+        tag: { en: "Client Project", fr: "Projet client" },
+        title: { en: "Fondation Jardin Majorelle Prize", fr: "Prix Fondation Jardin Majorelle" },
+        subtitle: { en: "Architecture Competition Website", fr: "Site de concours d'architecture" },
+        description: { en: "Official website for a national architecture competition. Bilingual registration system, cahier des charges download, eligibility verification, and document upload workflow.", fr: "Site officiel d'un concours national d'architecture. Système d'inscription bilingue, téléchargement du cahier des charges, vérification d'éligibilité et workflow de téléchargement de documents." },
+        challenge: { en: "Create a prestigious competition platform for a major cultural institution — with bilingual content, structured registration flow, document management, and institutional credibility.", fr: "Créer une plateforme de concours prestigieuse pour une grande institution culturelle — avec contenu bilingue, flux d'inscription structuré, gestion de documents et crédibilité institutionnelle." },
+        solution: { en: "Elegant institutional website with teal/gold palette, 2-step registration form (identity + professional status), CNI document upload, eligibility criteria display, and downloadable cahier des charges.", fr: "Site institutionnel élégant avec palette teal/or, formulaire d'inscription en 2 étapes (identité + statut professionnel), upload de CNI, affichage des critères d'éligibilité et cahier des charges téléchargeable." },
+        results: [
+          { metric: "2026", label: { en: "Architecture prize year", fr: "Année du prix d'architecture" } },
+          { metric: "Bilingual", label: { en: "FR / EN support", fr: "Support FR / EN" } },
+          { metric: "2-Step", label: { en: "Registration workflow", fr: "Workflow d'inscription" } }
+        ],
+        clientName: { en: "Fondation Jardin Majorelle", fr: "Fondation Jardin Majorelle" },
+        features: {
+          en: ["Bilingual registration (FR/EN)", "2-step identity verification", "CNI document upload workflow", "Eligibility criteria display", "Cahier des charges download"],
+          fr: ["Inscription bilingue (FR/EN)", "Vérification d'identité en 2 étapes", "Workflow d'upload CNI", "Affichage critères d'éligibilité", "Téléchargement cahier des charges"]
+        },
+        techStack: ["Astro", "Tailwind CSS", "Form Handling", "File Upload", "i18n"],
+        image: "/img/projects/jardin-majorelle/hero.webp",
+        color: "#14B8A6"
+      },
+      {
+        slug: "revetpro",
+        category: "web",
+        tag: { en: "Client Project", fr: "Projet client" },
+        title: { en: "RevetPro", fr: "RevetPro" },
+        subtitle: { en: "Renovation & Interior Design Company", fr: "Entreprise de rénovation & aménagement" },
+        description: { en: "Full corporate website for a renovation and interior design company. Service showcase, project gallery, testimonials, and lead capture with Paris-based contact.", fr: "Site corporate complet pour une entreprise de rénovation et aménagement intérieur. Showcase de services, galerie projets, témoignages et capture de leads avec contact basé à Paris." },
+        challenge: { en: "Build a premium corporate site that showcases craftsmanship through beautiful imagery, communicates expertise across 6 service categories, and converts visitors into leads.", fr: "Construire un site corporate premium qui met en valeur l'artisanat à travers de belles images, communique l'expertise sur 6 catégories de services et convertit les visiteurs en leads." },
+        solution: { en: "Elegant warm-toned website with full-width service sections, project gallery, client testimonials, and integrated contact form with map.", fr: "Site élégant aux tons chauds avec sections de services pleine largeur, galerie projets, témoignages clients et formulaire de contact intégré avec carte." },
+        results: [
+          { metric: "6", label: { en: "Service categories", fr: "Catégories de services" } },
+          { metric: "15+", label: { en: "Years of experience", fr: "Années d'expérience" } },
+          { metric: "200+", label: { en: "Projects completed", fr: "Projets réalisés" } }
+        ],
+        clientName: { en: "RevetPro", fr: "RevetPro" },
+        features: {
+          en: ["6 service categories", "Full-width service sections", "Project gallery", "Client testimonials", "Contact form with map", "Warm premium brand design"],
+          fr: ["6 catégories de services", "Sections services pleine largeur", "Galerie projets", "Témoignages clients", "Formulaire avec carte", "Design premium aux tons chauds"]
+        },
+        techStack: ["HTML/CSS", "JavaScript", "Responsive Design", "Gallery", "Forms"],
+        image: "/img/projects/revetpro/logo.png",
+        color: "#F59E0B"
+      }
+    ];
+
+    const categoryColors = {
+      ai: "var(--color-accent)",
+      security: "var(--color-ember)",
+    };
+
+    function getAccentColor(project) {
+      return categoryColors[project.category] || project.color;
+    }
+
+    let lastFocused = null;
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function openDetail(slug) {
+      const project = projectsData.find(p => p.slug === slug);
+      if (!project) return;
+
+      lastFocused = document.activeElement;
+      const accent = getAccentColor(project);
+
+      /* Hero image */
+      const img = document.getElementById("detail-image");
+      const placeholder = document.getElementById("detail-image-placeholder");
+      if (img && placeholder) {
+        if (project.image) {
+          img.src = project.image;
+          img.alt = project.title[lang];
+          img.classList.remove("hidden");
+          placeholder.classList.add("hidden");
+        } else {
+          img.classList.add("hidden");
+          placeholder.classList.remove("hidden");
+        }
+      }
+
+      /* Tag */
+      const tag = document.getElementById("detail-tag");
+      if (tag) {
+        tag.textContent = project.tag[lang];
+        tag.style.color = accent;
+        tag.style.borderColor = accent + "40";
+        tag.style.background = accent + "12";
+      }
+
+      /* Category */
+      const cat = document.getElementById("detail-category");
+      if (cat) cat.textContent = project.category;
+
+      /* Client name */
+      const clientWrap = document.getElementById("detail-client-wrap");
+      const clientEl = document.getElementById("detail-client");
+      if (clientWrap && clientEl) {
+        if (project.clientName) {
+          clientWrap.classList.remove("hidden");
+          clientEl.textContent = project.clientName[lang];
+        } else {
+          clientWrap.classList.add("hidden");
+        }
+      }
+
+      /* Title */
+      const title = document.getElementById("detail-title");
+      if (title) title.textContent = project.title[lang];
+
+      /* Subtitle */
+      const subtitle = document.getElementById("detail-subtitle");
+      if (subtitle) subtitle.textContent = project.subtitle[lang];
+
+      /* Results */
+      const results = document.getElementById("detail-results");
+      if (results) {
+        results.innerHTML = project.results.map(r => `
+          <div class="flex flex-col items-center justify-center gap-1.5 p-4 rounded-xl border border-[var(--color-border)]/15 bg-[var(--color-onyx)]/50">
+            <span class="font-display text-2xl sm:text-3xl font-extrabold leading-none" style="color: ${accent};">${r.metric}</span>
+            <span class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-[var(--color-text-secondary)]/50 text-center">${escapeHtml(r.label[lang])}</span>
+          </div>
+        `).join("");
+      }
+
+      /* Challenge */
+      const challenge = document.getElementById("detail-challenge");
+      if (challenge) challenge.textContent = project.challenge[lang];
+
+      /* Solution */
+      const solution = document.getElementById("detail-solution");
+      if (solution) solution.textContent = project.solution[lang];
+
+      /* Features */
+      const featuresWrap = document.getElementById("detail-features-wrap");
+      const features = document.getElementById("detail-features");
+      if (featuresWrap && features) {
+        if (project.features && project.features[lang].length > 0) {
+          featuresWrap.classList.remove("hidden");
+          features.innerHTML = project.features[lang].map(f => `
+            <div class="flex items-start gap-2.5 p-3 rounded-lg border border-[var(--color-border)]/10 bg-[var(--color-onyx)]/30">
+              <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: ${accent};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-body text-sm text-[var(--color-text-secondary)]/80 leading-relaxed">${escapeHtml(f)}</span>
+            </div>
+          `).join("");
+        } else {
+          featuresWrap.classList.add("hidden");
+        }
+      }
+
+      /* Tech stack */
+      const tech = document.getElementById("detail-tech");
+      if (tech) {
+        tech.innerHTML = project.techStack.map(t => `
+          <span class="font-mono text-[10px] sm:text-[11px] tracking-wide uppercase px-3 py-1.5 rounded-lg border border-[var(--color-border)]/30 bg-[var(--color-onyx)]/40 text-[var(--color-text-secondary)]/60">${escapeHtml(t)}</span>
+        `).join("");
+      }
+
+      /* Gallery */
+      const galleryWrap = document.getElementById("detail-gallery-wrap");
+      const gallery = document.getElementById("detail-gallery");
+      if (galleryWrap && gallery) {
+        if (project.gallery && project.gallery.length > 0) {
+          galleryWrap.classList.remove("hidden");
+          gallery.innerHTML = project.gallery.map(src => `
+            <img src="${src}" alt="${project.title[lang]} gallery" class="w-full aspect-video object-cover rounded-lg border border-[var(--color-border)]/15" loading="lazy" decoding="async" />
+          `).join("");
+        } else {
+          galleryWrap.classList.add("hidden");
+          gallery.innerHTML = "";
+        }
+      }
+
+      /* Video */
+      const videoWrap = document.getElementById("detail-video-wrap");
+      const video = document.getElementById("detail-video");
+      if (videoWrap && video) {
+        if (project.video) {
+          videoWrap.classList.remove("hidden");
+          video.src = project.video;
+          video.poster = project.image;
+        } else {
+          videoWrap.classList.add("hidden");
+          video.src = "";
+        }
+      }
+
+      /* Description */
+      const desc = document.getElementById("detail-description");
+      if (desc) desc.textContent = project.description[lang];
+
+      /* Scroll to top of content */
+      const panel = detail.querySelector(".project-detail-panel");
+      if (panel) panel.scrollTop = 0;
+
+      /* Show with animation */
+      detail.classList.remove("hidden");
+      void detail.offsetHeight;
+      content.classList.add("open");
+      document.body.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+
+    function closeDetail() {
+      content.classList.remove("open");
+      document.body.style.overflow = "";
+      setTimeout(() => {
+        detail.classList.add("hidden");
+        if (lastFocused instanceof HTMLElement) lastFocused.focus();
+      }, 350);
+    }
+
+    window.addEventListener("project-open", (e) => {
+      openDetail(e.detail.slug);
+    });
+
+    closeBtn.addEventListener("click", closeDetail);
+    if (closeCta) closeCta.addEventListener("click", closeDetail);
+    backdrop?.addEventListener("click", closeDetail);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !detail.classList.contains("hidden")) {
+        closeDetail();
+      }
+    });
+
+    /* Focus trap */
+    detail.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+      const focusable = detail.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+  })();
+</script>

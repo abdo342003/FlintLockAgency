@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
 import type { Lang } from "../i18n/util";
+import { useTranslations } from "../i18n/util";
 import Loader from "../components/Loader.astro";
 import StickyCTA from "../components/StickyCTA.astro";
+import CalendlyModal from "../components/CalendlyModal.astro";
 
 export interface Props {
   title?: string;
@@ -20,6 +22,7 @@ const {
   hreflangAlternates = [],
 } = Astro.props;
 
+const t = useTranslations(lang);
 const siteUrl = "https://flintlockagency.com";
 
 const metaTitle = title ?? (lang === "fr"
@@ -107,6 +110,7 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
 
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site summary" />
     <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLM context" />
+    <link rel="alternate" type="application/rss+xml" title="Flintlock Blog" href="/rss.xml" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
@@ -123,13 +127,12 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     <link rel="preload" href="/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/logo-96.png" as="image" fetchpriority="high" />
 
-    <!-- Critical LCP: hero visible immediately for paint -->
-    <style is:inline>
-      #hero .reveal { opacity: 1 !important; transform: none !important; }
-    </style>
+    <!-- No-JS hero LCP fallback -->
+    <noscript><style>#hero .hero-fade-in { animation: none !important; opacity: 1 !important; transform: none !important; }</style></noscript>
 
     <!-- Plausible Analytics (privacy-friendly) -->
     <script defer data-domain="flintlockagency.com" src="https://plausible.io/js/script.js"></script>
+    <slot name="head" />
   </head>
 
   <body>
@@ -139,7 +142,7 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     <slot name="background" />
 
     <a href="#main-content" class="skip-link">
-      {lang === "fr" ? "Aller au contenu" : "Skip to content"}
+      {t("a11y.skipToContent")}
     </a>
 
     <slot name="header" />
@@ -151,10 +154,11 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     <slot name="footer" />
 
     <StickyCTA lang={lang} />
+    <CalendlyModal lang={lang} />
 
     <!-- GEO content for LLMs & search engines -->
     <div class="geo-content" aria-label="About Flintlock">
-      <p class="geo-description">{lang === "fr" ? "Flintlock est un studio digital basé au Maroc (Casablanca) fondé par deux ingénieurs — Abdellah ERRAOUI (CTO) et Faris BAHBAH (COO) — spécialisé en développement web haute performance, intégration d'IA, automatisation et cybersécurité. Nous construisons des sites et applications web avec des stacks modernes (Astro, Tailwind CSS, Three.js, TypeScript), intégrons des LLM sur mesure et des agents IA génératifs dans les flux de travail métier, automatisons les opérations avec des pipelines personnalisés, réalisons des audits de sécurité OWASP et des tests d'intrusion, et optimisons le SEO et les Core Web Vitals. Nos projets phares incluent Exploit AI (orchestration de pentest par IA, -85% de temps d'audit), OT_Shield (système de détection d'intrusion OT/ICS), et des divulgations white-hat. Nous servons des clients internationaux en anglais et en français." : "Flintlock is a Morocco-based (Casablanca) digital studio founded by two engineers — Abdellah ERRAOUI (CTO) and Faris BAHBAH (COO) — specializing in high-performance web development, AI integration, automation, and cybersecurity. We build websites and web applications using modern stacks (Astro, Tailwind CSS, Three.js, TypeScript), integrate custom LLMs and generative AI agents into business workflows, automate operations with custom pipelines, run OWASP security audits and penetration testing, and optimize for SEO and Core Web Vitals. Flagship projects include Exploit AI (AI-pentest orchestration, -85% audit time), OT_Shield (OT/ICS intrusion detection system), and responsible white-hat disclosures. We serve international clients in English and French."}</p>
+      <p class="geo-description">{t("geo.description")}</p>
       <p class="geo-type" data-type="organization">ProfessionalService</p>
       <p class="geo-category">Digital Studio — Web Development, AI Integration, Automation, Cybersecurity</p>
       <p class="geo-location">Casablanca, Morocco (Global clients)</p>
@@ -193,7 +197,7 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     left: 1rem;
     z-index: 9999;
     padding: 0.5rem 1rem;
-    background: var(--color-cyan);
+    background: var(--cyan);
     color: var(--color-onyx);
     font-weight: 700;
     font-size: 0.875rem;

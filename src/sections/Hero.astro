@@ -1,6 +1,5 @@
 ---
 import { useTranslations, type Lang } from "../i18n/util";
-import HeroCore from "../components/HeroCore.astro";
 
 interface Props {
   lang: Lang;
@@ -39,37 +38,68 @@ function renderChars(text: string, lineOffset: number): string {
 }
 ---
 
-<section
-  id="hero"
-  class="relative min-h-screen flex flex-col justify-center overflow-hidden section-glow-cyan"
+<section id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
 >
-  <!-- Layer 1: Full-bleed 3D core background (z-0) -->
-  <div class="absolute inset-0 z-0">
-    <HeroCore />
+  <!-- Background gradient -->
+  <div class="absolute inset-0 z-0" aria-hidden="true" style="background: radial-gradient(ellipse 120% 100% at 75% 50%, #0f2035 0%, #0c1420 35%, #0a0e14 70%, #080b10 100%);"></div>
+
+  <!-- Subtle dot grid pattern -->
+  <div class="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true" style="background-image: radial-gradient(rgba(25,227,240,0.035) 1px, transparent 1px); background-size: 28px 28px;"></div>
+
+  <!-- Solar system visualization - right side -->
+  <div class="solar-system" aria-hidden="true">
+    <!-- Central sun -->
+    <div class="sun-glow"></div>
+    <div class="sun-core"></div>
+
+    <!-- Orbital rings with planets -->
+    <div class="orbit orbit-1">
+      <div class="ring ring-cyan"></div>
+      <div class="planet planet-cyan-1"></div>
+    </div>
+    <div class="orbit orbit-2">
+      <div class="ring ring-cyan-2"></div>
+      <div class="planet planet-orange-1"></div>
+    </div>
+    <div class="orbit orbit-3">
+      <div class="ring ring-orange"></div>
+      <div class="planet planet-orange-2"></div>
+      <div class="planet planet-orange-3"></div>
+    </div>
+    <div class="orbit orbit-4">
+      <div class="ring ring-faint"></div>
+      <div class="planet planet-orange-4"></div>
+    </div>
+    <div class="orbit orbit-5">
+      <div class="ring ring-faint-2"></div>
+      <div class="planet planet-orange-5"></div>
+    </div>
   </div>
 
-  <!-- Layer 2: Subtle blueprint grid (z-[1]) -->
-  <div class="absolute inset-0 z-[1] pointer-events-none" aria-hidden="true" style="background-image: linear-gradient(rgba(25,227,240,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(25,227,240,0.012) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.6;"></div>
+  <!-- Warm ambient glow near the sun -->
+  <div class="absolute z-[2] pointer-events-none" aria-hidden="true" style="right: 10%; top: 30%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,122,26,0.04) 0%, rgba(255,122,26,0.01) 40%, transparent 70%); filter: blur(40px);"></div>
 
-  <!-- Layer 3: Legibility scrim — darker envelope around text, transparent toward core (z-[2]) -->
-  <div id="hero-scrim" class="absolute inset-0 z-[2] pointer-events-none" style="background: radial-gradient(ellipse 80% 70% at 22% 45%, rgba(13,15,18,0.95) 0%, rgba(13,15,18,0.68) 30%, rgba(13,15,18,0.3) 55%, rgba(13,15,18,0.05) 75%, transparent 90%);"></div>
+  <!-- Cyan ambient glow -->
+  <div class="absolute z-[2] pointer-events-none" aria-hidden="true" style="right: 20%; top: 25%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(25,227,240,0.025) 0%, transparent 60%); filter: blur(60px);"></div>
 
   <!-- Layer 3b: Mouse-reactive ambient glow (z-[2]) -->
   <div id="hero-ambient-glow" class="absolute z-[2] pointer-events-none" aria-hidden="true" style="width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.045) 0%, transparent 55%); transform: translate(-50%, -50%);"></div>
 
-  <!-- Layer 3c: Ember glow beneath scrim (z-[2]) -->
-  <div class="absolute inset-0 z-[2] pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse 60% 35% at 75% 65%, rgba(255,122,26,0.05) 0%, transparent 60%);"></div>
+  <!-- Legibility scrim for text readability -->
+  <div id="hero-scrim" class="absolute inset-0 z-[2] pointer-events-none" style="background: radial-gradient(ellipse 80% 70% at 22% 45%, rgba(13,15,18,0.95) 0%, rgba(13,15,18,0.68) 30%, rgba(13,15,18,0.3) 55%, rgba(13,15,18,0.05) 75%, transparent 90%);"></div>
 
-  <!-- Layer 4: Content container (z-[3]) -->
+  <!-- Content container (z-[3]) -->
   <div class="relative z-[3] w-full px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] py-20 md:py-24 lg:py-28" style="max-width: var(--container-max); margin: 0 auto;">
     <div class="max-w-2xl lg:max-w-3xl lg:pr-12">
+
       <!-- Kicker -->
-      <span class="block font-mono text-xs md:text-sm tracking-[0.08em] uppercase text-[var(--color-accent)] reveal" style="transition-delay: 0.1s;">
+      <span class="block font-mono text-xs md:text-sm tracking-[0.08em] uppercase text-[var(--color-accent)] hero-fade-in" style="animation-delay: 0.1s;">
         {t("hero.kicker")}
       </span>
 
       <!-- Kinetic headline -->
-      <h1 class="kinetic-headline font-bold text-[var(--color-text-primary)] leading-[1.1] tracking-[-0.03em] mt-3 reveal" style="transition-delay: 0.15s;" set:html={lines.map(function (line, li) {
+      <h1 class="kinetic-headline font-bold text-[var(--color-text-primary)] leading-[1.1] tracking-[-0.03em] mt-3 hero-fade-in" style="animation-delay: 0.15s;" set:html={lines.map(function (line, li) {
         const offset = li === 0 ? 0 : lines[0].length + 1;
         return li > 0
           ? `<br/>` + renderChars(line, offset)
@@ -78,24 +108,24 @@ function renderChars(text: string, lineOffset: number): string {
       </h1>
 
       <!-- Subtext -->
-      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mt-5 reveal" style="transition-delay: 0.25s;">
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mt-5 hero-fade-in" style="animation-delay: 0.25s;">
         {t("hero.subtitle")}
       </p>
 
       <!-- Animated tagline -->
-      <div class="tagline-cycle flex items-center gap-3 text-base font-mono tracking-widest mt-8 reveal" style="transition-delay: 0.35s;" set:html={taglineWords.map(function (word, i) {
+      <div class="tagline-cycle flex items-center gap-3 text-base font-mono tracking-widest mt-8 hero-fade-in" style="animation-delay: 0.35s;" set:html={taglineWords.map(function (word, i) {
         return `<span class="tagline-word" data-word="${i}">${word}</span>`;
         }).join("")}>
       </div>
 
       <!-- CTAs -->
-      <div class="flex flex-wrap items-center gap-3 md:gap-4 mt-9 reveal" style="transition-delay: 0.4s;">
+      <div class="flex flex-wrap items-center gap-3 md:gap-4 mt-9 hero-fade-in" style="animation-delay: 0.4s;">
         <a
           href="#contact"
-            class="hero-cta cta-forge inline-flex items-center gap-2 px-7 py-3 md:px-8 md:py-3.5 rounded-[var(--radius-md)] text-black font-bold text-xs md:text-sm uppercase tracking-widest no-underline transition-all duration-300 magnetic"
+          class="hero-cta cta-forge inline-flex items-center gap-2 px-7 py-3 md:px-8 md:py-3.5 rounded-[var(--radius-md)] text-black font-bold text-xs md:text-sm uppercase tracking-widest no-underline transition-all duration-300 magnetic"
         >
           {t("hero.cta")}
-          <svg class="w-3.5 h-3.5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <svg class="w-3.5 h-3.5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a
           href="#proof"
@@ -106,8 +136,8 @@ function renderChars(text: string, lineOffset: number): string {
         </a>
       </div>
 
-      <!-- Blueprint annotation: "Start here" — arrow points up-right toward primary CTA -->
-      <div class="annotation-cta hidden md:flex items-center gap-1.5 mt-3 pointer-events-none reveal" style="transition-delay: 0.45s;">
+      <!-- Blueprint annotation: "Start here" -->
+      <div class="annotation-cta hidden md:flex items-center gap-1.5 mt-3 pointer-events-none hero-fade-in" style="animation-delay: 0.45s;">
         <span class="font-hand text-base text-[var(--color-accent)]/65 -rotate-6 whitespace-nowrap">{t("hero.starthere")}</span>
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" style="color: var(--color-accent); opacity: 0.4;">
           <path d="M5 15 L13 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -116,7 +146,7 @@ function renderChars(text: string, lineOffset: number): string {
       </div>
 
       <!-- Trust line -->
-      <div class="flex items-center gap-3 pt-4 mt-10 reveal" style="transition-delay: 0.5s; border-top: 1px solid var(--color-border);">
+      <div class="flex items-center gap-3 pt-4 mt-10 hero-fade-in" style="animation-delay: 0.5s; border-top: 1px solid var(--color-border);">
         <div class="flex -space-x-2">
           <div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-[var(--color-bg)]">
             <img src="/Abdellah.jpeg" alt="Abdellah ERRAOUI" class="w-full h-full object-cover" width="36" height="36" loading="lazy" />
@@ -130,15 +160,6 @@ function renderChars(text: string, lineOffset: number): string {
     </div>
   </div>
 
-  <!-- Annotation: "Le Cœur" / "The Core" -->
-  <div class="annotation-core hidden md:flex items-center gap-1.5 absolute bottom-[12%] right-[4%] z-[3] pointer-events-none reveal" style="transition-delay: 0.2s;">
-    <span class="font-hand text-sm text-[var(--color-slate)]/50 rotate-3">{t("hero.core")}</span>
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style="color: var(--color-slate); opacity: 0.3;">
-      <path d="M16 9 L7 9 M10 6 L7 9 L10 12" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <circle cx="5.5" cy="9" r="1" fill="currentColor"/>
-    </svg>
-  </div>
-
   <!-- Scroll cue -->
   <div class="scroll-cue absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-[3]">
     <div class="w-px h-8 md:h-10" style="background: linear-gradient(to bottom, rgba(25,227,240,0.35), transparent);"></div>
@@ -146,9 +167,20 @@ function renderChars(text: string, lineOffset: number): string {
   </div>
 </section>
 
-<style is:global>
-  /* ─── Kinetic headline: responsive size + no word break ─── */
-   .kinetic-headline {
+<style>
+  /* ─── Hero fade-in animation (mount-based, NOT scroll-based) ─── */
+  .hero-fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes hero-fade-in {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Kinetic headline: responsive size ─── */
+  .kinetic-headline {
     font-size: clamp(1.85rem, 4.5vw + 0.5rem, 4.5rem);
     overflow-wrap: normal;
     hyphens: none;
@@ -245,28 +277,247 @@ function renderChars(text: string, lineOffset: number): string {
     color: var(--color-accent) !important;
   }
 
-  /* ─── Mobile: stronger scrim for legibility ─── */
-   @media (max-width: 768px) {
-     #hero {
-       min-height: 100dvh;
-     }
-     #hero-scrim {
-        background: radial-gradient(ellipse 100% 90% at 30% 25%, rgba(13,15,18,0.97) 0%, rgba(13,15,18,0.82) 35%, rgba(13,15,18,0.55) 60%, rgba(13,15,18,0.3) 80%, transparent 100%) !important;
-      }
-     /* Less vertical padding on mobile */
-     .kinetic-headline {
-       font-size: clamp(1.4rem, 5vw + 0.3rem, 1.75rem);
-     }
-   }
+  /* ─── Solar system styles ─── */
+  .solar-system {
+    position: absolute;
+    right: -5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 700px;
+    height: 700px;
+    z-index: 2;
+  }
 
-  /* ─── Hero LCP: show hero text container immediately for fastest paint ─── */
-  #hero .reveal {
-    opacity: 1 !important;
-    transform: none !important;
+  @media (max-width: 1024px) {
+    .solar-system {
+      right: -10%;
+      width: 550px;
+      height: 550px;
+    }
+  }
+  @media (max-width: 768px) {
+    .solar-system {
+      right: -15%;
+      top: 40%;
+      width: 450px;
+      height: 450px;
+    }
+  }
+  @media (max-width: 480px) {
+    .solar-system {
+      right: -30%;
+      top: 35%;
+      width: 380px;
+      height: 380px;
+    }
+  }
+
+  .sun-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 170, 50, 0.35) 0%, rgba(255, 140, 30, 0.15) 30%, rgba(255, 122, 26, 0.05) 55%, transparent 75%);
+    filter: blur(25px);
+    animation: sun-pulse 4s ease-in-out infinite;
+  }
+  .sun-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 200, 80, 0.95) 0%, rgba(255, 160, 40, 0.8) 35%, rgba(255, 122, 26, 0.4) 65%, transparent 100%);
+    box-shadow: 0 0 40px rgba(255, 170, 50, 0.4), 0 0 80px rgba(255, 122, 26, 0.15);
+    animation: sun-core-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes sun-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  }
+  @keyframes sun-core-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.03); }
+  }
+
+  .orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid transparent;
+  }
+
+  .orbit-1 { width: 240px; height: 240px; }
+  .ring-cyan { border-color: rgba(25, 227, 240, 0.2); }
+  .planet-cyan-1 {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(25, 227, 240, 0.9);
+    box-shadow: 0 0 12px rgba(25, 227, 240, 0.6), 0 0 24px rgba(25, 227, 240, 0.2);
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: orbit-1-spin 12s linear infinite, planet-glow-1 3s ease-in-out infinite;
+    transform-origin: 5px calc(120px + 5px);
+  }
+
+  .orbit-2 { width: 320px; height: 320px; }
+  .ring-cyan-2 { border-color: rgba(25, 227, 240, 0.12); }
+  .planet-orange-1 {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 170, 60, 0.85);
+    box-shadow: 0 0 8px rgba(255, 140, 30, 0.5);
+    top: -3.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: orbit-2-spin 18s linear infinite, planet-glow-2 4s ease-in-out infinite;
+    transform-origin: 3.5px calc(160px + 3.5px);
+  }
+
+  .orbit-3 { width: 430px; height: 430px; }
+  .ring-orange { border-color: rgba(255, 140, 40, 0.15); }
+  .planet-orange-2 {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 160, 50, 0.8);
+    box-shadow: 0 0 6px rgba(255, 140, 30, 0.4);
+    top: -3px;
+    left: 30%;
+    animation: orbit-3-spin 26s linear infinite, planet-glow-3 5s ease-in-out infinite;
+    transform-origin: 3px calc(215px + 3px);
+  }
+  .planet-orange-3 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 150, 40, 0.7);
+    box-shadow: 0 0 5px rgba(255, 130, 30, 0.35);
+    top: -2.5px;
+    left: 70%;
+    animation: orbit-3b-spin 26s linear infinite;
+    animation-delay: -13s;
+    transform-origin: 2.5px calc(215px + 2.5px);
+  }
+
+  .orbit-4 { width: 540px; height: 540px; }
+  .ring-faint { border-color: rgba(255, 140, 40, 0.08); }
+  .planet-orange-4 {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 170, 50, 0.75);
+    box-shadow: 0 0 10px rgba(255, 140, 30, 0.4);
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: orbit-4-spin 35s linear infinite;
+    transform-origin: 4px calc(270px + 4px);
+  }
+
+  .orbit-5 { width: 640px; height: 640px; }
+  .ring-faint-2 { border-color: rgba(160, 180, 200, 0.06); }
+  .planet-orange-5 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 160, 50, 0.6);
+    box-shadow: 0 0 6px rgba(255, 140, 30, 0.3);
+    top: -2.5px;
+    left: 20%;
+    animation: orbit-5-spin 45s linear infinite;
+    transform-origin: 2.5px calc(320px + 2.5px);
+  }
+
+  @keyframes planet-glow-1 {
+    0%, 100% { box-shadow: 0 0 12px rgba(25, 227, 240, 0.6), 0 0 24px rgba(25, 227, 240, 0.2); }
+    50% { box-shadow: 0 0 18px rgba(25, 227, 240, 0.8), 0 0 36px rgba(25, 227, 240, 0.3); }
+  }
+  @keyframes planet-glow-2 {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 140, 30, 0.5); }
+    50% { box-shadow: 0 0 14px rgba(255, 140, 30, 0.7), 0 0 28px rgba(255, 140, 30, 0.15); }
+  }
+  @keyframes planet-glow-3 {
+    0%, 100% { box-shadow: 0 0 6px rgba(255, 140, 30, 0.4); }
+    50% { box-shadow: 0 0 12px rgba(255, 140, 30, 0.6); }
+  }
+
+  @keyframes system-drift {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+  .solar-system {
+    animation: system-drift 180s linear infinite;
+  }
+
+  @keyframes orbit-1-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes orbit-2-spin {
+    from { transform: rotate(45deg); }
+    to { transform: rotate(405deg); }
+  }
+  @keyframes orbit-3-spin {
+    from { transform: rotate(120deg); }
+    to { transform: rotate(480deg); }
+  }
+  @keyframes orbit-3b-spin {
+    from { transform: rotate(120deg); }
+    to { transform: rotate(480deg); }
+  }
+  @keyframes orbit-4-spin {
+    from { transform: rotate(200deg); }
+    to { transform: rotate(560deg); }
+  }
+  @keyframes orbit-5-spin {
+    from { transform: rotate(80deg); }
+    to { transform: rotate(440deg); }
+  }
+
+  /* ─── Mobile: stronger scrim for legibility ─── */
+  @media (max-width: 768px) {
+    #hero {
+      min-height: 100dvh;
+    }
+    #hero-scrim {
+      background: radial-gradient(ellipse 100% 90% at 30% 25%, rgba(13,15,18,0.97) 0%, rgba(13,15,18,0.82) 35%, rgba(13,15,18,0.55) 60%, rgba(13,15,18,0.3) 80%, transparent 100%) !important;
+    }
+    .kinetic-headline {
+      font-size: clamp(1.4rem, 5vw + 0.3rem, 1.75rem);
+    }
   }
 
   /* ─── Reduced motion ─── */
   @media (prefers-reduced-motion: reduce) {
+    .hero-fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
     .kinetic-headline .char,
     .kinetic-headline .forge-char {
       opacity: 1 !important;
@@ -286,7 +537,14 @@ function renderChars(text: string, lineOffset: number): string {
     .scroll-cue span {
       animation: none !important;
     }
+    .sun-glow, .sun-core { animation: none; }
+    .planet-cyan-1, .planet-orange-1, .planet-orange-2, .planet-orange-3, .planet-orange-4, .planet-orange-5 {
+      animation: none;
+    }
+    .solar-system { animation: none; }
   }
+
+  /* ─── Animation initial state (overridden by prefers-reduced-motion and <noscript>) ─── */
 </style>
 
 <script>

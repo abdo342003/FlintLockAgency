@@ -7,29 +7,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-const block1 = [
-  { key: "exploit", tagClass: "tag-badge-cyan" },
-  { key: "otshield", tagClass: "tag-badge-cyan" },
-  { key: "whitehat", tagClass: "tag-badge-cyan" },
-];
-const block2 = [
-  { key: "jardin", tagClass: "" },
-  { key: "revetpro", tagClass: "" },
-  { key: "owasp", tagClass: "" },
-];
-
-const tagLabel = (key: string) => {
-  const labels: Record<string, string> = {
-    exploit: lang === "fr" ? "PROJET CRÉÉ" : "IN-HOUSE",
-    otshield: lang === "fr" ? "PROJET CRÉÉ" : "IN-HOUSE",
-    whitehat: lang === "fr" ? "DIVULGATION" : "DISCLOSURE",
-    jardin: "FIFTY FIVE DIGITAL",
-    revetpro: "FIFTY FIVE DIGITAL",
-    owasp: "FIFTY FIVE DIGITAL",
-  };
-  return labels[key] || "";
-};
+const portfolioHref = lang === "fr" ? "/fr/portfolio" : "/portfolio";
 ---
 
 <section id="proof" class="py-[var(--stack-lg)] px-[var(--margin-mobile)] md:px-[var(--margin-desktop)] relative">
@@ -43,55 +21,20 @@ const tagLabel = (key: string) => {
       </p>
     </div>
 
-    <!-- Block 1 -->
-    <div class="mb-20">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
-        {block1.map((item, i) => (
-          <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 flex flex-col shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.08 * i}s`}>
-            <span class={`tag-badge ${item.tagClass} mb-3 w-fit`}>{tagLabel(item.key)}</span>
-            <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-3">{t(`proof.${item.key}.title`)}</h3>
-            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`proof.${item.key}.desc`)}</p>
-            {item.key === "exploit" && (
-              <div class="mt-auto pt-4 border-t border-[var(--color-border)] mt-4">
-                <div class="flex items-baseline gap-2">
-                  <span class="font-display text-3xl font-bold text-[var(--color-accent)]" data-counter-to="85" data-counter-prefix="-" data-counter-suffix="%">-85%</span>
-                  <span class="font-mono text-[11px] uppercase tracking-widest text-[var(--color-accent)]/60">{lang === "fr" ? "MÉTRIQUE" : "METRIC"}</span>
-                </div>
-                <span class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-secondary)]/70 block mt-1">{lang === "fr" ? "Réduction du temps d'audit" : "Audit time reduction"}</span>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Block2 intro -->
-    <p class="text-sm md:text-base text-[var(--color-text-secondary)]/80 leading-relaxed max-w-3xl mb-2 reveal">{t("proof.block2.intro")}</p>
-    <div class="w-12 h-px bg-gradient-to-r from-[var(--color-cta)] to-transparent mb-8 reveal"></div>
-
-    <!-- Block 2: Notre expérience -->
-    <div class="mb-20 reveal">
-      <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-[var(--color-text-primary)] mb-8">{t("proof.block2.title")}</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
-        {block2.map((item, i) => (
-          <div class="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-2)] p-6 md:p-7 flex flex-col shadow-[inset_1px_1px_0px_0px_rgba(25,227,240,0.08)] hover:-translate-y-1 hover:shadow-[0_0_16px_rgba(25,227,240,0.12)] transition-all duration-300 group reveal" style={`transition-delay: ${0.08 * i}s`}>
-            <span class={`tag-badge ${item.tagClass} mb-3 w-fit`}>{tagLabel(item.key)}</span>
-            <h3 class="font-bold text-lg md:text-xl text-[var(--color-text-primary)] mb-3">{t(`proof.${item.key}.title`)}</h3>
-            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">{t(`proof.${item.key}.desc`)}</p>
-            <span class="mt-auto pt-3 font-mono text-[10px] tracking-widest uppercase text-[var(--color-slate)]/40 border-t border-[var(--color-border)]">via Fifty Five Digital</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Badges -->
+    <!-- Badges + CTA -->
     <div class="border-t border-[var(--color-border)] pt-6 reveal">
       <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-        <span class="font-mono text-[9px] sm:text-[10px] tracking-widest uppercase text-[var(--color-text-secondary)]/40">{lang === "fr" ? "RECONNAISSANCES" : "RECOGNITION"}</span>
+        <span class="font-mono text-[9px] sm:text-[10px] tracking-widest uppercase text-[var(--color-text-secondary)]/40">{t("proof.recognition.label")}</span>
         <span class="h-3 w-px bg-[var(--color-border)] hidden sm:inline"></span>
-        <span class="tag-badge tag-badge-cyan">EMSI Inventors Cup 2026</span>
-        <span class="tag-badge tag-badge-cyan">Hack'Days @ UEMF</span>
-        <span class="tag-badge tag-badge-cyan">Divulgation emsi.ma</span>
+        <span class="tag-badge tag-badge-cyan">{t("proof.recognition.emsi")}</span>
+        <span class="tag-badge tag-badge-cyan">{t("proof.recognition.hackdays")}</span>
+        <span class="tag-badge tag-badge-cyan">{t("proof.recognition.whitehat")}</span>
+      </div>
+      <div class="flex justify-center mt-8">
+        <a href={portfolioHref} class="ignition-cta inline-flex items-center gap-2 px-6 py-3 no-underline font-bold text-xs uppercase tracking-[0.12em] rounded-[var(--radius-md)]" style="background: var(--color-cta); color: #000;">
+          {t("proof.cta")}
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
 
@@ -106,7 +49,7 @@ const tagLabel = (key: string) => {
           ))}
         </div>
         <span class="font-mono text-sm text-[var(--color-text-secondary)]">{t("testimonials.rating")}</span>
-        <span class="font-mono text-xs text-[var(--color-text-secondary)]/50">({t("testimonials.count")} {lang === "fr" ? "projets livrés" : "projects delivered"})</span>
+        <span class="font-mono text-xs text-[var(--color-text-secondary)]/50">({t("testimonials.count")} {t("stats.projects.label")})</span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-[var(--gutter)]">
         {[1, 2, 3].map((i) => (
@@ -129,42 +72,4 @@ const tagLabel = (key: string) => {
   </div>
 </section>
 
-<script>
-  (function() {
-    var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
 
-    var counters = document.querySelectorAll("[data-counter-to]");
-    if (!counters.length) return;
-
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          var el = entry.target;
-          var target = parseInt(el.getAttribute("data-counter-to"), 10);
-          var prefix = el.getAttribute("data-counter-prefix") || "";
-          var suffix = el.getAttribute("data-counter-suffix") || "";
-          var duration = 1200;
-          var start = performance.now();
-
-          function animate(now) {
-            var elapsed = now - start;
-            var progress = Math.min(elapsed / duration, 1);
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var current = Math.round(eased * target);
-            el.textContent = prefix + current + suffix;
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
-          }
-          requestAnimationFrame(animate);
-          observer.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(function(el) {
-      observer.observe(el);
-    });
-  })();
-</script>
