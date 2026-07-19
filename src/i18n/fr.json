@@ -113,9 +113,9 @@
   "testimonials.count": "12+",
 
   "leadmag.kicker": "Ressource gratuite",
-  "leadmag.title": "25 processus à automatiser dès aujourd'hui",
-  "leadmag.desc": "Un guide pratique pour identifier et automatiser les tâches répétitives qui mangent le temps de votre équipe. Exemples concrets, pas de blabla.",
-  "leadmag.cta": "Télécharger l'ebook",
+  "leadmag.title": "Notre portfolio — 6 projets livrés",
+  "leadmag.desc": "Une sélection de projets que nous avons construits et livrés. Découvrez notre approche, notre stack technique et les résultats obtenus.",
+  "leadmag.cta": "Télécharger le portfolio",
   "leadmag.email.placeholder": "Votre email",
   "leadmag.success": "Vérifiez votre boîte mail — le lien de téléchargement est en route.",
   "leadmag.note": "Pas de spam. Désinscription à tout moment.",
@@ -375,8 +375,8 @@
   "modal.calendly.title": "Réserver un appel découverte",
   "modal.calendly.aria": "Réserver un appel",
 
-  "leadmag.book.badge": "EBOOK GRATUIT",
-  "leadmag.book.title": "25 processus\nà automatiser",
+  "leadmag.book.badge": "PORTFOLIO GRATUIT",
+  "leadmag.book.title": "Nos Réalisations\nFlintlock Studio",
   "leadmag.error.invalid": "Veuillez entrer un email valide.",
   "leadmag.error.server": "Quelque chose a mal tourné. Réessayez.",
   "leadmag.success.download": "Téléchargement lancé. Vérifiez votre boîte mail.",

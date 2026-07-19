@@ -100,8 +100,8 @@ const t = useTranslations(lang);
         if (!data.ok) throw new Error(data.error || "Server error");
         /* Trigger PDF download */
         var a = document.createElement("a");
-        a.href = "/ebook.pdf";
-        a.download = "Flintlock-25-Processus-Automatiser.pdf";
+        a.href = "/portfolio.pdf";
+        a.download = "Flintlock-Portfolio-2025.pdf";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

@@ -113,9 +113,9 @@
   "testimonials.count": "12+",
 
   "leadmag.kicker": "Free resource",
-  "leadmag.title": "25 processes to automate today",
-  "leadmag.desc": "A practical guide to identify and automate the repetitive tasks draining your team's time. Real examples, no fluff.",
-  "leadmag.cta": "Download the ebook",
+  "leadmag.title": "Our portfolio — 6 real projects delivered",
+  "leadmag.desc": "A curated selection of projects we've built and delivered. See our approach, our tech stack, and the results we drive.",
+  "leadmag.cta": "Download the portfolio",
   "leadmag.email.placeholder": "Your email",
   "leadmag.success": "Check your inbox — the download link is on its way.",
   "leadmag.note": "No spam. Unsubscribe anytime.",
@@ -375,8 +375,8 @@
   "modal.calendly.title": "Book a discovery call",
   "modal.calendly.aria": "Book a call",
 
-  "leadmag.book.badge": "FREE EBOOK",
-  "leadmag.book.title": "25 processes\nto automate",
+  "leadmag.book.badge": "FREE PORTFOLIO",
+  "leadmag.book.title": "Our Work\nFlintlock Studio",
   "leadmag.error.invalid": "Please enter a valid email.",
   "leadmag.error.server": "Something went wrong. Try again.",
   "leadmag.success.download": "Download started. Check your inbox for a copy.",
