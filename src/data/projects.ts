@@ -164,8 +164,8 @@ export const projects: Project[] = [
       fr: ["Mode sombre & clair", "Hero animé par particules", "7 catégories de services", "Section témoignages clients", "FAQ accordéon", "Intégration réservation Calendly"]
     },
     logo: "/img/projects/fiftyfive-digital/logo.webp",
-    image: "/img/projects/fiftyfive-digital/hero-dark.webp",
-    gallery: ["/img/projects/fiftyfive-digital/hero-light.webp"],
+    image: "/img/projects/fiftyfive-digital/Dark.png",
+    gallery: ["/img/projects/fiftyfive-digital/lIGHT.png"],
     color: "#3B82F6"
   },
   {

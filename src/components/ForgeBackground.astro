@@ -13,12 +13,14 @@
 
      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+     const isCpuPoor = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
 
-     if (isTouch || prefersReducedMotion) return;
+     if (isTouch || prefersReducedMotion || isCpuPoor) return;
 
      function syncSize() {
-       const w = canvas.clientWidth || 1280;
-       const h = canvas.clientHeight || 720;
+    const maxDim = 1000;
+    const w = Math.min(canvas.clientWidth, maxDim);
+    const h = Math.min(canvas.clientHeight, maxDim);
        if (canvas.width !== w || canvas.height !== h) {
          canvas.width = w;
          canvas.height = h;
@@ -67,7 +69,7 @@ void main() {
     vec2 duv = uv + distort;
 
     /* ─── Layer 1: Deep background stars (slow, faint) ─── */
-    for(int i = 0; i < 30; i++) {
+    for(int i = 0; i < 15; i++) {
         float f = float(i);
         float t = u_time * (0.015 + random(vec2(f, 0.0)) * 0.025);
         vec2 pos = vec2(
@@ -82,7 +84,7 @@ void main() {
     }
 
     /* ─── Layer 2: Main ambient particles (mid, mouse-reactive) ─── */
-    for(int i = 0; i < 60; i++) {
+    for(int i = 0; i < 30; i++) {
         float f = float(i) + 30.0;
         float speed = 0.04 + random(vec2(f, 0.0)) * 0.08;
         float t = u_time * speed;
@@ -122,7 +124,7 @@ void main() {
     }
 
     /* ─── Layer 3: Rising ember sparks (bottom only) ─── */
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 20; i++) {
         float f = float(i) + 90.0;
         float t = u_time * (0.02 + random(vec2(f, 0.0)) * 0.08);
 
@@ -169,7 +171,7 @@ void main() {
     }
 
     /* ─── Layer 4: Occasional fireball embers (wide, bright) ─── */
-    for(int i = 0; i < 15; i++) {
+    for(int i = 0; i < 8; i++) {
         float f = float(i) + 140.0;
         float t = u_time * (0.01 + random(vec2(f, 0.0)) * 0.03);
         vec2 pos = vec2(
