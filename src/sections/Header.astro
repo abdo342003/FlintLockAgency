@@ -12,7 +12,6 @@ const otherLang: Lang = lang === "en" ? "fr" : "en";
 const otherHref = otherLang === "fr" ? "/fr/" : "/";
 
 const blogHref = lang === "fr" ? "/fr/blog" : "/blog";
-
 const navItems = [
   { index: "01", key: "services", href: "#services" },
   { index: "02", key: "work", href: "#proof" },
@@ -82,15 +81,16 @@ const navItems = [
         <span class={`font-mono text-[10px] font-bold tracking-wider transition-colors duration-300 ${lang === "fr" ? "text-[var(--color-accent)]" : "text-[var(--color-text-secondary)]/40"}`}>FR</span>
       </button>
 
-      <!-- Ignition CTA (desktop) — triggers Calendly -->
+      <!-- Ignition CTA (desktop) — WhatsApp -->
       <a
-        href="#"
-        data-booking-trigger
+        href="https://wa.me/212706570686"
+        target="_blank"
+        rel="noopener"
         class="ignition-cta hidden md:inline-flex items-center gap-2 px-5 py-2.5 no-underline font-bold text-[11px] uppercase tracking-[0.15em] rounded-[var(--radius-md)] relative overflow-hidden group"
         style="background: var(--color-cta); color: #000;"
       >
         <span class="relative z-10 flex items-center gap-2">
-          <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
+          <Icon name="lucide:message-circle" class="w-3.5 h-3.5" />
           <span>{t("nav.book")}</span>
         </span>
         <span class="cta-glow absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></span>

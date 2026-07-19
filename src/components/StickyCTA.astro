@@ -33,7 +33,9 @@ const t = useTranslations(lang);
 
     function updateSticky() {
       var scrollY = window.scrollY || window.pageYOffset;
-      if (scrollY > showThreshold) {
+      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      var nearBottom = maxScroll - scrollY < 120;
+      if (scrollY > showThreshold && !nearBottom) {
         stickyBar.classList.remove("translate-y-full");
       } else {
         stickyBar.classList.add("translate-y-full");
