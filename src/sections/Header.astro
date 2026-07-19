@@ -115,7 +115,7 @@ const navItems = [
 <div
   id="mobile-menu"
   class="fixed inset-0 z-[60] flex flex-col items-center justify-center md:hidden transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-  style="background: rgba(11,34,51,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); clip-path: circle(0% at calc(100% - 40px) 32px);"
+  style="background: rgba(11,34,51,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
   aria-label={t("a11y.mobileNav")}
   role="dialog"
   aria-modal="true"
@@ -184,7 +184,7 @@ const navItems = [
     <a
       href="#"
       data-booking-trigger
-      class="mobile-nav-link inline-flex items-center gap-2.5 px-8 py-4 no-underline font-bold text-sm uppercase tracking-[0.15em] rounded-[var(--radius-md)] mobile-stagger relative overflow-hidden group"
+      class="inline-flex items-center gap-2.5 px-8 py-4 no-underline font-bold text-sm uppercase tracking-[0.15em] rounded-[var(--radius-md)] mobile-stagger relative overflow-hidden group"
       style="background: var(--color-cta); color: #000; transition-delay: 0.56s;"
     >
       <Icon name="lucide:phone" class="w-4 h-4" />
@@ -244,6 +244,9 @@ const navItems = [
   }
 
   /* ─── Mobile overlay open/close ─── */
+  #mobile-menu {
+    clip-path: circle(0% at calc(100% - 40px) 32px);
+  }
   #mobile-menu[hidden] {
     display: none !important;
   }
@@ -309,7 +312,8 @@ const navItems = [
     .nav-link:hover .nav-underline { width: 0; }
     #navbar { transition: none; }
     #navbar.scrolled { transition: none; }
-    #mobile-menu { transition: none; }
+    #mobile-menu { transition: none; clip-path: none; }
+    #mobile-menu.open { clip-path: none; }
     #mobile-menu.open .mobile-stagger {
       opacity: 1;
       transform: none;
@@ -452,7 +456,7 @@ const navItems = [
         setTimeout(function () {
           menu.setAttribute("hidden", "");
           if (lastFocused) lastFocused.focus();
-        }, 450);
+        }, 400);
       }
 
       if (menuBtn && menu) {

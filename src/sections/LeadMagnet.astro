@@ -98,17 +98,20 @@ const t = useTranslations(lang);
         return r.json();
       }).then(function(data) {
         if (!data.ok) throw new Error(data.error || "Server error");
-        /* Trigger PDF download */
-        var a = document.createElement("a");
-        a.href = "/portfolio.pdf";
-        a.download = "Flintlock-Portfolio-2025.pdf";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
+        /* Show download link instead of programmatic click (unreliable on mobile) */
         form.classList.add("hidden");
-        status.textContent = status.getAttribute("data-i18n-success");
-        status.className = "font-mono text-xs mt-3 text-[var(--color-accent)]";
+        status.innerHTML = "";
+        var downloadMsg = document.createElement("p");
+        downloadMsg.className = "font-mono text-xs text-[var(--color-accent)] mb-3";
+        downloadMsg.textContent = status.getAttribute("data-i18n-success");
+        status.appendChild(downloadMsg);
+        var isFr = location.pathname.startsWith("/fr");
+        var downloadLink = document.createElement("a");
+        downloadLink.href = isFr ? "/portfolio-fr.pdf" : "/portfolio-en.pdf";
+        downloadLink.download = isFr ? "Flintlock-Portfolio-2026-FR.pdf" : "Flintlock-Portfolio-2026-EN.pdf";
+        downloadLink.className = "cta-forge inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-md)] text-black font-bold text-sm uppercase tracking-widest transition-all duration-300";
+        downloadLink.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>' + (isFr ? "T\u00e9l\u00e9charger le portfolio" : "Download the portfolio") + '</span>';
+        status.appendChild(downloadLink);
         status.classList.remove("hidden");
       }).catch(function() {
         btn.removeAttribute("disabled");

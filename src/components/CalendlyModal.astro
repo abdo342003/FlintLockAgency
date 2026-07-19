@@ -49,12 +49,20 @@ const CALENDLY_URL = "https://calendly.com/flintlock/discovery";
       document.body.style.overflow = "";
     }
 
-    document.querySelectorAll("[data-booking-trigger]").forEach(function(btn) {
-      btn.addEventListener("click", function(e) {
-        e.preventDefault();
-        openModal();
+    function attachTriggers() {
+      document.querySelectorAll("[data-booking-trigger]").forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          openModal();
+        });
       });
-    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attachTriggers);
+    } else {
+      attachTriggers();
+    }
 
     closeBtn.addEventListener("click", closeModal);
     if (backdrop) backdrop.addEventListener("click", closeModal);
