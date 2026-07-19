@@ -12,7 +12,8 @@
   (function () {
     const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (isTouch || prefersReducedMotion) return;
+    const isLowEnd = document.documentElement.getAttribute("data-lowend") === "yes";
+    if (isTouch || prefersReducedMotion || isLowEnd) return;
 
     const dot = document.getElementById("cursor-dot");
     const ring = document.getElementById("cursor-ring");

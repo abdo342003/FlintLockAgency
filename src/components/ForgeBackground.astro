@@ -13,9 +13,9 @@
 
      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-     const isCpuPoor = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+     const isLowEnd = document.documentElement.getAttribute("data-lowend") === "yes";
 
-     if (isTouch || prefersReducedMotion || isCpuPoor) return;
+     if (isTouch || prefersReducedMotion || isLowEnd) return;
 
      function syncSize() {
     const maxDim = 1000;

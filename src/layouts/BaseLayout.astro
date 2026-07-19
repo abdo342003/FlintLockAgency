@@ -230,3 +230,32 @@ const ogImageURL = `${siteUrl}/img/og-image.png`;
     border-width: 0;
   }
 </style>
+
+<script>
+  (function () {
+    var html = document.documentElement;
+    var sw = ["swiftshader","llvmpipe","softpipe","software","mesa","swrast","google swiftshader","google inc. swiftshader","chromium swiftshader"];
+    var hasGPU = true;
+    try {
+      var c = document.createElement("canvas");
+      var gl = c.getContext("webgl") || c.getContext("experimental-webgl") || c.getContext("webgl2");
+      if (gl) {
+        var ext = gl.getExtension("WEBGL_debug_renderer_info");
+        if (ext) {
+          var r = (gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "").toLowerCase();
+          hasGPU = !sw.some(function (s) { return r.indexOf(s) !== -1; });
+        }
+        var lose = gl.getExtension("WEBGL_lose_context");
+        if (lose) lose.loseContext();
+      } else {
+        hasGPU = false;
+      }
+    } catch (e) {
+      hasGPU = false;
+    }
+    var cores = navigator.hardwareConcurrency || 2;
+    var isLowEnd = !hasGPU || cores <= 4;
+    html.setAttribute("data-gpu", hasGPU ? "yes" : "no");
+    html.setAttribute("data-lowend", isLowEnd ? "yes" : "no");
+  })();
+</script>
