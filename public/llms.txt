@@ -33,9 +33,38 @@ Flintlock replaces the chain of middlemen with a single technical partner. We de
 - **Prix Jardin Majorelle**: Full-stack dev + security audit for a 2026 architecture prize.
 - **OWASP audits**: Black-box security audits on production websites.
 
+### Concept Demos
+
+- **MediBot AI**: 24/7 AI assistant for private clinics — appointment booking, multilingual FR/AR/EN, RAG knowledge base.
+- **EstateBot AI**: AI lead qualification & property matching for real estate agencies on WhatsApp.
+- **InvoiceFlow**: Automated invoice processing pipeline — OCR + LLM extraction, ERP sync.
+- **LexPro**: Premium law firm website with secure client portal (encrypted docs, case tracking).
+- **PulseBI**: Real-time commercial dashboard — multi-source ETL, KPIs, forecasts, alerts.
+- **SyncBridge**: Bidirectional real-time Shopify ↔ CRM sync with deduplication and monitoring.
+
+## Pages
+
+- / — Homepage (EN)
+- /fr/ — Homepage (FR)
+- /portfolio — Portfolio with category filters (AI, Web, Security, Automation, Data, Integrations)
+- /work/medibot-ai — MediBot AI detail
+- /work/estatebot-ai — EstateBot AI detail
+- /work/invoiceflow — InvoiceFlow detail
+- /work/lexpro — LexPro detail
+- /work/pulsebi — PulseBI detail
+- /work/syncbridge — SyncBridge detail
+- /services — All services hub
+- /services/web — Web & App Development
+- /services/ai — AI Integration
+- /services/automation — Automation
+- /services/acquisition — Acquisition & Leads
+- /services/security — Security
+- /team — Meet the founders
+- /blog — Blog
+
 ## Tech Stack
 
-Astro, Tailwind CSS, Three.js, Cloudflare Pages, Plausible Analytics. Self-hosted fonts (Syne, Hanken Grotesk, JetBrains Mono). JSON-LD structured data. Bilingual i18n (EN/FR).
+Astro, Tailwind CSS, Three.js, Cloudflare Pages, Plausible Analytics. Self-hosted fonts (Syne, Hanken Grotesk, JetBrains Mono). JSON-LD structured data. Bilingual i18n (EN/FR). WhatsApp Business API, n8n, Python, LLM/RAG (Pinecone, pgvector).
 
 ## Contact
 

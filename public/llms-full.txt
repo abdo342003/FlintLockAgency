@@ -155,6 +155,26 @@ Web development for a construction & renovation company.
 ### Security Audits (via Fifty Five Digital)
 OWASP-based black-box security audits on production websites for confidential clients (under NDA). Critical vulnerability discovery + remediation guidance.
 
+### Concept Demos
+
+#### MediBot AI — AI Assistant for Private Clinics
+24/7 conversational agent integrating WhatsApp Business + website widget. Handles appointment booking, multilingual inquiries (FR/AR/EN), RAG-powered knowledge base retrieval, automated reminders, and human escalation with medical guardrails. Stack: LLM/RAG (Pinecone/pgvector), WhatsApp Business API, n8n, Node/Python, Postgres, Calendar API.
+
+#### EstateBot AI — AI Assistant for Real Estate Agencies
+Intelligent lead qualification and property matching on WhatsApp. Qualifies prospects 24/7 (budget, zone, type, timing), matches properties from catalog, shares media, schedules visits, transfers hot leads to CRM, nurtures cold leads. Stack: LLM agent, WhatsApp Business API, HubSpot/Pipedrive API, MLS/listings DB, n8n.
+
+#### InvoiceFlow — Invoice Automation Pipeline
+End-to-end invoice processing: capture (email/upload/scan), OCR + LLM extraction (supplier, amounts, VAT, line items), validation with exception handling, PO reconciliation, ERP sync (QuickBooks/Xero/Sage), automated reminders, AP dashboard. Stack: Python, Google Vision/Tesseract, LLM extraction, n8n/Make, accounting APIs, Postgres.
+
+#### LexPro — Premium Law Firm Website & Secure Client Portal
+Bilingual premium website with encrypted client portal. Expertise showcase, team profiles, SEO blog, online booking, encrypted document sharing, case status tracking, private messaging. Stack: Astro, Tailwind CSS, Auth (Clerk/Supabase), encrypted storage, Calendar API.
+
+#### PulseBI — Real-time Commercial Dashboard
+Multi-source ETL consolidation (CRM, ERP, e-commerce) into a real-time KPI dashboard. Revenue, margin, pipeline, conversion rates, average order value — plus time-series forecasts and automated threshold alerts. Stack: Power BI / web dashboard, Python (forecasts), SQL + data warehouse, Airbyte/dbt (ETL).
+
+#### SyncBridge — Shopify ↔ CRM Real-time Sync
+Bidirectional real-time integration using webhooks and APIs. Orders, customers, inventory synced between Shopify and HubSpot/Zoho/Pipedrive. Smart deduplication, configurable field mapping, infinite loop prevention, failure alerts with replay, daily reconciliation. Stack: Shopify Admin API, CRM APIs, n8n, Postgres, queue + retries, monitoring.
+
 ## FAQ
 
 **Q: How much does it cost?**
@@ -187,14 +207,38 @@ A: We audit your existing architecture, fix vulnerabilities, improve SEO/perform
 - **Email Protection**: Server-side form processing (no public email exposure)
 - **GEO**: Optimised for AI crawlers (GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, etc.)
 - **llms.txt**: Full site context available for LLMs
+- **Automation**: n8n, Make, custom Python pipelines
+- **AI/LLM**: OpenAI API, RAG (Pinecone, pgvector), LangChain, fine-tuning
+- **CRM Integration**: HubSpot, Pipedrive, Zoho, Salesforce APIs
+- **Accounting**: QuickBooks, Xero, Sage APIs
+- **OCR**: Google Vision, Tesseract
+- **Data/BI**: Power BI, Airbyte, dbt, SQL data warehouses
+- **E-commerce**: Shopify Admin API, webhooks
 
 ## Site Structure
 
-- `/` — English homepage (main landing page)
+- `/` — English homepage
 - `/fr/` — French homepage
-- `/sitemap-index.xml` — XML sitemap (auto-generated)
+- `/portfolio` — Full portfolio with category filters (AI, Web, Security, Automation, Data, Integrations)
+- `/work/medibot-ai` — MediBot AI concept demo
+- `/work/estatebot-ai` — EstateBot AI concept demo
+- `/work/invoiceflow` — InvoiceFlow concept demo
+- `/work/lexpro` — LexPro concept demo
+- `/work/pulsebi` — PulseBI concept demo
+- `/work/syncbridge` — SyncBridge concept demo
+- `/services` — Services hub (all 5 stations)
+- `/services/web` — Web & App Development
+- `/services/ai` — AI Integration
+- `/services/automation` — Automation
+- `/services/acquisition` — Acquisition & Leads
+- `/services/security` — Security
+- `/team` — Founders & team
+- `/blog` — Blog index
+- `/blog/*` — Individual blog posts (4 EN, 4 FR)
+- `/legal/*` — Legal pages (privacy, cookies, legal notices)
+- `/sitemap-index.xml` — XML sitemap
 - `/llms.txt` — LLM-friendly site summary
-- `/llms-full.txt` — Full context document (this file)
+- `/llms-full.txt` — Full context document
 - `/robots.txt` — Crawler permissions (all AI bots allowed)
 
 ## Contact
